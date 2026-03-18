@@ -659,6 +659,13 @@ function showpage(page) {
     });
 
     currentpage = page;
+    const currentPath = window.location.pathname.toLowerCase();
+    if (currentPath.endsWith('/') || currentPath.endsWith('/index.html') || currentPath === '' || currentPath === '/nozersitenew/') {
+        const nextHash = `#${page}`;
+        if (window.location.hash !== nextHash) {
+            history.replaceState(null, '', nextHash);
+        }
+    }
     if (page !== 'home') {
         isMainPlayerVisible = false;
     } else {

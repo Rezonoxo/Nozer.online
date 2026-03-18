@@ -732,6 +732,22 @@ document.addEventListener('DOMContentLoaded', async function() {
         emailLink.href = `https://mail.google.com/mail/?view=cm&fs=1&to=${decodedEmail}`;
     }
 
+    const initialPageFromHash = window.location.hash ? window.location.hash.replace('#', '').toLowerCase() : '';
+    const initialPageElement = initialPageFromHash ? document.getElementById(initialPageFromHash) : null;
+    showpage(initialPageElement && initialPageElement.classList.contains('container') ? initialPageFromHash : 'home');
+
+    window.addEventListener('hashchange', () => {
+        const requestedPage = window.location.hash ? window.location.hash.replace('#', '').toLowerCase() : 'home';
+        if (!requestedPage || requestedPage === currentpage) {
+            return;
+        }
+
+        const targetPage = document.getElementById(requestedPage);
+        if (targetPage && targetPage.classList.contains('container')) {
+            showpage(requestedPage);
+        }
+    });
+
     const muteToggle = document.getElementById('setting-mute');
     const volumeRange = document.getElementById('setting-volume');
     const cursorToggle = document.getElementById('setting-cursor');
