@@ -2233,6 +2233,13 @@ body.modal-open .settings-toggle {
     transform: translateY(16px);
 }
 
+body.onboarding-open .mobile-bottom-nav,
+body.onboarding-open .settings-toggle {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none !important;
+}
+
 .mini-player-visible .mobile-bottom-nav {
     box-shadow: 0 18px 34px rgba(0, 0, 0, 0.42);
 }

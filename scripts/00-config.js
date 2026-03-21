@@ -21,6 +21,7 @@ const SITE_NOTICE_CONFIG = {
 };
 
 const SETTINGS_KEY = 'nozer_settings_v1';
+const WELCOME_GUIDE_STORAGE_KEY = 'nozer_welcome_guide_seen_v1';
 const DEFAULT_SHORTCUTS = {
     togglePlayPause: 'Space',
     previousTrack: 'ArrowLeft',

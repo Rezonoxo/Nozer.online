@@ -649,9 +649,29 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
     }
 
+    const welcomeGuideOverlay = document.getElementById('welcome-guide-overlay');
+    if (welcomeGuideOverlay) {
+        welcomeGuideOverlay.addEventListener('click', (e) => {
+            if (e.target === welcomeGuideOverlay) {
+                closeWelcomeGuide(true);
+            }
+        });
+    }
+
+    const welcomeTourOverlay = document.getElementById('welcome-tour-overlay');
+    if (welcomeTourOverlay) {
+        welcomeTourOverlay.addEventListener('click', (e) => {
+            if (e.target === welcomeTourOverlay) {
+                closeWelcomeTour();
+            }
+        });
+    }
+
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             cancelExternalRedirect();
+            closeWelcomeTour();
+            closeWelcomeGuide(true);
             closeSettings();
             closePlaylistOverlay();
             closeProjectDetails();
@@ -719,6 +739,14 @@ document.addEventListener('DOMContentLoaded', async function() {
             showpage(requestedPage);
         }
     });
+
+    if (!hasSeenWelcomeGuide()) {
+        setTimeout(() => {
+            if (!activeModalState) {
+                openWelcomeGuide({ language: 'en' });
+            }
+        }, 280);
+    }
 
     const muteToggle = document.getElementById('setting-mute');
     const volumeRange = document.getElementById('setting-volume');

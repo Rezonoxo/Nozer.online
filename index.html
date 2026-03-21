@@ -105,7 +105,7 @@
             <span>About</span>
         </button>
         <button class="mobile-nav-link" data-page="projects" onclick="showpage('projects')">
-            <i class="fas fa-layer-group"></i>
+            <i class="fas fa-briefcase"></i>
             <span>Projects</span>
         </button>
         <button class="mobile-nav-link" data-page="skills" onclick="showpage('skills')">
@@ -532,7 +532,7 @@
                         <span class="favorites-subtitle">Get to know me</span>
                     </div>
                     <button class="favorites-toggle" type="button" aria-expanded="false" aria-label="Toggle favorites panel">
-                        <i class="fas fa-layer-group"></i>
+                        <i class="fas fa-sliders"></i>
                         <span>Close</span>
                     </button>
                 </div>
@@ -1052,6 +1052,74 @@
         </div>
     </div>
 
+    <div id="welcome-guide-overlay" class="welcome-guide-overlay" aria-hidden="true">
+        <div class="welcome-guide-modal" role="dialog" aria-modal="true" aria-labelledby="welcome-guide-title" tabindex="-1">
+            <div class="welcome-guide-head">
+                <div class="welcome-guide-intro">
+                    <span class="welcome-guide-kicker" id="welcome-guide-kicker">Welcome</span>
+                    <h2 id="welcome-guide-title">Welcome to the site</h2>
+                    <p id="welcome-guide-lead">A quick guide to help you feel comfortable from the very first visit.</p>
+                </div>
+                <div class="welcome-guide-actions-top">
+                    <div class="welcome-guide-lang-switch" role="tablist" aria-label="Guide language">
+                        <button type="button" class="welcome-guide-lang is-active" data-guide-lang="en" aria-selected="true">EN</button>
+                        <button type="button" class="welcome-guide-lang" data-guide-lang="pl" aria-selected="false">PL</button>
+                    </div>
+                    <button type="button" class="welcome-guide-close" aria-label="Close guide" data-welcome-guide-close>
+                        <i class="fas fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="welcome-guide-progress">
+                <div class="welcome-guide-progress-meta">
+                    <span id="welcome-guide-step-label">Step 1 of 4</span>
+                    <span id="welcome-guide-step-title">Start here</span>
+                </div>
+                <div class="welcome-guide-progress-bar" aria-hidden="true">
+                    <span id="welcome-guide-progress-fill"></span>
+                </div>
+            </div>
+
+            <div class="welcome-guide-body">
+                <div class="welcome-guide-stage">
+                    <div class="welcome-guide-stage-icon" id="welcome-guide-stage-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="welcome-guide-stage-copy">
+                        <h3 id="welcome-guide-stage-heading">Welcome aboard</h3>
+                        <p id="welcome-guide-stage-text">This site is built to feel immersive, but still easy to understand once you know the flow.</p>
+                    </div>
+                </div>
+                <div class="welcome-guide-points" id="welcome-guide-points"></div>
+            </div>
+
+            <div class="welcome-guide-footer">
+                <button type="button" class="welcome-guide-btn ghost" data-welcome-guide-prev>Back</button>
+                <button type="button" class="welcome-guide-btn subtle" data-welcome-guide-skip>Skip</button>
+                <button type="button" class="welcome-guide-btn primary" data-welcome-guide-next>Next</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="welcome-tour-overlay" class="welcome-tour-overlay" aria-hidden="true">
+        <div class="welcome-tour-spotlight" id="welcome-tour-spotlight" aria-hidden="true"></div>
+        <div class="welcome-tour-target-label" id="welcome-tour-target-label">Navigation</div>
+        <div class="welcome-tour-modal" role="dialog" aria-modal="true" aria-labelledby="welcome-tour-title" tabindex="-1">
+            <div class="welcome-tour-kicker" id="welcome-tour-kicker">Quick tour</div>
+            <h3 id="welcome-tour-title">Navigation lives here</h3>
+            <p id="welcome-tour-text">Use this area to move through the site without feeling lost.</p>
+            <div class="welcome-tour-footer">
+                <span id="welcome-tour-step">1 / 3</span>
+                <div class="welcome-tour-actions">
+                    <button type="button" class="welcome-guide-btn ghost" data-welcome-tour-prev>Back</button>
+                    <button type="button" class="welcome-guide-btn subtle" data-welcome-tour-skip>Close</button>
+                    <button type="button" class="welcome-guide-btn primary" data-welcome-tour-next>Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <button id="settings-toggle" class="settings-toggle" type="button" aria-label="Open settings" onclick="openSettings()">
         <i class="fas fa-sliders"></i>
     </button>
@@ -1157,6 +1225,16 @@
                         <input type="checkbox" id="setting-performance-mode">
                         <span class="settings-slider"></span>
                     </label>
+                </div>
+                <div class="settings-item">
+                    <div class="settings-info">
+                        <div class="settings-item-title">Welcome guide</div>
+                        <div class="settings-item-desc">Open the first-visit walkthrough again whenever you want</div>
+                    </div>
+                    <button id="setting-show-welcome-guide" class="settings-action-btn" type="button">
+                        <i class="fas fa-compass"></i>
+                        Show again
+                    </button>
                 </div>
             </div>
 

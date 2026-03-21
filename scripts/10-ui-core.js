@@ -622,6 +622,705 @@ function closeSettings() {
     if (overlay) deactivateModal(overlay);
 }
 
+const WELCOME_GUIDE_CONTENT = {
+    en: {
+        buttons: {
+            back: 'Back',
+            next: 'Next',
+            finish: 'Start exploring',
+            skip: 'Skip'
+        },
+        steps: [
+            {
+                kicker: 'Welcome',
+                title: 'Welcome to the site',
+                lead: 'A quick landing guide so the first visit feels smooth instead of overwhelming.',
+                stepTitle: 'Start here',
+                icon: 'fas fa-star',
+                heading: 'This portfolio is meant to feel immersive',
+                text: 'The site uses motion, layered cards, and interactive sections, but the structure is still simple once you know where to look.',
+                points: [
+                    { title: 'International site', text: 'The site is in English because it is designed for an international audience.' },
+                    { title: 'Friendly by design', text: 'You can explore calmly. Nothing here should require guessing or rushing.' }
+                ]
+            },
+            {
+                kicker: 'Navigation',
+                title: 'Getting around is simple',
+                lead: 'Everything important is grouped into a few clear sections.',
+                stepTitle: 'Navigation flow',
+                icon: 'fas fa-compass',
+                heading: 'Use the top or mobile navigation to move section by section',
+                text: 'Home gives the fastest overview, About explains the background, Projects shows work, Skills covers tools, and Contact is where you can reach out.',
+                points: [
+                    { title: 'Home', text: 'Best place to get a quick first impression.' },
+                    { title: 'Projects + Contact', text: 'Ideal if you want to see work first and then get in touch.' }
+                ]
+            },
+            {
+                kicker: 'Interactive',
+                title: 'A few areas are interactive',
+                lead: 'Some cards open, switch, or react depending on what you click.',
+                stepTitle: 'Useful interactions',
+                icon: 'fas fa-sliders',
+                heading: 'The site includes a few lightweight interactive elements',
+                text: 'Favorites can switch categories, the music player can stay floating, settings let you tune the experience, and external links can ask for confirmation.',
+                points: [
+                    { title: 'Settings', text: 'Use the sliders icon to adjust visuals, motion, text size, and more.' },
+                    { title: 'Music + widgets', text: 'They are optional atmosphere, not something you need to use to navigate.' }
+                ]
+            },
+            {
+                kicker: 'Ready',
+                title: 'You are ready to explore',
+                lead: 'After this, the guide will stay out of the way unless you reopen it from settings.',
+                stepTitle: 'Final tips',
+                icon: 'fas fa-rocket',
+                heading: 'Start anywhere, but Home and Projects are the easiest first stops',
+                text: 'If you ever want this walkthrough again, open Settings and launch the welcome guide manually.',
+                points: [
+                    { title: 'No pressure', text: 'Take your time and move through the sections at your own pace.' },
+                    { title: 'One-time intro', text: 'This guide appears only once automatically and remembers that in local storage.' }
+                ]
+            }
+        ]
+    },
+    pl: {
+        buttons: {
+            back: 'Wstecz',
+            next: 'Dalej',
+            finish: 'Zacznij zwiedzać',
+            skip: 'Pomiń'
+        },
+        steps: [
+            {
+                kicker: 'Witaj',
+                title: 'Witaj na stronie',
+                lead: 'Krótki przewodnik startowy, żeby pierwsza wizyta była przyjemna, a nie przytłaczająca.',
+                stepTitle: 'Na początek',
+                icon: 'fas fa-star',
+                heading: 'Ta strona ma być immersyjna, ale nadal prosta w obsłudze',
+                text: 'Znajdziesz tu animacje, warstwowe karty i interaktywne sekcje, ale sam układ jest prosty, gdy już poznasz logikę strony.',
+                points: [
+                    { title: 'Strona międzynarodowa', text: 'Całość jest po angielsku, ponieważ strona jest przygotowana również dla odbiorców zagranicznych.' },
+                    { title: 'Spokojne tempo', text: 'Możesz zwiedzać wszystko bez pośpiechu. Nic tutaj nie powinno wymagać zgadywania.' }
+                ]
+            },
+            {
+                kicker: 'Nawigacja',
+                title: 'Poruszanie się jest proste',
+                lead: 'Najważniejsze treści są podzielone na kilka czytelnych sekcji.',
+                stepTitle: 'Jak się poruszać',
+                icon: 'fas fa-compass',
+                heading: 'Korzystaj z górnej lub mobilnej nawigacji, aby przechodzić sekcja po sekcji',
+                text: 'Home daje szybki przegląd, About pokazuje kim jestem, Projects prezentuje prace, Skills zbiera narzędzia, a Contact pozwala się ze mną skontaktować.',
+                points: [
+                    { title: 'Home', text: 'Najlepsze miejsce na szybkie pierwsze wrażenie.' },
+                    { title: 'Projects + Contact', text: 'Dobre, jeśli chcesz najpierw zobaczyć projekty, a potem napisać.' }
+                ]
+            },
+            {
+                kicker: 'Interakcje',
+                title: 'Niektóre elementy są interaktywne',
+                lead: 'Część kart rozwija się, przełącza lub reaguje na kliknięcia.',
+                stepTitle: 'Przydatne elementy',
+                icon: 'fas fa-sliders',
+                heading: 'Na stronie jest kilka lekkich interakcji',
+                text: 'Favorites pozwala przełączać kategorie, odtwarzacz muzyki może pozostać w wersji floating, settings pozwala dopasować doświadczenie, a zewnętrzne linki mogą pytać o potwierdzenie.',
+                points: [
+                    { title: 'Settings', text: 'Ikona suwaków pozwala zmienić ruch, tekst, kontrast i inne elementy strony.' },
+                    { title: 'Muzyka + widgety', text: 'To dodatek do klimatu strony, nie coś koniecznego do nawigacji.' }
+                ]
+            },
+            {
+                kicker: 'Gotowe',
+                title: 'Możesz zaczynać',
+                lead: 'Po zamknięciu przewodnik nie będzie już przeszkadzał, chyba że uruchomisz go ponownie w settings.',
+                stepTitle: 'Ostatnie wskazówki',
+                icon: 'fas fa-rocket',
+                heading: 'Najłatwiej zacząć od Home albo Projects',
+                text: 'Jeśli kiedyś będziesz chcieć wrócić do tego przewodnika, znajdziesz go ponownie w ustawieniach.',
+                points: [
+                    { title: 'Bez pośpiechu', text: 'Zwiedzaj stronę w swoim tempie i przechodź między sekcjami tak, jak Ci wygodnie.' },
+                    { title: 'Jednorazowe powitanie', text: 'Ten przewodnik pokazuje się automatycznie tylko raz i zapamiętuje to w localStorage.' }
+                ]
+            }
+        ]
+    }
+};
+
+let welcomeGuideStepIndex = 0;
+let welcomeGuideLanguage = 'en';
+let welcomeTourStepIndex = 0;
+let welcomeTourActiveTarget = null;
+let welcomeTourScrollY = 0;
+let welcomeTourPositionFrame = 0;
+
+function hasSeenWelcomeGuide() {
+    return localStorage.getItem(WELCOME_GUIDE_STORAGE_KEY) === 'true';
+}
+
+function markWelcomeGuideSeen() {
+    localStorage.setItem(WELCOME_GUIDE_STORAGE_KEY, 'true');
+}
+
+function renderWelcomeGuide() {
+    const copy = WELCOME_GUIDE_CONTENT[welcomeGuideLanguage] || WELCOME_GUIDE_CONTENT.en;
+    const steps = copy.steps || [];
+    const step = steps[welcomeGuideStepIndex];
+    if (!step) return;
+
+    const kickerEl = document.getElementById('welcome-guide-kicker');
+    const titleEl = document.getElementById('welcome-guide-title');
+    const leadEl = document.getElementById('welcome-guide-lead');
+    const stepLabelEl = document.getElementById('welcome-guide-step-label');
+    const stepTitleEl = document.getElementById('welcome-guide-step-title');
+    const progressFillEl = document.getElementById('welcome-guide-progress-fill');
+    const iconEl = document.getElementById('welcome-guide-stage-icon');
+    const headingEl = document.getElementById('welcome-guide-stage-heading');
+    const textEl = document.getElementById('welcome-guide-stage-text');
+    const pointsEl = document.getElementById('welcome-guide-points');
+    const prevBtn = document.querySelector('[data-welcome-guide-prev]');
+    const nextBtn = document.querySelector('[data-welcome-guide-next]');
+    const skipBtn = document.querySelector('[data-welcome-guide-skip]');
+
+    if (kickerEl) kickerEl.textContent = step.kicker;
+    if (titleEl) titleEl.textContent = step.title;
+    if (leadEl) leadEl.textContent = step.lead;
+    if (stepLabelEl) {
+        stepLabelEl.textContent = welcomeGuideLanguage === 'pl'
+            ? `Krok ${welcomeGuideStepIndex + 1} z ${steps.length}`
+            : `Step ${welcomeGuideStepIndex + 1} of ${steps.length}`;
+    }
+    if (stepTitleEl) stepTitleEl.textContent = step.stepTitle;
+    if (progressFillEl) {
+        progressFillEl.style.width = `${((welcomeGuideStepIndex + 1) / steps.length) * 100}%`;
+    }
+    if (iconEl) {
+        iconEl.innerHTML = `<i class="${escapeHtml(step.icon || 'fas fa-star')}"></i>`;
+    }
+    if (headingEl) headingEl.textContent = step.heading;
+    if (textEl) textEl.textContent = step.text;
+    if (pointsEl) {
+        pointsEl.innerHTML = (step.points || []).map((point) => `
+            <div class="welcome-guide-point">
+                <strong>${escapeHtml(point.title)}</strong>
+                <span>${escapeHtml(point.text)}</span>
+            </div>
+        `).join('');
+    }
+    if (prevBtn) {
+        prevBtn.textContent = copy.buttons.back;
+        prevBtn.disabled = welcomeGuideStepIndex === 0;
+    }
+    if (skipBtn) {
+        skipBtn.textContent = copy.buttons.skip;
+    }
+    if (nextBtn) {
+        nextBtn.textContent = welcomeGuideStepIndex === steps.length - 1 ? copy.buttons.finish : copy.buttons.next;
+    }
+
+    document.querySelectorAll('[data-guide-lang]').forEach((button) => {
+        const active = button.getAttribute('data-guide-lang') === welcomeGuideLanguage;
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+}
+
+function openWelcomeGuide(options = {}) {
+    const overlay = document.getElementById('welcome-guide-overlay');
+    const modal = overlay ? overlay.querySelector('.welcome-guide-modal') : null;
+    if (!overlay || !modal) return;
+
+    welcomeGuideStepIndex = 0;
+    if (options.language === 'pl' || options.language === 'en') {
+        welcomeGuideLanguage = options.language;
+    } else {
+        const browserLang = String(navigator.language || '').toLowerCase();
+        welcomeGuideLanguage = browserLang.startsWith('pl') ? 'pl' : 'en';
+    }
+
+    renderWelcomeGuide();
+    document.body.classList.add('onboarding-open');
+    activateModal(overlay, modal, `[data-guide-lang="${welcomeGuideLanguage}"]`);
+}
+
+function closeWelcomeGuide(markSeen = true) {
+    const overlay = document.getElementById('welcome-guide-overlay');
+    if (markSeen) markWelcomeGuideSeen();
+    if (overlay) deactivateModal(overlay);
+    if (!document.getElementById('welcome-tour-overlay')?.classList.contains('active')) {
+        document.body.classList.remove('onboarding-open');
+    }
+}
+
+function getWelcomeTourSteps() {
+    return [
+        {
+            target: ['.fixed-nav .nav-links', '.mobile-bottom-nav'],
+            kicker: welcomeGuideLanguage === 'pl' ? 'Nawigacja' : 'Navigation',
+            title: welcomeGuideLanguage === 'pl' ? 'Tutaj poruszasz się po stronie' : 'This is how you move around the site',
+            text: welcomeGuideLanguage === 'pl'
+                ? 'Te przyciski prowadzą do głównych sekcji. Na telefonie masz ten sam układ w dolnym pasku.'
+                : 'These buttons move you between the main sections. On mobile, the same logic lives in the bottom bar.'
+        },
+        {
+            target: ['#favorites-card'],
+            kicker: welcomeGuideLanguage === 'pl' ? 'Interakcje' : 'Interactive section',
+            title: welcomeGuideLanguage === 'pl' ? 'Tutaj możesz przełączać ulubione kategorie' : 'Here you can switch favorite categories',
+            text: welcomeGuideLanguage === 'pl'
+                ? 'Favorites to szybka, bardziej osobista sekcja. Możesz przełączać zakładki i zwijać cały blok.'
+                : 'Favorites is a quick, more personal section. You can switch tabs and collapse the whole block.'
+        },
+        {
+            target: ['#settings-toggle'],
+            kicker: welcomeGuideLanguage === 'pl' ? 'Ustawienia' : 'Settings',
+            title: welcomeGuideLanguage === 'pl' ? 'Tu dopasujesz stronę do siebie' : 'This is where you can tune the experience',
+            text: welcomeGuideLanguage === 'pl'
+                ? 'Jeśli chcesz zmienić ruch, rozmiar tekstu, kontrast albo ponownie otworzyć przewodnik, zajrzyj właśnie tutaj.'
+                : 'If you want to adjust motion, text size, contrast, or reopen the guide later, this is the place.'
+        }
+    ];
+}
+
+function getWelcomeTourTarget(step) {
+    const selectors = Array.isArray(step?.target) ? step.target : [];
+    for (const selector of selectors) {
+        const element = document.querySelector(selector);
+        if (element instanceof HTMLElement && !element.hidden) {
+            return element;
+        }
+    }
+    return null;
+}
+
+function positionWelcomeTour() {
+    const overlay = document.getElementById('welcome-tour-overlay');
+    const spotlight = document.getElementById('welcome-tour-spotlight');
+    const targetLabel = document.getElementById('welcome-tour-target-label');
+    const modal = overlay ? overlay.querySelector('.welcome-tour-modal') : null;
+    const titleEl = document.getElementById('welcome-tour-title');
+    const textEl = document.getElementById('welcome-tour-text');
+    const kickerEl = document.getElementById('welcome-tour-kicker');
+    const stepEl = document.getElementById('welcome-tour-step');
+    const nextBtn = document.querySelector('[data-welcome-tour-next]');
+    const prevBtn = document.querySelector('[data-welcome-tour-prev]');
+    if (!overlay || !spotlight || !targetLabel || !modal || !titleEl || !textEl || !kickerEl || !stepEl) return;
+
+    const steps = getWelcomeTourSteps();
+    const step = steps[welcomeTourStepIndex];
+    const target = getWelcomeTourTarget(step);
+    if (!step || !target) return;
+
+    kickerEl.textContent = step.kicker;
+    titleEl.textContent = step.title;
+    textEl.textContent = step.text;
+    stepEl.textContent = `${welcomeTourStepIndex + 1} / ${steps.length}`;
+    if (prevBtn) prevBtn.disabled = welcomeTourStepIndex === 0;
+    if (nextBtn) nextBtn.textContent = welcomeTourStepIndex === steps.length - 1
+        ? (welcomeGuideLanguage === 'pl' ? 'Gotowe' : 'Done')
+        : (welcomeGuideLanguage === 'pl' ? 'Dalej' : 'Next');
+
+    const rect = target.getBoundingClientRect();
+    const padding = 10;
+    spotlight.style.top = `${Math.max(10, rect.top - padding)}px`;
+    spotlight.style.left = `${Math.max(10, rect.left - padding)}px`;
+    spotlight.style.width = `${Math.min(window.innerWidth - 20, rect.width + (padding * 2))}px`;
+    spotlight.style.height = `${Math.min(window.innerHeight - 20, rect.height + (padding * 2))}px`;
+    targetLabel.textContent = step.kicker;
+    targetLabel.style.top = `${Math.max(12, rect.top - 18)}px`;
+    targetLabel.style.left = `${Math.max(12, rect.left)}px`;
+
+    const modalWidth = Math.min(360, window.innerWidth - 24);
+    const preferredTop = rect.bottom + 18;
+    const fallbackTop = rect.top - 18 - modal.offsetHeight;
+    const top = preferredTop + modal.offsetHeight < window.innerHeight - 12
+        ? preferredTop
+        : Math.max(12, fallbackTop);
+    const left = Math.min(
+        window.innerWidth - modalWidth - 12,
+        Math.max(12, rect.left)
+    );
+
+    modal.style.top = `${top}px`;
+    modal.style.left = `${left}px`;
+}
+
+function syncWelcomeTourStep(scrollToTarget = true) {
+    const steps = getWelcomeTourSteps();
+    const step = steps[welcomeTourStepIndex];
+    const target = getWelcomeTourTarget(step);
+    if (!target) {
+        positionWelcomeTour();
+        return;
+    }
+
+    if (scrollToTarget) {
+        target.scrollIntoView({
+            block: 'center',
+            inline: 'nearest',
+            behavior: settings.reduceMotion ? 'auto' : 'smooth'
+        });
+        window.setTimeout(positionWelcomeTour, settings.reduceMotion ? 0 : 180);
+        return;
+    }
+
+    positionWelcomeTour();
+}
+
+function openWelcomeTour() {
+    const overlay = document.getElementById('welcome-tour-overlay');
+    const modal = overlay ? overlay.querySelector('.welcome-tour-modal') : null;
+    if (!overlay || !modal) return;
+
+    welcomeTourStepIndex = 0;
+    document.body.classList.add('onboarding-open');
+    activateModal(overlay, modal, '[data-welcome-tour-next]');
+    syncWelcomeTourStep(true);
+}
+
+function closeWelcomeTour() {
+    const overlay = document.getElementById('welcome-tour-overlay');
+    if (overlay) deactivateModal(overlay);
+    document.body.classList.remove('onboarding-open');
+}
+
+function nextWelcomeTourStep() {
+    const steps = getWelcomeTourSteps();
+    if (welcomeTourStepIndex >= steps.length - 1) {
+        closeWelcomeTour();
+        return;
+    }
+    welcomeTourStepIndex += 1;
+    syncWelcomeTourStep(true);
+}
+
+function prevWelcomeTourStep() {
+    if (welcomeTourStepIndex <= 0) return;
+    welcomeTourStepIndex -= 1;
+    syncWelcomeTourStep(true);
+}
+
+function nextWelcomeGuideStep() {
+    const steps = WELCOME_GUIDE_CONTENT[welcomeGuideLanguage]?.steps || [];
+    if (welcomeGuideStepIndex >= steps.length - 1) {
+        closeWelcomeGuide(true);
+        setTimeout(() => {
+            openWelcomeTour();
+        }, 120);
+        return;
+    }
+    welcomeGuideStepIndex += 1;
+    renderWelcomeGuide();
+}
+
+function prevWelcomeGuideStep() {
+    if (welcomeGuideStepIndex <= 0) return;
+    welcomeGuideStepIndex -= 1;
+    renderWelcomeGuide();
+}
+
+function setWelcomeTourScrollLock(locked) {
+    if (locked) {
+        welcomeTourScrollY = window.scrollY || window.pageYOffset || 0;
+        document.body.style.setProperty('--welcome-tour-scroll-y', `${welcomeTourScrollY}px`);
+        document.body.classList.add('welcome-tour-open');
+        return;
+    }
+
+    document.body.classList.remove('welcome-tour-open');
+    document.body.style.removeProperty('--welcome-tour-scroll-y');
+    window.scrollTo(0, welcomeTourScrollY);
+}
+
+function queueWelcomeTourPosition() {
+    if (welcomeTourPositionFrame) {
+        cancelAnimationFrame(welcomeTourPositionFrame);
+    }
+
+    welcomeTourPositionFrame = requestAnimationFrame(() => {
+        welcomeTourPositionFrame = requestAnimationFrame(() => {
+            welcomeTourPositionFrame = 0;
+            positionWelcomeTour();
+        });
+    });
+}
+
+function clearWelcomeTourForcedTargets() {
+    const miniPlayer = document.getElementById('mini-music-player');
+    if (miniPlayer) {
+        miniPlayer.classList.remove('tour-force-visible');
+    }
+}
+
+function prepareWelcomeTourStep(step) {
+    clearWelcomeTourForcedTargets();
+
+    if (step?.page && currentpage !== step.page) {
+        showpage(step.page);
+    }
+
+    if (step?.id === 'music-box') {
+        miniPlayerDismissed = false;
+        const miniPlayer = document.getElementById('mini-music-player');
+        if (miniPlayer) {
+            miniPlayer.classList.add('tour-force-visible');
+        }
+        updateMiniMusicPlayerVisibility();
+    }
+}
+
+function getWelcomeTourSteps() {
+    return [
+        {
+            id: 'navigation',
+            page: 'home',
+            target: ['.fixed-nav .nav-container', '.mobile-bottom-nav'],
+            kicker: welcomeGuideLanguage === 'pl' ? 'Nawigacja' : 'Navigation',
+            title: welcomeGuideLanguage === 'pl' ? 'Tutaj poruszasz sie po glownej strukturze strony' : 'This is where you move through the main structure of the site',
+            text: welcomeGuideLanguage === 'pl'
+                ? 'Te przyciski prowadza do najwazniejszych sekcji: Home, About, Projects, Skills i Contact. Na telefonie ta sama nawigacja znajduje sie w dolnym pasku.'
+                : 'These controls take you to the main sections: Home, About, Projects, Skills, and Contact. On mobile, the same navigation is placed in the bottom bar.'
+        },
+        {
+            id: 'home',
+            page: 'home',
+            target: ['#discord-profile-card'],
+            kicker: welcomeGuideLanguage === 'pl' ? 'Home' : 'Home',
+            title: welcomeGuideLanguage === 'pl' ? 'Tutaj widzisz szybki przeglad najwazniejszych informacji' : 'This is where you get the fastest overview',
+            text: welcomeGuideLanguage === 'pl'
+                ? 'W tym miejscu od razu widac status, aktywnosc i podstawowe informacje, dzieki czemu latwo zlapac klimat strony na starcie.'
+                : 'This area shows live presence, current activity, and key info right away, so you can understand the site at a glance.'
+        },
+        {
+            id: 'music-box',
+            page: 'projects',
+            target: ['#mini-music-player.tour-force-visible', '#mini-music-player.visible', '#mini-music-player'],
+            kicker: welcomeGuideLanguage === 'pl' ? 'Muzyka' : 'Music box',
+            title: welcomeGuideLanguage === 'pl' ? 'Ten boczny odtwarzacz zostaje z toba podczas przegladania strony' : 'This side player stays with you while you browse',
+            text: welcomeGuideLanguage === 'pl'
+                ? 'Gdy glowny odtwarzacz nie jest juz w centrum uwagi, ten kompaktowy music box pozwala szybko zmienic utwor, zatrzymac muzyke albo sprawdzic co aktualnie gra.'
+                : 'When the main player is no longer front and center, this compact music box lets you pause, skip, and check what is currently playing without losing your place.'
+        },
+        {
+            id: 'about',
+            page: 'about',
+            target: ['#about .about-shell'],
+            kicker: welcomeGuideLanguage === 'pl' ? 'About' : 'About',
+            title: welcomeGuideLanguage === 'pl' ? 'Tutaj dowiesz sie, kim jest autor strony' : 'This is where you learn who is behind the site',
+            text: welcomeGuideLanguage === 'pl'
+                ? 'Sekcja About laczy profil, karty opisowe i wyszukiwarke. To najlepsze miejsce, aby poznac tlo, podejscie do pracy i glowny kierunek strony.'
+                : 'About combines the profile summary, descriptive cards, and search. It is the best place to understand the background, mindset, and direction of the site.'
+        },
+        {
+            id: 'projects',
+            page: 'projects',
+            target: ['#projects-grid .project-card', '#projects-grid'],
+            kicker: welcomeGuideLanguage === 'pl' ? 'Projects' : 'Projects',
+            title: welcomeGuideLanguage === 'pl' ? 'Tutaj znajduja sie konkretne projekty i realizacje' : 'This is where you can browse actual work',
+            text: welcomeGuideLanguage === 'pl'
+                ? 'Kazda karta prowadzi do bardziej szczegolowego widoku z technologiami, opisem i najmocniejszymi elementami projektu.'
+                : 'Each card opens a more detailed view with technologies, explanation, and the strongest parts of the project.'
+        },
+        {
+            id: 'skills',
+            page: 'skills',
+            target: ['#skills .skills-shell'],
+            kicker: welcomeGuideLanguage === 'pl' ? 'Skills' : 'Skills',
+            title: welcomeGuideLanguage === 'pl' ? 'Tutaj umiejetnosci i narzedzia sa uporzadkowane' : 'This is where skills and tools are organized',
+            text: welcomeGuideLanguage === 'pl'
+                ? 'Najpierw widac glowne role, a nizej mozna przeszukiwac technologie, frameworki i narzedzia kreatywne. To najszybszy sposob, aby zobaczyc zakres kompetencji.'
+                : 'You first see the core roles, then you can search through technologies, frameworks, and creative tools. It is the quickest way to understand the skill range.'
+        },
+        {
+            id: 'contact',
+            page: 'contact',
+            target: ['#contact .contact-primary-grid', '#contact .contact-social-grid'],
+            kicker: welcomeGuideLanguage === 'pl' ? 'Contact' : 'Contact',
+            title: welcomeGuideLanguage === 'pl' ? 'Tutaj najlatwiej przejsc do kontaktu i profili' : 'This is the easiest path to contact and social links',
+            text: welcomeGuideLanguage === 'pl'
+                ? 'Najwazniejsze formy kontaktu sa na gorze, a dodatkowe profile spolecznosciowe nizej. W ten sposob wszystko jest czytelne i pod reka.'
+                : 'The main contact methods are grouped at the top, with additional social profiles below. This keeps everything easy to scan and easy to use.'
+        },
+        {
+            id: 'settings',
+            page: 'contact',
+            target: ['#settings-toggle'],
+            kicker: welcomeGuideLanguage === 'pl' ? 'Ustawienia' : 'Settings',
+            title: welcomeGuideLanguage === 'pl' ? 'Tutaj dostosujesz sposob korzystania ze strony' : 'This is where you personalize the experience',
+            text: welcomeGuideLanguage === 'pl'
+                ? 'Tutaj mozna zmienic ruch, tekst, kontrast, muzyke i ponownie otworzyc przewodnik. To miejsce do dopasowania strony pod siebie.'
+                : 'Here you can adjust motion, text, contrast, music behavior, and reopen the guide later. It is the place for making the site more comfortable to use.'
+        }
+    ];
+}
+
+function getWelcomeTourTarget(step) {
+    const selectors = Array.isArray(step?.target) ? step.target : [];
+    for (const selector of selectors) {
+        const element = document.querySelector(selector);
+        if (element instanceof HTMLElement && !element.hidden) {
+            return element;
+        }
+    }
+    return null;
+}
+
+function positionWelcomeTour() {
+    const overlay = document.getElementById('welcome-tour-overlay');
+    const spotlight = document.getElementById('welcome-tour-spotlight');
+    const targetLabel = document.getElementById('welcome-tour-target-label');
+    const modal = overlay ? overlay.querySelector('.welcome-tour-modal') : null;
+    const titleEl = document.getElementById('welcome-tour-title');
+    const textEl = document.getElementById('welcome-tour-text');
+    const kickerEl = document.getElementById('welcome-tour-kicker');
+    const stepEl = document.getElementById('welcome-tour-step');
+    const nextBtn = document.querySelector('[data-welcome-tour-next]');
+    const prevBtn = document.querySelector('[data-welcome-tour-prev]');
+    if (!overlay || !spotlight || !targetLabel || !modal || !titleEl || !textEl || !kickerEl || !stepEl) return;
+
+    const steps = getWelcomeTourSteps();
+    const step = steps[welcomeTourStepIndex];
+    const target = getWelcomeTourTarget(step);
+    if (!step || !target) return;
+
+    if (welcomeTourActiveTarget && welcomeTourActiveTarget !== target) {
+        welcomeTourActiveTarget.classList.remove('welcome-tour-target-active');
+    }
+    welcomeTourActiveTarget = target;
+    welcomeTourActiveTarget.classList.add('welcome-tour-target-active');
+
+    kickerEl.textContent = step.kicker;
+    titleEl.textContent = step.title;
+    textEl.textContent = step.text;
+    stepEl.textContent = `${welcomeTourStepIndex + 1} / ${steps.length}`;
+    if (prevBtn) prevBtn.disabled = welcomeTourStepIndex === 0;
+    if (nextBtn) {
+        nextBtn.textContent = welcomeTourStepIndex === steps.length - 1
+            ? (welcomeGuideLanguage === 'pl' ? 'Gotowe' : 'Done')
+            : (welcomeGuideLanguage === 'pl' ? 'Dalej' : 'Next');
+    }
+
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const rect = target.getBoundingClientRect();
+    const padding = isMobile ? 8 : 12;
+    const topRect = Math.max(10, rect.top - padding);
+    const leftRect = Math.max(10, rect.left - padding);
+    const widthRect = Math.min(window.innerWidth - 20, rect.width + (padding * 2));
+    const heightRect = Math.min(window.innerHeight - 20, rect.height + (padding * 2));
+
+    spotlight.style.top = `${topRect}px`;
+    spotlight.style.left = `${leftRect}px`;
+    spotlight.style.width = `${widthRect}px`;
+    spotlight.style.height = `${heightRect}px`;
+
+    targetLabel.textContent = step.kicker;
+    targetLabel.style.top = `${Math.max(12, topRect - (isMobile ? 12 : 14))}px`;
+    targetLabel.style.left = `${Math.max(12, Math.min(leftRect, window.innerWidth - 140))}px`;
+
+    const modalWidth = isMobile ? window.innerWidth - 20 : Math.min(360, window.innerWidth - 24);
+    const gap = isMobile ? 14 : 18;
+    const fitsRight = rect.right + gap + modalWidth < window.innerWidth - 12;
+    const fitsLeft = rect.left - gap - modalWidth > 12;
+    let left;
+    let top;
+
+    if (isMobile) {
+        const shouldPlaceAbove = rect.top > window.innerHeight * 0.48;
+        left = 10;
+        top = shouldPlaceAbove
+            ? Math.max(12, rect.top - modal.offsetHeight - gap)
+            : Math.min(window.innerHeight - modal.offsetHeight - 12, rect.bottom + gap);
+    } else if (fitsRight) {
+        left = rect.right + gap;
+        top = Math.min(window.innerHeight - modal.offsetHeight - 12, Math.max(12, rect.top));
+    } else if (fitsLeft) {
+        left = rect.left - modalWidth - gap;
+        top = Math.min(window.innerHeight - modal.offsetHeight - 12, Math.max(12, rect.top));
+    } else if (rect.bottom + gap + modal.offsetHeight < window.innerHeight - 12) {
+        left = Math.min(window.innerWidth - modalWidth - 12, Math.max(12, rect.left));
+        top = rect.bottom + gap;
+    } else {
+        left = Math.min(window.innerWidth - modalWidth - 12, Math.max(12, rect.left));
+        top = Math.max(12, rect.top - modal.offsetHeight - gap);
+    }
+
+    modal.style.top = `${top}px`;
+    modal.style.left = `${left}px`;
+}
+
+function syncWelcomeTourStep(scrollToTarget = true) {
+    const steps = getWelcomeTourSteps();
+    const step = steps[welcomeTourStepIndex];
+    prepareWelcomeTourStep(step);
+
+    const target = getWelcomeTourTarget(step);
+    if (!target) {
+        window.setTimeout(queueWelcomeTourPosition, 120);
+        return;
+    }
+
+    if (scrollToTarget) {
+        setWelcomeTourScrollLock(false);
+        target.scrollIntoView({
+            block: window.matchMedia('(max-width: 768px)').matches ? 'nearest' : 'center',
+            inline: 'nearest',
+            behavior: 'auto'
+        });
+        window.setTimeout(() => {
+            setWelcomeTourScrollLock(true);
+            queueWelcomeTourPosition();
+        }, 80);
+        return;
+    }
+
+    queueWelcomeTourPosition();
+}
+
+function openWelcomeTour() {
+    const overlay = document.getElementById('welcome-tour-overlay');
+    const modal = overlay ? overlay.querySelector('.welcome-tour-modal') : null;
+    if (!overlay || !modal) return;
+
+    welcomeTourStepIndex = 0;
+    document.body.classList.add('onboarding-open');
+    activateModal(overlay, modal, '[data-welcome-tour-next]');
+    setWelcomeTourScrollLock(true);
+    syncWelcomeTourStep(true);
+}
+
+function closeWelcomeTour() {
+    const overlay = document.getElementById('welcome-tour-overlay');
+    if (overlay) deactivateModal(overlay);
+    clearWelcomeTourForcedTargets();
+    if (welcomeTourActiveTarget) {
+        welcomeTourActiveTarget.classList.remove('welcome-tour-target-active');
+        welcomeTourActiveTarget = null;
+    }
+    if (welcomeTourPositionFrame) {
+        cancelAnimationFrame(welcomeTourPositionFrame);
+        welcomeTourPositionFrame = 0;
+    }
+    setWelcomeTourScrollLock(false);
+    document.body.classList.remove('onboarding-open');
+}
+
+function nextWelcomeTourStep() {
+    const steps = getWelcomeTourSteps();
+    if (welcomeTourStepIndex >= steps.length - 1) {
+        closeWelcomeTour();
+        return;
+    }
+    welcomeTourStepIndex += 1;
+    syncWelcomeTourStep(true);
+}
+
+function prevWelcomeTourStep() {
+    if (welcomeTourStepIndex <= 0) return;
+    welcomeTourStepIndex -= 1;
+    syncWelcomeTourStep(true);
+}
+
 function initCoreUIBindings() {
     document.querySelectorAll('[data-external-redirect-close], [data-external-redirect-cancel]').forEach((element) => {
         element.addEventListener('click', cancelExternalRedirect);
@@ -630,6 +1329,76 @@ function initCoreUIBindings() {
     document.querySelectorAll('[data-external-redirect-confirm]').forEach((element) => {
         element.addEventListener('click', confirmExternalRedirect);
     });
+
+    document.querySelectorAll('[data-guide-lang]').forEach((element) => {
+        element.addEventListener('click', () => {
+            welcomeGuideLanguage = element.getAttribute('data-guide-lang') === 'pl' ? 'pl' : 'en';
+            renderWelcomeGuide();
+            if (document.getElementById('welcome-tour-overlay')?.classList.contains('active')) {
+                syncWelcomeTourStep(false);
+            }
+        });
+    });
+
+    document.querySelectorAll('[data-welcome-guide-close], [data-welcome-guide-skip]').forEach((element) => {
+        element.addEventListener('click', () => closeWelcomeGuide(true));
+    });
+
+    document.querySelectorAll('[data-welcome-guide-next]').forEach((element) => {
+        element.addEventListener('click', nextWelcomeGuideStep);
+    });
+
+    document.querySelectorAll('[data-welcome-guide-prev]').forEach((element) => {
+        element.addEventListener('click', prevWelcomeGuideStep);
+    });
+
+    document.querySelectorAll('[data-welcome-tour-next]').forEach((element) => {
+        element.addEventListener('click', nextWelcomeTourStep);
+    });
+
+    document.querySelectorAll('[data-welcome-tour-prev]').forEach((element) => {
+        element.addEventListener('click', prevWelcomeTourStep);
+    });
+
+    document.querySelectorAll('[data-welcome-tour-skip]').forEach((element) => {
+        element.addEventListener('click', closeWelcomeTour);
+    });
+
+    const showGuideBtn = document.getElementById('setting-show-welcome-guide');
+    if (showGuideBtn) {
+        showGuideBtn.addEventListener('click', () => {
+            closeWelcomeTour();
+            closeSettings();
+            openWelcomeGuide({ language: welcomeGuideLanguage });
+        });
+    }
+
+    window.addEventListener('resize', () => {
+        if (document.getElementById('welcome-tour-overlay')?.classList.contains('active')) {
+            queueWelcomeTourPosition();
+        }
+    });
+
+    window.addEventListener('scroll', () => {
+        if (document.getElementById('welcome-tour-overlay')?.classList.contains('active')) {
+            window.scrollTo(0, welcomeTourScrollY);
+            queueWelcomeTourPosition();
+        }
+    }, { passive: true });
+
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', () => {
+            if (document.getElementById('welcome-tour-overlay')?.classList.contains('active')) {
+                queueWelcomeTourPosition();
+            }
+        });
+
+        window.visualViewport.addEventListener('scroll', () => {
+            if (document.getElementById('welcome-tour-overlay')?.classList.contains('active')) {
+                queueWelcomeTourPosition();
+            }
+        });
+    }
 }
 
 function openExternalRedirect(url, target) {
