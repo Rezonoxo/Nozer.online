@@ -1480,6 +1480,9 @@ body {
 .about-panel-icon {
     width: 48px;
     height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+    flex: 0 0 48px;
     border-radius: 16px;
     display: flex;
     align-items: center;
@@ -1493,6 +1496,11 @@ body {
     font-size: 24px;
     line-height: 1.2;
     margin-bottom: 4px;
+}
+
+.about-panel-head > div:last-child {
+    min-width: 0;
+    flex: 1 1 auto;
 }
 
 .about-panel-kicker {
@@ -2136,6 +2144,19 @@ body {
 
 .about-panel-head h3 {
     font-size: 18px;
+}
+
+.about-panel-head {
+    align-items: center;
+}
+
+.about-panel-icon {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    min-height: 42px;
+    flex-basis: 42px;
+    border-radius: 12px;
 }
 
 .about-panel-text {

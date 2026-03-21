@@ -622,72 +622,18 @@ function closeSettings() {
     if (overlay) deactivateModal(overlay);
 }
 
-function loadContactCooldown() {
-    const stored = sessionStorage.getItem('contact_cooldown');
-    if (stored) {
-        contactCooldownExpiry = parseInt(stored);
-        const now = Date.now();
-        if (now >= contactCooldownExpiry) {
-            sessionStorage.removeItem('contact_cooldown');
-            contactCooldownExpiry = 0;
-        }
-    }
-}
-
-function openContactForm() {
-    const overlay = document.getElementById('contact-overlay');
-    const modal = overlay ? overlay.querySelector('.contact-modal') : null;
-    if (!overlay || !modal) return;
-    activateModal(overlay, modal, '#contact-name');
-    document.getElementById('contact-name').value = '';
-    document.getElementById('contact-email').value = '';
-    document.getElementById('contact-message').value = '';
-    document.getElementById('char-counter').textContent = '0';
-    document.getElementById('form-message-container').innerHTML = '';
-    loadContactCooldown();
-    const now = Date.now();
-    if (contactCooldownExpiry > now) {
-        const remainingSeconds = Math.ceil((contactCooldownExpiry - now) / 1000);
-        showFormMessage('warning', `Please wait ${remainingSeconds} seconds before sending another message.`);
-        document.getElementById('submit-btn').disabled = true;
-    }
-}
-
-function closeContactForm() {
-    const overlay = document.getElementById('contact-overlay');
-    if (overlay) deactivateModal(overlay);
-}
-
-async function copyContactEmail() {
-    const emailElement = document.getElementById('email');
-    const copyButtonLabel = document.querySelector('#contact .contact-secondary-btn span');
-    const defaultText = contentData?.contact?.secondaryCta || 'Copy Email';
-    const value = emailElement ? emailElement.textContent.trim() : '';
-    if (!value) return;
-    try {
-        await navigator.clipboard.writeText(value);
-        if (copyButtonLabel) copyButtonLabel.textContent = 'Copied';
-    } catch (error) {
-        if (copyButtonLabel) copyButtonLabel.textContent = 'Copy failed';
-    } finally {
-        if (copyButtonLabel) {
-            setTimeout(() => {
-                copyButtonLabel.textContent = defaultText;
-            }, 1500);
-        }
-    }
-}
-
 function openExternalRedirect(url, target) {
     const overlay = document.getElementById('external-redirect-overlay');
     const modal = overlay ? overlay.querySelector('.external-redirect-modal') : null;
     const urlEl = document.getElementById('external-redirect-url');
+    const domainEl = document.getElementById('external-redirect-domain');
     const dontAsk = document.getElementById('external-redirect-dont-ask');
     if (!overlay || !modal || !urlEl) return;
 
     pendingRedirectUrl = url;
     pendingRedirectTarget = target;
-    urlEl.textContent = getDisplayUrl(url);
+    urlEl.textContent = url;
+    if (domainEl) domainEl.textContent = getDomainOnly(url);
     if (dontAsk) dontAsk.checked = false;
     activateModal(overlay, modal, '.external-redirect-btn.primary');
 }
@@ -697,6 +643,14 @@ function getDisplayUrl(url) {
         const parsed = new URL(url);
         const path = parsed.pathname.length > 1 ? parsed.pathname : '';
         return `${parsed.hostname}${path}`;
+    } catch (error) {
+        return url;
+    }
+}
+
+function getDomainOnly(url) {
+    try {
+        return new URL(url).hostname.replace(/^www\./, '');
     } catch (error) {
         return url;
     }
@@ -753,97 +707,4 @@ function confirmExternalRedirect() {
     }
 }
 
-function updateCharCount() {
-    const textarea = document.getElementById('contact-message');
-    const counter = document.getElementById('char-counter');
-    const charCount = document.querySelector('.char-count');
-
-    const length = textarea.value.length;
-    counter.textContent = length;
-
-    if (length > 900) {
-        charCount.classList.add('error');
-        charCount.classList.remove('warning');
-    } else if (length > 800) {
-        charCount.classList.add('warning');
-        charCount.classList.remove('error');
-    } else {
-        charCount.classList.remove('warning', 'error');
-    }
-}
-
-function showFormMessage(type, message) {
-    const container = document.getElementById('form-message-container');
-    const icons = {
-        success: 'fa-check-circle',
-        error: 'fa-exclamation-circle',
-        warning: 'fa-hourglass-half'
-    };
-
-    container.innerHTML = `
-        <div class="form-message ${type}">
-            <i class="fas ${icons[type]}"></i>
-            <span>${message}</span>
-        </div>
-    `;
-}
-
-async function submitContactForm(event) {
-    event.preventDefault();
-
-    const submitBtn = document.getElementById('submit-btn');
-    const form = document.getElementById('contact-form');
-    const name = document.getElementById('contact-name').value.trim();
-    const email = document.getElementById('contact-email').value.trim();
-    const message = document.getElementById('contact-message').value.trim();
-
-    if (!name || !email || !message) {
-        showFormMessage('error', 'Please fill in all fields.');
-        return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        showFormMessage('error', 'Please enter a valid email address.');
-        return;
-    }
-
-    submitBtn.disabled = true;
-    submitBtn.classList.add('sending');
-    submitBtn.innerHTML = '<div class="spinner"></div><span>Sending...</span>';
-
-    try {
-        const data = { name, email, message };
-        const endpoint = window.APP_API_CONFIG?.formspree?.endpoint;
-        if (!endpoint) {
-            throw new Error('Missing Formspree endpoint');
-        }
-
-        const response = await fetch(endpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-
-        if (response.ok) {
-            showFormMessage('success', 'Message sent successfully!');
-            form.reset();
-            document.getElementById('char-counter').textContent = '0';
-            closeContactForm();
-            contactCooldownExpiry = Date.now() + 60000; // 1 minute cooldown
-            sessionStorage.setItem('contact_cooldown', contactCooldownExpiry.toString());
-        } else {
-            throw new Error('Failed to send');
-        }
-    } catch (error) {
-        showFormMessage('error', 'Failed to send message. Please try again.');
-    } finally {
-        submitBtn.disabled = false;
-        submitBtn.classList.remove('sending');
-        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i><span>Send Message</span>';
-    }
-}
 

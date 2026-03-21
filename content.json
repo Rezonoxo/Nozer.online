@@ -103,91 +103,105 @@
         "category": "games",
         "url": "https://www.roblox.com/",
         "accent": "59 130 246",
-        "image": "icons/favorites/roblox.svg",
+        "image": "https://cms-media.roblox.com/resize=width:1280,fit:max/SnltYT3aQAC4ELaeSaVC",
+        "position": "50% 46%",
         "alt": "Roblox cover",
         "badge": "Game",
         "name": "Roblox",
-        "description": "Creating, playing, and building experiences with friends."
+        "description": "My favorite game to play with friends and enjoy on a daily basis."
       },
       {
         "category": "games",
         "url": "https://www.minecraft.net/",
         "accent": "34 197 94",
-        "image": "icons/favorites/minecraft.svg",
+        "image": "https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/screenshots/SURVIVE.png",
+        "position": "50% 52%",
         "alt": "Minecraft cover",
         "badge": "Game",
         "name": "Minecraft",
-        "description": "Sandbox creativity, survival, and endless building."
+        "description": "A creative game with huge possibilities and endless room for imagination."
       },
       {
         "category": "games",
         "url": "https://worldoftanks.com/",
         "accent": "245 158 11",
-        "image": "icons/favorites/world-of-tanks.svg",
+        "image": "https://na-wotp.wgcdn.co/dcont/fb/media/media/art_poster/key_art/wot_promo_image_1024_768_com.jpg",
+        "position": "50% 44%",
         "alt": "World of Tanks cover",
         "badge": "Game",
         "name": "World Of Tanks",
-        "description": "Tactical armored battles and progression grind."
+        "description": "I enjoy the strategy, the different modes, and the satisfying progression system."
       },
       {
         "category": "games",
         "url": "https://www.counter-strike.net/cs2",
         "accent": "249 115 22",
-        "image": "icons/favorites/cs2.svg",
+        "image": "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/730/header.jpg",
+        "position": "50% 36%",
         "alt": "Counter-Strike 2 cover",
         "badge": "Game",
         "name": "CS2",
-        "description": "Competitive FPS with tight mechanics and teamwork."
+        "description": "A fun competitive game that really rewards practice, focus, and mastery."
       },
       {
         "category": "movies",
         "url": "https://www.imdb.com/title/tt0816692/",
         "accent": "96 165 250",
-        "image": "icons/favorites/interstellar.svg",
+        "image": "https://upload.wikimedia.org/wikipedia/en/b/bc/Interstellar_film_poster.jpg",
+        "position": "50% 18%",
+        "scale": "1.1",
         "alt": "Interstellar cover",
         "badge": "Movie",
         "name": "Interstellar",
-        "description": "Space, time, and emotion - an unforgettable journey."
+        "description": "My favorite Christopher Nolan sci-fi film and one of the most unforgettable movie experiences for me."
       },
       {
         "category": "movies",
         "url": "https://www.imdb.com/title/tt15398776/",
         "accent": "239 68 68",
-        "image": "icons/favorites/oppenheimer.svg",
+        "image": "https://upload.wikimedia.org/wikipedia/en/thumb/4/4a/Oppenheimer_%28film%29.jpg/250px-Oppenheimer_%28film%29.jpg",
+        "position": "50% 24%",
+        "scale": "1.08",
         "alt": "Oppenheimer cover",
         "badge": "Movie",
         "name": "Oppenheimer",
-        "description": "An intense biopic about science, power, and consequences."
+        "description": "An emotional and intense film that feels both thoughtful and deeply memorable."
       },
       {
         "category": "movies",
         "url": "https://www.imdb.com/title/tt7286456/",
         "accent": "168 85 247",
-        "image": "icons/favorites/joker.svg",
+        "image": "https://upload.wikimedia.org/wikipedia/en/thumb/e/e1/Joker_%282019_film%29_poster.jpg/250px-Joker_%282019_film%29_poster.jpg",
+        "position": "50% 17%",
+        "scale": "1.12",
         "alt": "Joker cover",
         "badge": "Movie",
         "name": "Joker",
-        "description": "A dark character study with a powerful atmosphere."
+        "description": "It makes me reflect on loneliness, relationships, and the state of a person's mind."
       },
       {
         "category": "movies",
         "url": "https://www.youtube.com/@GLITCH",
         "accent": "34 211 238",
-        "image": "icons/favorites/murder-drones.svg",
+        "image": "https://static.wixstatic.com/media/84ed6a_7e2283d8851444cba3b1dc206647b061~mv2.png/v1/fill/w_188,h_172,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/MD_bottomBanner_WIP%20(3).png",
+        "position": "50% 40%",
+        "scale": "1.16",
         "alt": "Murder Drones cover",
         "badge": "Series",
         "name": "Murder Drones",
-        "description": "Stylish sci-fi animation with mystery and humor."
+        "description": "A funny and well-made animated series with genuinely great dialogue."
       },
       {
         "category": "movies",
         "url": "https://www.imdb.com/title/tt6468322/",
         "accent": "245 158 11",
-        "image": "icons/favorites/money-heist.svg",
+        "image": "https://images.ctfassets.net/4cd45et68cgf/1XqJANWZsMplwzKfX0v7jb/5f0db14f91f0ea785f98ee9c5f0a4344/lcdp_part3_announcement.jpg",
+        "position": "50% 40%",
+        "scale": "1.02",
         "alt": "Money Heist cover",
         "badge": "Series",
         "name": "Money Heist (La Casa de Papel)",
-        "description": "High-stakes heists, twists, and iconic characters."
+        "description": "For me, it is simply one of the best series ever made."
       },
       {
         "category": "color",
@@ -223,11 +237,13 @@
         "category": "season",
         "url": "https://en.wikipedia.org/wiki/Spring_(season)",
         "accent": "34 197 94",
-        "image": "icons/favorites/spring.svg",
+        "image": "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1200&q=80",
+        "position": "50% 50%",
+        "scale": "1.05",
         "alt": "Spring season",
         "badge": "Season",
         "name": "Spring",
-        "description": "Fresh vibes, longer days, and new energy."
+        "description": "I like the calm atmosphere, blooming trees, and the feeling that everything starts again."
       }
     ]
   },

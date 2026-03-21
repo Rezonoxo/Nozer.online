@@ -415,6 +415,8 @@
 
 #skills .skills-meta-pills {
     display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 10px;
     flex-wrap: wrap;
 }
@@ -422,18 +424,17 @@
 #skills .skills-pill {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    min-width: 132px;
     border: 1px solid rgba(255, 255, 255, 0.14);
-    background: rgba(255, 255, 255, 0.03);
-    color: #d5dbeb;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+    color: #eef2fb;
     border-radius: 999px;
-    padding: 9px 14px;
-    font-size: 13px;
-    font-weight: 600;
-}
-
-#skills .skills-pill i {
-    color: #9ca9ff;
+    padding: 10px 18px;
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
 #skills .skills-group {
@@ -495,8 +496,8 @@
 #skills .language-card {
     background: linear-gradient(150deg, rgba(12, 14, 20, 0.84), rgba(10, 12, 18, 0.76));
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    padding: 12px 14px;
+    border-radius: 14px;
+    padding: 14px 16px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -527,6 +528,9 @@
 #skills .language-icon {
     width: 64px;
     height: 64px;
+    min-width: 64px;
+    min-height: 64px;
+    flex: 0 0 64px;
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -557,11 +561,15 @@
 }
 
 #skills .language-name {
+    min-width: 0;
+    flex: 1 1 auto;
     font-size: 13px;
     font-weight: 600;
     color: #ffffff;
     letter-spacing: 0.2px;
     text-align: left;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
 }
 
 #skills .discord-card[hidden],
@@ -584,12 +592,15 @@
     }
 
     #skills .language-card {
-        padding: 11px 12px;
+        padding: 12px 13px;
     }
 
     #skills .language-icon {
         width: 54px;
         height: 54px;
+        min-width: 54px;
+        min-height: 54px;
+        flex-basis: 54px;
     }
 }
 
@@ -599,12 +610,33 @@
     }
 
     #skills .skills-meta-pills {
-        gap: 8px;
+        gap: 9px;
     }
 
     #skills .skills-pill {
-        font-size: 11px;
-        padding: 8px 12px;
+        min-width: 0;
+        flex: 1 1 calc(33.333% - 6px);
+        font-size: 10.5px;
+        padding: 9px 10px;
+    }
+
+    #skills .language-card {
+        padding: 13px 14px;
+        border-radius: 15px;
+    }
+
+    #skills .language-icon {
+        width: 52px;
+        height: 52px;
+        min-width: 52px;
+        min-height: 52px;
+        flex-basis: 52px;
+        border-radius: 14px;
+        padding: 10px;
+    }
+
+    #skills .language-name {
+        font-size: 14px;
     }
 }
 

@@ -1,5 +1,4 @@
 ﻿let currentpage = 'home';
-let contactCooldownExpiry = 0;
 let pendingRedirectUrl = null;
 let pendingRedirectTarget = null;
 let starIntervalId = null;
@@ -137,7 +136,7 @@ function renderFavoritesFromContent(favorites) {
 
     grid.innerHTML = items.map((item) => `
         <div class="favorite-item" data-fav="${escapeHtml(item.category)}">
-            <a class="favorite-tile" href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" style="--fav-accent: ${escapeHtml(item.accent)};">
+            <a class="favorite-tile" href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" style="--fav-accent: ${escapeHtml(item.accent)}; --fav-pos: ${escapeHtml(item.position || '50% 50%')}; --fav-scale: ${escapeHtml(item.scale || '1.02')};">
                 <div class="favorite-media">
                     <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.alt || item.name)}" loading="lazy" decoding="async">
                     <span class="favorite-badge">${escapeHtml(item.badge || '')}</span>
@@ -259,16 +258,8 @@ function applyContentConfig(data) {
 
     if (data.contact) {
         const contactTagline = document.getElementById('contact-tagline');
-        const responseNote = document.getElementById('contact-response-note');
-        const primaryCta = document.querySelector('#contact .contact-now-btn span');
-        const secondaryCta = document.querySelector('#contact .contact-secondary-btn span');
 
         if (contactTagline && data.contact.tagline) contactTagline.textContent = data.contact.tagline;
-        if (responseNote && data.contact.responseNote) {
-            responseNote.innerHTML = `<i class="fas fa-clock" aria-hidden="true"></i> ${escapeHtml(data.contact.responseNote)}`;
-        }
-        if (primaryCta && data.contact.primaryCta) primaryCta.textContent = data.contact.primaryCta;
-        if (secondaryCta && data.contact.secondaryCta) secondaryCta.textContent = data.contact.secondaryCta;
     }
 
     if (data.favorites) {

@@ -8,9 +8,6 @@ window.APP_API_CONFIG = {
         recentTracksLimit: 4,
         refreshMs: 30000
     },
-    formspree: {
-        endpoint: 'https://formspree.io/f/mdaenbbj'
-    },
     lanyard: {
         userId: '690653953238499369',
         username: 'rezonoxo',

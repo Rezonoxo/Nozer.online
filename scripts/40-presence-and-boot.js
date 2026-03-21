@@ -116,6 +116,11 @@ function readIdleSince(user) {
     return null;
 }
 
+function getDiscordCurrentLabel(status) {
+    const statusLabel = DISCORD_STATUS_TEXT[status] || DISCORD_STATUS_TEXT.offline;
+    return `Currently: ${statusLabel}`;
+}
+
 function updateDynamicDiscordTime() {
     document.querySelectorAll('.discord-elapsed[data-start]').forEach((el) => {
         const start = Number(el.dataset.start);
@@ -183,21 +188,16 @@ function renderDiscordProfile(user) {
         statusChipEl.textContent = statusLabel;
     }
 
-    if (status === 'idle') {
-        const apiIdleSince = readIdleSince(user);
-        if (apiIdleSince) {
-            discordIdleSince = apiIdleSince;
-        } else if (!discordIdleSince) {
-            discordIdleSince = Date.now();
-        }
-    } else {
-        discordIdleSince = null;
-    }
+    discordIdleSince = null;
 
     if (statusTextEl) {
         statusTextEl.textContent = status === 'idle' && discordIdleSince
             ? `Away · ${formatElapsedClock(discordIdleSince)}`
             : statusLabel;
+    }
+
+    if (statusTextEl) {
+        statusTextEl.textContent = getDiscordCurrentLabel(status);
     }
 
     if (deviceChipEl) {
@@ -644,20 +644,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     await loadContentConfig();
     optimizeStaticMediaLoading();
 
-    const messageTextarea = document.getElementById('contact-message');
-    if (messageTextarea) {
-        messageTextarea.addEventListener('input', updateCharCount);
-    }
-
-    const overlay = document.getElementById('contact-overlay');
-    if (overlay) {
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) {
-                closeContactForm();
-            }
-        });
-    }
-
     const redirectOverlay = document.getElementById('external-redirect-overlay');
     if (redirectOverlay) {
         redirectOverlay.addEventListener('click', (e) => {
@@ -678,7 +664,6 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
-            closeContactForm();
             cancelExternalRedirect();
             closeSettings();
             closePlaylistOverlay();
@@ -689,7 +674,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         handleGlobalShortcut(e);
     });
 
-    loadContactCooldown();
     cursorsys.init();
     seedAmbientStars();
     initNameChanger();
