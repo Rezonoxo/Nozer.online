@@ -25,6 +25,8 @@ window.APP_API_CONFIG = {
             'https://api.countapi.xyz'
         ],
         namespace: 'nozersite',
-        key: 'home-views-v1'
+        key: 'home-views-v1',
+        fallbackStorageKey: 'nozersite_home_views_local_fallback_v1',
+        sharedAcrossDeployments: true
     }
 };

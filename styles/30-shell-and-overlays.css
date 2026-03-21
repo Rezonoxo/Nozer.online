@@ -698,6 +698,10 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
+    min-width: 0;
+    flex: 1 1 auto;
+    align-items: flex-start;
+    text-align: left;
 }
 
 .presence-label {
@@ -709,10 +713,14 @@
 }
 
 .presence-main {
-    font-size: 13px;
+    font-size: clamp(12.5px, 1.3vw, 13.5px);
     color: #f2f4ff;
     font-weight: 600;
     line-height: 1.35;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    text-wrap: pretty;
 }
 
 .activity-placeholder {
@@ -945,7 +953,34 @@
 }
 
 .presence-primary .presence-main {
-    font-size: 15px;
+    font-size: clamp(13.5px, 1.5vw, 15px);
+}
+
+#discord-custom-tile {
+    align-items: flex-start;
+}
+
+#discord-custom-text {
+    display: -webkit-box;
+    max-width: 100%;
+    overflow: hidden;
+    text-align: left;
+    align-self: stretch;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+}
+
+@media (max-width: 560px) {
+    #discord-custom-tile {
+        padding: 11px 12px;
+        gap: 10px;
+    }
+
+    #discord-custom-text {
+        -webkit-line-clamp: 4;
+        line-clamp: 4;
+    }
 }
 
 .activity-card.vscode .activity-title {
@@ -1473,6 +1508,12 @@ body.site-notice-active .fixed-nav {
     border-color: rgba(255, 255, 255, 0.18);
 }
 
+.external-redirect-close:focus-visible,
+.external-redirect-btn:focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 3px;
+}
+
 .external-redirect-note {
     color: #c8cfdb;
     font-size: 15px;
@@ -1544,6 +1585,7 @@ body.site-notice-active .fixed-nav {
     gap: 10px;
     font-size: 13px;
     color: #e6ebf5;
+    line-height: 1.5;
 }
 
 .external-redirect-checkbox input {

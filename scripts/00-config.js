@@ -302,8 +302,8 @@ function getRevealGroups() {
         '.projects-grid > *',
         '.skills-shell .skills-group',
         '.skills-shell .language-card',
-        '.contact-grid > *',
-        '.social-links-container > *'
+        '.contact-primary-grid > *',
+        '.contact-social-grid > *'
     ];
 }
 

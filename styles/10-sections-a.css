@@ -419,6 +419,7 @@
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
+    margin-bottom: 6px;
 }
 
 #skills .skills-pill {
@@ -611,6 +612,7 @@
 
     #skills .skills-meta-pills {
         gap: 9px;
+        margin-bottom: 2px;
     }
 
     #skills .skills-pill {

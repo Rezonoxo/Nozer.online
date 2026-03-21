@@ -527,6 +527,9 @@ body.reduce-motion *::after {
 
 body.reduce-motion .project-card:hover,
 body.reduce-motion .contact-item:hover,
+body.reduce-motion .contact-primary-card:hover,
+body.reduce-motion .contact-social-link:hover,
+body.reduce-motion .contact-policy-card:hover,
 body.reduce-motion .about-card:hover,
 body.reduce-motion .music-player-card:hover,
 body.reduce-motion .behance-card:hover,
@@ -535,6 +538,9 @@ body.reduce-motion .social-link:hover,
 body.reduce-motion .invite-card-modern:hover,
 body.performance-mode .project-card:hover,
 body.performance-mode .contact-item:hover,
+body.performance-mode .contact-primary-card:hover,
+body.performance-mode .contact-social-link:hover,
+body.performance-mode .contact-policy-card:hover,
 body.performance-mode .about-card:hover,
 body.performance-mode .music-player-card:hover,
 body.performance-mode .behance-card:hover,
@@ -590,6 +596,9 @@ body.performance-mode .invite-card-modern::before {
 
 body.high-contrast .discord-card,
 body.high-contrast .contact-item,
+body.high-contrast .contact-primary-card,
+body.high-contrast .contact-social-link,
+body.high-contrast .contact-policy-card,
 body.high-contrast .contact-now-btn,
 body.high-contrast .project-card,
 body.high-contrast .social-link,
@@ -608,6 +617,9 @@ body.high-contrast .music-player-card {
 body.high-contrast .tagline,
 body.high-contrast .project-desc,
 body.high-contrast .contact-label,
+body.high-contrast .contact-primary-label,
+body.high-contrast .contact-policy-kicker,
+body.high-contrast .contact-policy-description,
 body.high-contrast .external-redirect-text,
 body.high-contrast .behance-card p,
 body.high-contrast .about-content p,
@@ -640,7 +652,9 @@ body.large-text .project-desc,
 body.large-text .about-content p,
 body.large-text .behance-card p,
 body.large-text .settings-item-desc,
-body.large-text .contact-label {
+body.large-text .contact-label,
+body.large-text .contact-primary-label,
+body.large-text .contact-policy-kicker {
     font-size: 12px;
 }
 
@@ -650,7 +664,8 @@ body.large-text .behance-card h4 {
     font-size: 17px;
 }
 
-body.large-text .contact-value {
+body.large-text .contact-value,
+body.large-text .contact-primary-value {
     font-size: 20px;
 }
 

@@ -726,31 +726,42 @@
 }
 
 .favorites-header {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
-    justify-content: space-between;
     gap: 12px;
 }
 
 .favorites-title {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
     align-items: center;
-    gap: 10px;
+    column-gap: 10px;
+    row-gap: 3px;
+    min-width: 0;
     font-size: 18px;
     font-weight: 600;
     color: #ffffff;
 }
 
 .favorites-title i {
+    grid-row: 1 / span 2;
     color: rgb(var(--accent));
 }
 
+.favorites-title > span:first-of-type {
+    min-width: 0;
+    line-height: 1.1;
+}
+
 .favorites-subtitle {
+    grid-column: 2;
     font-size: 11px;
     letter-spacing: 1.2px;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.45);
-    margin-left: 8px;
+    margin-left: 0;
+    line-height: 1.25;
 }
 
 .favorites-toggle {
@@ -1060,6 +1071,43 @@
         padding: 16px;
         border-radius: 12px;
     }
+
+    .favorites-header {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+    }
+
+    .favorites-title {
+        column-gap: 10px;
+        row-gap: 3px;
+    }
+
+    .favorites-title i {
+        grid-row: 1 / span 2;
+    }
+
+    .favorites-title > span:first-of-type {
+        min-width: 0;
+        line-height: 1.1;
+    }
+
+    .favorites-subtitle {
+        grid-column: 2;
+        margin-left: 0;
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        line-height: 1.3;
+    }
+
+    .favorites-toggle {
+        padding: 8px 12px;
+        gap: 6px;
+        font-size: 12px;
+        min-height: 38px;
+        white-space: nowrap;
+        align-self: center;
+    }
+
     .favorites-grid {
         gap: 20px;
     }
@@ -1108,6 +1156,32 @@
     .favorites-card {
         padding: 18px;
         border-radius: 10px;
+    }
+
+    .favorites-header {
+        gap: 10px;
+    }
+
+    .favorites-title {
+        column-gap: 8px;
+    }
+
+    .favorites-title > span:first-of-type {
+        font-size: 17px;
+    }
+
+    .favorites-subtitle {
+        font-size: 9.5px;
+    }
+
+    .favorites-toggle {
+        padding: 7px 10px;
+        font-size: 11px;
+        border-radius: 999px;
+    }
+
+    .favorites-toggle span {
+        display: none;
     }
 
     .music-album-art {

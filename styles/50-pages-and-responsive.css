@@ -1503,6 +1503,16 @@ body {
     flex: 1 1 auto;
 }
 
+.about-panel-head h3,
+.about-panel-kicker,
+.about-panel-text {
+    text-align: left;
+}
+
+.about-panel-tags {
+    justify-content: flex-start;
+}
+
 .about-panel-kicker {
     color: var(--text-muted);
     font-size: 12px;
@@ -2147,7 +2157,11 @@ body {
 }
 
 .about-panel-head {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
     align-items: center;
+    column-gap: 12px;
+    row-gap: 2px;
 }
 
 .about-panel-icon {
@@ -2157,6 +2171,25 @@ body {
     min-height: 42px;
     flex-basis: 42px;
     border-radius: 12px;
+    grid-row: 1 / span 2;
+}
+
+.about-panel-head > div:last-child {
+    align-self: center;
+}
+
+.about-panel-head h3 {
+    margin-bottom: 2px;
+}
+
+.about-panel-kicker {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+}
+
+.about-panel-text,
+.about-panel-tags {
+    padding-left: 54px;
 }
 
 .about-panel-text {

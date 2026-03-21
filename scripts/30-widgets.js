@@ -233,10 +233,11 @@ function formatCounterValue(value) {
     return numeric.toLocaleString('en-US');
 }
 
-const VIEW_COUNTER_ENDPOINTS = window.APP_API_CONFIG?.counter?.endpoints || [
+const VIEW_COUNTER_CONFIG = window.APP_API_CONFIG?.counter || {};
+const VIEW_COUNTER_ENDPOINTS = VIEW_COUNTER_CONFIG.endpoints || [
     'https://api.countapi.xyz'
 ];
-const VIEW_COUNTER_FALLBACK_KEY = 'nozersite_home_views_local_fallback_v1';
+const VIEW_COUNTER_FALLBACK_KEY = VIEW_COUNTER_CONFIG.fallbackStorageKey || 'nozersite_home_views_local_fallback_v1';
 
 function getLocalFallbackViewCount() {
     const current = Number(localStorage.getItem(VIEW_COUNTER_FALLBACK_KEY)) || 0;
@@ -276,15 +277,19 @@ async function initHomeViewCounter() {
     const viewEl = document.getElementById('home-view-count');
     if (!viewEl) return;
 
-    const namespace = window.APP_API_CONFIG?.counter?.namespace || 'nozersite';
-    const key = window.APP_API_CONFIG?.counter?.key || 'home-views-v1';
+    const namespace = VIEW_COUNTER_CONFIG.namespace || 'nozersite';
+    const key = VIEW_COUNTER_CONFIG.key || 'home-views-v1';
 
     try {
         const data = await countApiHit(namespace, key);
         viewEl.textContent = formatCounterValue(data.value);
+        viewEl.dataset.counterSource = 'remote';
+        viewEl.removeAttribute('title');
     } catch (error) {
         const fallbackValue = getLocalFallbackViewCount();
         viewEl.textContent = formatCounterValue(fallbackValue);
+        viewEl.dataset.counterSource = 'local-fallback';
+        viewEl.title = 'Local fallback counter';
     }
 }
 
@@ -321,6 +326,7 @@ const cursorsys = {
             '[role="button"]',
             '.nav-link',
             '.social-link',
+            '.contact-social-link',
             '.project-action',
             '.settings-toggle',
             '.settings-category-btn',

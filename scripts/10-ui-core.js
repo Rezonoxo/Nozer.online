@@ -622,6 +622,16 @@ function closeSettings() {
     if (overlay) deactivateModal(overlay);
 }
 
+function initCoreUIBindings() {
+    document.querySelectorAll('[data-external-redirect-close], [data-external-redirect-cancel]').forEach((element) => {
+        element.addEventListener('click', cancelExternalRedirect);
+    });
+
+    document.querySelectorAll('[data-external-redirect-confirm]').forEach((element) => {
+        element.addEventListener('click', confirmExternalRedirect);
+    });
+}
+
 function openExternalRedirect(url, target) {
     const overlay = document.getElementById('external-redirect-overlay');
     const modal = overlay ? overlay.querySelector('.external-redirect-modal') : null;
@@ -636,16 +646,6 @@ function openExternalRedirect(url, target) {
     if (domainEl) domainEl.textContent = getDomainOnly(url);
     if (dontAsk) dontAsk.checked = false;
     activateModal(overlay, modal, '.external-redirect-btn.primary');
-}
-
-function getDisplayUrl(url) {
-    try {
-        const parsed = new URL(url);
-        const path = parsed.pathname.length > 1 ? parsed.pathname : '';
-        return `${parsed.hostname}${path}`;
-    } catch (error) {
-        return url;
-    }
 }
 
 function getDomainOnly(url) {

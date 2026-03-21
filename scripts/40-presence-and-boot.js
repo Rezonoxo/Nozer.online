@@ -58,7 +58,6 @@ let currentSpotifyData = null;
 let spotifyUpdateInterval = null;
 let discordElapsedInterval = null;
 let discordPollInterval = null;
-let discordIdleSince = null;
 let discordCurrentStatus = 'offline';
 let lanyardSocket = null;
 let lanyardHeartbeatInterval = null;
@@ -108,17 +107,15 @@ function getActivityButtons(activity) {
     return html;
 }
 
-function readIdleSince(user) {
-    const rawIdle = user?.idle_since || user?.discord_idle_since || user?.kv?.idle_since;
-    if (typeof rawIdle === 'number') {
-        return rawIdle > 1e12 ? rawIdle : rawIdle * 1000;
-    }
-    return null;
-}
-
 function getDiscordCurrentLabel(status) {
     const statusLabel = DISCORD_STATUS_TEXT[status] || DISCORD_STATUS_TEXT.offline;
     return `Currently: ${statusLabel}`;
+}
+
+function syncDiscordStatusText() {
+    const statusTextEl = document.getElementById('discord-status-text');
+    if (!statusTextEl) return;
+    statusTextEl.textContent = getDiscordCurrentLabel(discordCurrentStatus);
 }
 
 function updateDynamicDiscordTime() {
@@ -128,10 +125,7 @@ function updateDynamicDiscordTime() {
         el.textContent = `Elapsed ${formatElapsedClock(start)}`;
     });
 
-    const statusTextEl = document.getElementById('discord-status-text');
-    if (statusTextEl && discordCurrentStatus === 'idle' && discordIdleSince) {
-        statusTextEl.textContent = `Away · ${formatElapsedClock(discordIdleSince)}`;
-    }
+    syncDiscordStatusText();
 }
 
 function startDiscordDynamicTime() {
@@ -140,7 +134,11 @@ function startDiscordDynamicTime() {
         discordElapsedInterval = null;
     }
     updateDynamicDiscordTime();
-    discordElapsedInterval = setInterval(updateDynamicDiscordTime, 1000);
+    syncDiscordStatusText();
+    discordElapsedInterval = setInterval(() => {
+        updateDynamicDiscordTime();
+        syncDiscordStatusText();
+    }, 1000);
 }
 
 function renderDiscordProfile(user) {
@@ -186,14 +184,6 @@ function renderDiscordProfile(user) {
 
     if (statusChipEl) {
         statusChipEl.textContent = statusLabel;
-    }
-
-    discordIdleSince = null;
-
-    if (statusTextEl) {
-        statusTextEl.textContent = status === 'idle' && discordIdleSince
-            ? `Away · ${formatElapsedClock(discordIdleSince)}`
-            : statusLabel;
     }
 
     if (statusTextEl) {
@@ -479,7 +469,6 @@ function connectLanyardSocket() {
 // Fallback - podstawowe informacje bez Lanyard
 function loadFallbackProfile() {
     discordCurrentStatus = 'offline';
-    discordIdleSince = null;
     if (spotifyUpdateInterval) {
         clearInterval(spotifyUpdateInterval);
         spotifyUpdateInterval = null;
@@ -518,7 +507,7 @@ function loadFallbackProfile() {
     }
     
     if (statusTextEl) {
-        statusTextEl.textContent = DISCORD_STATUS_TEXT.offline;
+        statusTextEl.textContent = getDiscordCurrentLabel('offline');
     }
 
     if (statusChipEl) {
@@ -543,7 +532,7 @@ function loadFallbackProfile() {
     }
 
     if (activityTextEl) {
-        activityTextEl.textContent = 'No active apps detected Â· Probably chilling';
+        activityTextEl.textContent = 'No active apps detected - probably chilling';
     }
     
     // AktywnoĹ›ci - komunikat
@@ -552,9 +541,7 @@ function loadFallbackProfile() {
             <div class="activity-placeholder">
                 <p style="margin-bottom: 8px; color: #aaa; font-size: 13px;">Enable Discord presence via Lanyard</p>
                 <p style="font-size: 11px; color: #666; margin-bottom: 12px;">Join the Lanyard Discord server to display live status</p>
-                <a href="https://discord.gg/lanyard" target="_blank" style="color: #5865f2; text-decoration: none; font-size: 12px; font-weight: 500; display: inline-block; padding: 6px 12px; background: rgba(88, 101, 242, 0.1); border-radius: 6px; border: 1px solid rgba(88, 101, 242, 0.2); transition: all 0.3s ease;" onmouseover="this.style.background='rgba(88, 101, 242, 0.2)'" onmouseout="this.style.background='rgba(88, 101, 242, 0.1)'">
-                    discord.gg/lanyard
-                </a>
+                <a class="activity-button" href="https://discord.gg/lanyard" target="_blank" rel="noopener noreferrer">discord.gg/lanyard</a>
             </div>
         `;
     }
@@ -689,6 +676,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     initDeferredHomeObservers();
     checkIfReadyToWakeup();
     initSiteNotice();
+    initCoreUIBindings();
     initSettingsCategories();
     initShortcutSettings();
     applySettings();
