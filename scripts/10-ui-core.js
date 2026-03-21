@@ -634,53 +634,53 @@ const WELCOME_GUIDE_CONTENT = {
             {
                 kicker: 'Welcome',
                 title: 'Welcome to the site',
-                lead: 'A quick landing guide so the first visit feels smooth instead of overwhelming.',
-                stepTitle: 'Start here',
+                lead: 'Everything is designed to feel smooth and intuitive.',
+                stepTitle: 'Let\'s get started',
                 icon: 'fas fa-star',
-                heading: 'This portfolio is meant to feel immersive',
-                text: 'The site uses motion, layered cards, and interactive sections, but the structure is still simple once you know where to look.',
+                heading: 'Smooth motion. Clear structure.',
+                text: 'This portfolio combines interactive elements with a simple layout that works whether you\'re on desktop or mobile.',
                 points: [
-                    { title: 'International site', text: 'The site is in English because it is designed for an international audience.' },
-                    { title: 'Friendly by design', text: 'You can explore calmly. Nothing here should require guessing or rushing.' }
+                    { title: 'Built for everyone', text: 'International design with English content and full mobile support.' },
+                    { title: 'Explore at your pace', text: 'No pressure, no guessing needed. Everything is where you\'d expect.' }
                 ]
             },
             {
                 kicker: 'Navigation',
-                title: 'Getting around is simple',
-                lead: 'Everything important is grouped into a few clear sections.',
-                stepTitle: 'Navigation flow',
+                title: 'Five main sections',
+                lead: 'All key content grouped into clear areas.',
+                stepTitle: 'How to move around',
                 icon: 'fas fa-compass',
-                heading: 'Use the top or mobile navigation to move section by section',
-                text: 'Home gives the fastest overview, About explains the background, Projects shows work, Skills covers tools, and Contact is where you can reach out.',
+                heading: 'Top nav on desktop, bottom nav on mobile',
+                text: 'Home shows everything at a glance. Projects and Contact are the quickest paths to see work and get in touch.',
                 points: [
-                    { title: 'Home', text: 'Best place to get a quick first impression.' },
-                    { title: 'Projects + Contact', text: 'Ideal if you want to see work first and then get in touch.' }
+                    { title: 'Home', text: 'Live status, activity, and quick overview—start here for context.' },
+                    { title: 'Anywhere works', text: 'Jump to Projects, About, Skills, or Contact depending on what you want to see.' }
                 ]
             },
             {
                 kicker: 'Interactive',
-                title: 'A few areas are interactive',
-                lead: 'Some cards open, switch, or react depending on what you click.',
-                stepTitle: 'Useful interactions',
+                title: 'Some elements respond to clicks',
+                lead: 'Cards, toggles, and settings make the experience yours.',
+                stepTitle: 'Nice-to-know features',
                 icon: 'fas fa-sliders',
-                heading: 'The site includes a few lightweight interactive elements',
-                text: 'Favorites can switch categories, the music player can stay floating, settings let you tune the experience, and external links can ask for confirmation.',
+                heading: 'Lightweight interactions enhance the experience',
+                text: 'Favorites organize by category. The music player floats with you. Settings let you adjust motion, text, and contrast.',
                 points: [
-                    { title: 'Settings', text: 'Use the sliders icon to adjust visuals, motion, text size, and more.' },
-                    { title: 'Music + widgets', text: 'They are optional atmosphere, not something you need to use to navigate.' }
+                    { title: 'Settings icon', text: 'Control visuals, motion, text size, and audio—personalize your experience.' },
+                    { title: 'Music + widgets', text: 'Optional extras. You can ignore them and still navigate everything easily.' }
                 ]
             },
             {
                 kicker: 'Ready',
-                title: 'You are ready to explore',
-                lead: 'After this, the guide will stay out of the way unless you reopen it from settings.',
-                stepTitle: 'Final tips',
+                title: 'You\'re all set',
+                lead: 'This guide runs once. You can open it again from Settings anytime.',
+                stepTitle: 'Final advice',
                 icon: 'fas fa-rocket',
-                heading: 'Start anywhere, but Home and Projects are the easiest first stops',
-                text: 'If you ever want this walkthrough again, open Settings and launch the welcome guide manually.',
+                heading: 'Start with Home or Projects',
+                text: 'Take your time exploring. Every section is designed to be clear and easy to understand.',
                 points: [
-                    { title: 'No pressure', text: 'Take your time and move through the sections at your own pace.' },
-                    { title: 'One-time intro', text: 'This guide appears only once automatically and remembers that in local storage.' }
+                    { title: 'Explore freely', text: 'No rushing. Move through sections at your own speed.' },
+                    { title: 'Come back anytime', text: 'Find this guide again in Settings. It remembers you\'ve seen it.' }
                 ]
             }
         ]
@@ -696,53 +696,53 @@ const WELCOME_GUIDE_CONTENT = {
             {
                 kicker: 'Witaj',
                 title: 'Witaj na stronie',
-                lead: 'Krótki przewodnik startowy, żeby pierwsza wizyta była przyjemna, a nie przytłaczająca.',
-                stepTitle: 'Na początek',
+                lead: 'Wszystko jest zaprojektowane, by było gładkie i intuicyjne.',
+                stepTitle: 'Zaczynamy',
                 icon: 'fas fa-star',
-                heading: 'Ta strona ma być immersyjna, ale nadal prosta w obsłudze',
-                text: 'Znajdziesz tu animacje, warstwowe karty i interaktywne sekcje, ale sam układ jest prosty, gdy już poznasz logikę strony.',
+                heading: 'Płynne animacje. Jasna struktura.',
+                text: 'Portfolio łączy interaktywne elementy z prostym layoutem, który sprawdza się zarówno na komputerze jak i telefonie.',
                 points: [
-                    { title: 'Strona międzynarodowa', text: 'Całość jest po angielsku, ponieważ strona jest przygotowana również dla odbiorców zagranicznych.' },
-                    { title: 'Spokojne tempo', text: 'Możesz zwiedzać wszystko bez pośpiechu. Nic tutaj nie powinno wymagać zgadywania.' }
+                    { title: 'Dla każdego', text: 'Międzynarodowy design, zawartość w angielskim i pełne wsparcie dla mobile.' },
+                    { title: 'Zwiedzaj w swoim tempie', text: 'Bez presji, nic do zgadywania. Wszystko tam, gdzie się spodziewasz.' }
                 ]
             },
             {
                 kicker: 'Nawigacja',
-                title: 'Poruszanie się jest proste',
-                lead: 'Najważniejsze treści są podzielone na kilka czytelnych sekcji.',
+                title: 'Pięć głównych sekcji',
+                lead: 'Cała ważna treść pogrupowana w jasne obszary.',
                 stepTitle: 'Jak się poruszać',
                 icon: 'fas fa-compass',
-                heading: 'Korzystaj z górnej lub mobilnej nawigacji, aby przechodzić sekcja po sekcji',
-                text: 'Home daje szybki przegląd, About pokazuje kim jestem, Projects prezentuje prace, Skills zbiera narzędzia, a Contact pozwala się ze mną skontaktować.',
+                heading: 'Menu u góry na komputerze, u dołu na telefonie',
+                text: 'Home pokazuje wszystko na pierwszy rzut oka. Projects i Contact to najszybszych dostęp do prac i kontaktu.',
                 points: [
-                    { title: 'Home', text: 'Najlepsze miejsce na szybkie pierwsze wrażenie.' },
-                    { title: 'Projects + Contact', text: 'Dobre, jeśli chcesz najpierw zobaczyć projekty, a potem napisać.' }
+                    { title: 'Home', text: 'Status, aktywność i szybki przegląd—tu można zacząć dla kontekstu.' },
+                    { title: 'Skok wszędzie możliwy', text: 'Idź prosto do Projects, About, Skills lub Contact, zależnie od tego co cię interesuje.' }
                 ]
             },
             {
                 kicker: 'Interakcje',
-                title: 'Niektóre elementy są interaktywne',
-                lead: 'Część kart rozwija się, przełącza lub reaguje na kliknięcia.',
-                stepTitle: 'Przydatne elementy',
+                title: 'Niektóre elementy reagują na kliknięcia',
+                lead: 'Karty, przyciski i ustawienia tworzą doświadczenie na Twoją miarę.',
+                stepTitle: 'Warto wiedzieć',
                 icon: 'fas fa-sliders',
-                heading: 'Na stronie jest kilka lekkich interakcji',
-                text: 'Favorites pozwala przełączać kategorie, odtwarzacz muzyki może pozostać w wersji floating, settings pozwala dopasować doświadczenie, a zewnętrzne linki mogą pytać o potwierdzenie.',
+                heading: 'Lekkie interakcje ulepszają doświadczenie',
+                text: 'Ulubione organizują się po kategoriach. Odtwarzacz muzyki towarzyszy Ci wszędzie. Ustawienia pozwalają zmienić ruch, tekst i kontrast.',
                 points: [
-                    { title: 'Settings', text: 'Ikona suwaków pozwala zmienić ruch, tekst, kontrast i inne elementy strony.' },
-                    { title: 'Muzyka + widgety', text: 'To dodatek do klimatu strony, nie coś koniecznego do nawigacji.' }
+                    { title: 'Ikona ustawień', text: 'Kontroluj wygląd, animacje, rozmiar tekstu i dźwięk—dostosuj doświadczenie do siebie.' },
+                    { title: 'Muzyka + widgety', text: 'Dodatki. Możesz je ignorować i bez problemu nawigować wszędzie.' }
                 ]
             },
             {
                 kicker: 'Gotowe',
-                title: 'Możesz zaczynać',
-                lead: 'Po zamknięciu przewodnik nie będzie już przeszkadzał, chyba że uruchomisz go ponownie w settings.',
-                stepTitle: 'Ostatnie wskazówki',
+                title: 'Wszystko gotowe',
+                lead: 'Ten przewodnik wyświetla się raz. Możesz go otworzyć ponownie z Ustawień kiedy chcesz.',
+                stepTitle: 'Ostatnia rada',
                 icon: 'fas fa-rocket',
-                heading: 'Najłatwiej zacząć od Home albo Projects',
-                text: 'Jeśli kiedyś będziesz chcieć wrócić do tego przewodnika, znajdziesz go ponownie w ustawieniach.',
+                heading: 'Zacznij od Home lub Projects',
+                text: 'Poświęć czas na eksplorację. Każda sekcja jest jasna i łatwa do zrozumienia.',
                 points: [
-                    { title: 'Bez pośpiechu', text: 'Zwiedzaj stronę w swoim tempie i przechodź między sekcjami tak, jak Ci wygodnie.' },
-                    { title: 'Jednorazowe powitanie', text: 'Ten przewodnik pokazuje się automatycznie tylko raz i zapamiętuje to w localStorage.' }
+                    { title: 'Zwiedzaj swobodnie', text: 'Bez pośpiechu. Przechodzę przez sekcje w swoim tempie.' },
+                    { title: 'Wróć kiedy chcesz', text: 'Znajdziesz ten przewodnik w Ustawieniach. Pamiętam, że go widziałeś.' }
                 ]
             }
         ]
@@ -1077,80 +1077,80 @@ function getWelcomeTourSteps() {
             page: 'home',
             target: ['.fixed-nav .nav-container', '.mobile-bottom-nav'],
             kicker: welcomeGuideLanguage === 'pl' ? 'Nawigacja' : 'Navigation',
-            title: welcomeGuideLanguage === 'pl' ? 'Tutaj poruszasz sie po glownej strukturze strony' : 'This is where you move through the main structure of the site',
+            title: welcomeGuideLanguage === 'pl' ? 'Pięć głównych sekcji' : 'Five main sections',
             text: welcomeGuideLanguage === 'pl'
-                ? 'Te przyciski prowadza do najwazniejszych sekcji: Home, About, Projects, Skills i Contact. Na telefonie ta sama nawigacja znajduje sie w dolnym pasku.'
-                : 'These controls take you to the main sections: Home, About, Projects, Skills, and Contact. On mobile, the same navigation is placed in the bottom bar.'
+                ? 'Home, About, Projects, Skills, Contact. Desktop: góra. Mobil: dół.'
+                : 'Home, About, Projects, Skills, Contact. Desktop: top. Mobile: bottom.'
         },
         {
             id: 'home',
             page: 'home',
             target: ['#discord-profile-card'],
             kicker: welcomeGuideLanguage === 'pl' ? 'Home' : 'Home',
-            title: welcomeGuideLanguage === 'pl' ? 'Tutaj widzisz szybki przeglad najwazniejszych informacji' : 'This is where you get the fastest overview',
+            title: welcomeGuideLanguage === 'pl' ? 'Sprawdź co aktualnie słychać' : 'Check what\'s currently happening',
             text: welcomeGuideLanguage === 'pl'
-                ? 'W tym miejscu od razu widac status, aktywnosc i podstawowe informacje, dzieki czemu latwo zlapac klimat strony na starcie.'
-                : 'This area shows live presence, current activity, and key info right away, so you can understand the site at a glance.'
+                ? 'Podgląd mojego profilu Discord na żywo. Tu widzisz mój status, aktywność i co aktualnie robię.'
+                : 'Live preview of my Discord profile. See my status, activity, and what I\'m currently up to.'
         },
         {
             id: 'music-box',
             page: 'projects',
             target: ['#mini-music-player.tour-force-visible', '#mini-music-player.visible', '#mini-music-player'],
-            kicker: welcomeGuideLanguage === 'pl' ? 'Muzyka' : 'Music box',
-            title: welcomeGuideLanguage === 'pl' ? 'Ten boczny odtwarzacz zostaje z toba podczas przegladania strony' : 'This side player stays with you while you browse',
+            kicker: welcomeGuideLanguage === 'pl' ? 'Muzyka' : 'Music player',
+            title: welcomeGuideLanguage === 'pl' ? 'Steruj muzyką w każdym momencie' : 'Control the music anytime',
             text: welcomeGuideLanguage === 'pl'
-                ? 'Gdy glowny odtwarzacz nie jest juz w centrum uwagi, ten kompaktowy music box pozwala szybko zmienic utwor, zatrzymac muzyke albo sprawdzic co aktualnie gra.'
-                : 'When the main player is no longer front and center, this compact music box lets you pause, skip, and check what is currently playing without losing your place.'
+                ? 'Odtwarzacz muzyki na stronie. Play, pause, skip—bez przerywania przeglądania.'
+                : 'Control the site\'s music playback. Play, pause, skip—all while you browse.'
         },
         {
             id: 'about',
             page: 'about',
             target: ['#about .about-shell'],
             kicker: welcomeGuideLanguage === 'pl' ? 'About' : 'About',
-            title: welcomeGuideLanguage === 'pl' ? 'Tutaj dowiesz sie, kim jest autor strony' : 'This is where you learn who is behind the site',
+            title: welcomeGuideLanguage === 'pl' ? 'Poznaj kim jestem' : 'Learn who I am',
             text: welcomeGuideLanguage === 'pl'
-                ? 'Sekcja About laczy profil, karty opisowe i wyszukiwarke. To najlepsze miejsce, aby poznac tlo, podejscie do pracy i glowny kierunek strony.'
-                : 'About combines the profile summary, descriptive cards, and search. It is the best place to understand the background, mindset, and direction of the site.'
+                ? 'Moja historia, co robię, moje podejście do pracy. Wszystko co musisz wiedzieć ode mnie.'
+                : 'My story, what I do, my work approach. Everything you need to know about me.'
         },
         {
             id: 'projects',
             page: 'projects',
             target: ['#projects-grid .project-card', '#projects-grid'],
             kicker: welcomeGuideLanguage === 'pl' ? 'Projects' : 'Projects',
-            title: welcomeGuideLanguage === 'pl' ? 'Tutaj znajduja sie konkretne projekty i realizacje' : 'This is where you can browse actual work',
+            title: welcomeGuideLanguage === 'pl' ? 'Przeglądaj wykonane prace' : 'Browse actual work',
             text: welcomeGuideLanguage === 'pl'
-                ? 'Kazda karta prowadzi do bardziej szczegolowego widoku z technologiami, opisem i najmocniejszymi elementami projektu.'
-                : 'Each card opens a more detailed view with technologies, explanation, and the strongest parts of the project.'
+                ? 'Każda karta to projekt. Kliknij by zobaczyć tech stack, opis i najlepsze momenty.'
+                : 'Each card is a project with tech stack, detailed explanation, and highlights.'
         },
         {
             id: 'skills',
             page: 'skills',
             target: ['#skills .skills-shell'],
             kicker: welcomeGuideLanguage === 'pl' ? 'Skills' : 'Skills',
-            title: welcomeGuideLanguage === 'pl' ? 'Tutaj umiejetnosci i narzedzia sa uporzadkowane' : 'This is where skills and tools are organized',
+            title: welcomeGuideLanguage === 'pl' ? 'Moje umiejętności i narzędzia' : 'My languages and tools',
             text: welcomeGuideLanguage === 'pl'
-                ? 'Najpierw widac glowne role, a nizej mozna przeszukiwac technologie, frameworki i narzedzia kreatywne. To najszybszy sposob, aby zobaczyc zakres kompetencji.'
-                : 'You first see the core roles, then you can search through technologies, frameworks, and creative tools. It is the quickest way to understand the skill range.'
+                ? 'Języki programowania, narzędzia development, creativne programy. Wszystko posortowane i przeszukiwalne.'
+                : 'Programming languages, development tools, creative software. All organized and searchable.'
         },
         {
             id: 'contact',
             page: 'contact',
             target: ['#contact .contact-primary-grid', '#contact .contact-social-grid'],
             kicker: welcomeGuideLanguage === 'pl' ? 'Contact' : 'Contact',
-            title: welcomeGuideLanguage === 'pl' ? 'Tutaj najlatwiej przejsc do kontaktu i profili' : 'This is the easiest path to contact and social links',
+            title: welcomeGuideLanguage === 'pl' ? 'Jak się skontaktować' : 'Get in touch',
             text: welcomeGuideLanguage === 'pl'
-                ? 'Najwazniejsze formy kontaktu sa na gorze, a dodatkowe profile spolecznosciowe nizej. W ten sposob wszystko jest czytelne i pod reka.'
-                : 'The main contact methods are grouped at the top, with additional social profiles below. This keeps everything easy to scan and easy to use.'
+                ? 'Email, LinkedIn, GitHub i inne kanały. Wszystko na jednej stronie.'
+                : 'Email, social profiles, and direct links. Everything in one place.'
         },
         {
             id: 'settings',
             page: 'contact',
             target: ['#settings-toggle'],
             kicker: welcomeGuideLanguage === 'pl' ? 'Ustawienia' : 'Settings',
-            title: welcomeGuideLanguage === 'pl' ? 'Tutaj dostosujesz sposob korzystania ze strony' : 'This is where you personalize the experience',
+            title: welcomeGuideLanguage === 'pl' ? 'Personalizacja strony' : 'Customize your experience',
             text: welcomeGuideLanguage === 'pl'
-                ? 'Tutaj mozna zmienic ruch, tekst, kontrast, muzyke i ponownie otworzyc przewodnik. To miejsce do dopasowania strony pod siebie.'
-                : 'Here you can adjust motion, text, contrast, music behavior, and reopen the guide later. It is the place for making the site more comfortable to use.'
+                ? 'Ruch, tekst, kontrast, muzyka. Znowu otwórz ten przewodnik w razie potrzeby.'
+                : 'Adjust motion, text, contrast, music, and reopen this guide anytime.'
         }
     ];
 }

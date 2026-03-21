@@ -2214,7 +2214,7 @@ body.site-notice-active .fixed-nav {
 
     .welcome-tour-modal p {
         font-size: 12.5px;
-        line-height: 1.55;
+        line-height: 1.6;
     }
 
     .welcome-tour-footer {
@@ -2229,7 +2229,7 @@ body.site-notice-active .fixed-nav {
 
     .welcome-tour-actions .welcome-guide-btn {
         flex: 1 1 0;
-        min-height: 42px;
+        min-height: 44px;
         padding: 0 12px;
     }
 }
@@ -2792,9 +2792,12 @@ body.site-notice-active .fixed-nav {
 
     .welcome-guide-modal {
         width: calc(100vw - 24px);
+        max-height: calc(100vh - 80px);
         padding: 18px;
         border-radius: 20px;
         margin-top: 8px;
+        transition: all 0.25s ease;
+        overflow-y: auto;
     }
 
     .welcome-guide-stage {
@@ -2825,6 +2828,7 @@ body.site-notice-active .fixed-nav {
 
     .welcome-guide-btn {
         flex: 1 1 calc(50% - 6px);
+        min-height: 44px;
     }
 
     .welcome-guide-btn.primary {
@@ -2835,6 +2839,7 @@ body.site-notice-active .fixed-nav {
         width: calc(100vw - 20px);
         padding: 16px;
         border-radius: 18px;
+        transition: all 0.25s ease;
     }
 
     .welcome-tour-target-label {
