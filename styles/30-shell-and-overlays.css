@@ -2615,6 +2615,38 @@ body.site-notice-active .fixed-nav {
     accent-color: rgb(var(--accent));
 }
 
+.settings-segmented {
+    display: inline-grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+    min-width: 156px;
+    padding: 3px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.04);
+    gap: 3px;
+}
+
+.settings-segmented-btn {
+    border: 0;
+    min-height: 32px;
+    padding: 0 12px;
+    border-radius: 9px;
+    background: transparent;
+    color: #bfbfbf;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.settings-segmented-btn.active {
+    background: rgb(var(--accent) / 0.18);
+    color: #ffffff;
+    box-shadow: 0 0 0 1px rgb(var(--accent) / 0.24) inset;
+}
+
 .settings-shortcuts-intro {
     font-size: 11px;
     color: #a6a6a6;
@@ -2775,6 +2807,10 @@ body.site-notice-active .fixed-nav {
         width: min(180px, 45vw);
     }
 
+    .settings-segmented {
+        min-width: 148px;
+    }
+
     .shortcut-item {
         grid-template-columns: 1fr;
     }
@@ -2885,6 +2921,11 @@ body.site-notice-active .fixed-nav {
     .settings-reset-all {
         width: 100%;
         justify-content: center;
+    }
+
+    .settings-segmented {
+        width: 100%;
+        min-width: 0;
     }
 
     .settings-categories {

@@ -1154,6 +1154,20 @@
                 <div class="settings-section-title">Experience</div>
                 <div class="settings-item">
                     <div class="settings-info">
+                        <div class="settings-item-title">Theme</div>
+                        <div class="settings-item-desc">Switch between the premium dark mode and a minimal light interface</div>
+                    </div>
+                    <div id="setting-theme" class="settings-segmented" role="radiogroup" aria-label="Theme">
+                        <button class="settings-segmented-btn" type="button" data-theme-value="dark" role="radio" aria-checked="true">
+                            Dark
+                        </button>
+                        <button class="settings-segmented-btn" type="button" data-theme-value="light" role="radio" aria-checked="false">
+                            Light
+                        </button>
+                    </div>
+                </div>
+                <div class="settings-item">
+                    <div class="settings-info">
                         <div class="settings-item-title">Custom cursor</div>
                         <div class="settings-item-desc">Enable or disable the custom pointer</div>
                     </div>
@@ -1269,12 +1283,12 @@
             </div>
 
             <div class="settings-section" data-settings-category="shortcuts">
-                <div class="settings-section-title">Keyboard Shortcuts</div>
-                <div class="settings-shortcuts-intro">Click any shortcut key to rebind it. Press <kbd>Backspace</kbd> while binding to clear.</div>
+                <div class="settings-section-title">Keyboard shortcuts</div>
+                <div class="settings-shortcuts-intro">Click any shortcut to reassign it. Press <kbd>Backspace</kbd> while capturing to clear it.</div>
                 <div id="shortcut-list" class="shortcut-list"></div>
                 <button id="shortcut-reset-btn" class="shortcut-reset-btn" type="button">
                     <i class="fas fa-rotate-left"></i>
-                    Reset defaults
+                    Restore defaults
                 </button>
             </div>
         </div>

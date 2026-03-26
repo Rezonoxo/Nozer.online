@@ -37,19 +37,20 @@ const DEFAULT_SHORTCUTS = {
 };
 
 const SHORTCUT_ACTIONS = [
-    { id: 'togglePlayPause', title: 'Play / Pause', desc: 'Toggle the current track.' },
-    { id: 'previousTrack', title: 'Previous Track', desc: 'Go to the previous song.' },
-    { id: 'nextTrack', title: 'Next Track', desc: 'Go to the next song.' },
-    { id: 'openPlaylist', title: 'Open Playlist', desc: 'Open the playlist panel.' },
-    { id: 'openSettings', title: 'Open Settings', desc: 'Open the settings modal.' },
-    { id: 'gotoHome', title: 'Go to Home', desc: 'Switch to Home page.' },
-    { id: 'gotoAbout', title: 'Go to About', desc: 'Switch to About page.' },
-    { id: 'gotoProjects', title: 'Go to Projects', desc: 'Switch to Projects page.' },
-    { id: 'gotoSkills', title: 'Go to Skills', desc: 'Switch to Skills page.' },
-    { id: 'gotoContact', title: 'Go to Contact', desc: 'Switch to Contact page.' }
+    { id: 'togglePlayPause', title: 'Play / Pause', desc: 'Pauses or resumes the current track.' },
+    { id: 'previousTrack', title: 'Previous track', desc: 'Skips to the previous song.' },
+    { id: 'nextTrack', title: 'Next track', desc: 'Skips to the next song.' },
+    { id: 'openPlaylist', title: 'Open playlist', desc: 'Opens the playlist panel.' },
+    { id: 'openSettings', title: 'Open settings', desc: 'Opens the settings window.' },
+    { id: 'gotoHome', title: 'Go to Home', desc: 'Switches to the Home page.' },
+    { id: 'gotoAbout', title: 'Go to About', desc: 'Switches to the About page.' },
+    { id: 'gotoProjects', title: 'Go to Projects', desc: 'Switches to the Projects page.' },
+    { id: 'gotoSkills', title: 'Go to Skills', desc: 'Switches to the Skills page.' },
+    { id: 'gotoContact', title: 'Go to Contact', desc: 'Switches to the Contact page.' }
 ];
 
 const defaultSettings = {
+    theme: 'dark',
     mute: false,
     volume: 0.6,
     cursorEnabled: true,
@@ -96,7 +97,11 @@ function loadSettings() {
         const raw = localStorage.getItem(SETTINGS_KEY);
         if (!raw) return { ...defaultSettings };
         const parsed = JSON.parse(raw);
-        return { ...defaultSettings, ...parsed };
+        const merged = { ...defaultSettings, ...parsed };
+        if (merged.theme !== 'light' && merged.theme !== 'dark') {
+            merged.theme = defaultSettings.theme;
+        }
+        return merged;
     } catch (error) {
         return { ...defaultSettings };
     }

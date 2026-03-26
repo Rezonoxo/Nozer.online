@@ -366,7 +366,7 @@ function initShortcutSettings() {
 
                 document.body.classList.add('capturing-shortcut');
                 btn.classList.add('capturing');
-                btn.textContent = 'Press key...';
+            btn.textContent = 'Press a key...';
 
                 captureHandler = (event) => {
                     event.preventDefault();
@@ -430,6 +430,7 @@ function applyAudioSettings() {
 }
 
 function syncSettingsUI() {
+    const themeToggle = document.getElementById('setting-theme');
     const muteToggle = document.getElementById('setting-mute');
     const volumeRange = document.getElementById('setting-volume');
     const cursorToggle = document.getElementById('setting-cursor');
@@ -443,6 +444,14 @@ function syncSettingsUI() {
     const dyslexiaFontToggle = document.getElementById('setting-dyslexia-font');
     const performanceToggle = document.getElementById('setting-performance-mode');
 
+    if (themeToggle) {
+        const activeTheme = settings.theme === 'light' ? 'light' : 'dark';
+        Array.from(themeToggle.querySelectorAll('[data-theme-value]')).forEach((button) => {
+            const isActive = button.getAttribute('data-theme-value') === activeTheme;
+            button.classList.toggle('active', isActive);
+            button.setAttribute('aria-checked', isActive ? 'true' : 'false');
+        });
+    }
     if (muteToggle) muteToggle.checked = settings.mute;
     if (volumeRange) volumeRange.value = Math.round(settings.volume * 100);
     if (cursorToggle) cursorToggle.checked = settings.cursorEnabled;
@@ -461,7 +470,9 @@ function applySettings() {
     const body = document.body;
     if (!body) return;
 
+    const currentTheme = settings.theme === 'light' ? 'light' : 'dark';
     const useCustomCursor = settings.cursorEnabled && !settings.performanceMode && !window.matchMedia('(pointer: coarse)').matches;
+    body.dataset.theme = currentTheme;
     body.classList.toggle('custom-cursor-enabled', useCustomCursor);
     body.classList.toggle('cursor-disabled', !useCustomCursor);
     body.classList.toggle('reduce-motion', settings.reduceMotion);
@@ -471,16 +482,19 @@ function applySettings() {
     body.classList.toggle('dyslexia-font', settings.dyslexiaFont);
     body.classList.toggle('performance-mode', settings.performanceMode);
 
-    if (settings.reduceMotion || settings.performanceMode) {
-        stopStarfield();
-    } else if (!starIntervalId) {
-        startStarfield();
-    }
-
+    updateThemeMeta(currentTheme);
+    syncStarfieldState();
     applyAudioSettings();
     syncSettingsUI();
     updateMiniMusicPlayerVisibility();
     initScrollReveal(true);
+}
+
+function updateThemeMeta(theme = (settings.theme === 'light' ? 'light' : 'dark')) {
+    const themeColor = document.querySelector('meta[name="theme-color"]');
+    if (themeColor) {
+        themeColor.setAttribute('content', theme === 'light' ? '#f5f5f0' : '#06080e');
+    }
 }
 
 function initSiteNotice() {
@@ -512,6 +526,33 @@ function stopStarfield() {
     if (!starIntervalId) return;
     clearInterval(starIntervalId);
     starIntervalId = null;
+}
+
+function clearStarfield() {
+    const starfield = document.getElementById('starfield');
+    if (!starfield) return;
+    starfield.innerHTML = '';
+    starfield.removeAttribute('data-seeded');
+}
+
+function shouldUseStarfield() {
+    return (settings.theme === 'light' ? 'light' : 'dark') === 'dark'
+        && !settings.reduceMotion
+        && !settings.performanceMode
+        && !document.hidden;
+}
+
+function syncStarfieldState() {
+    if (shouldUseStarfield()) {
+        seedAmbientStars();
+        startStarfield();
+        return;
+    }
+
+    stopStarfield();
+    if ((settings.theme === 'light' ? 'light' : 'dark') !== 'dark') {
+        clearStarfield();
+    }
 }
 
 function seedAmbientStars() {

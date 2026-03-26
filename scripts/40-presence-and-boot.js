@@ -682,7 +682,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     });
 
     cursorsys.init();
-    seedAmbientStars();
+    if (settings.theme !== 'light') {
+        seedAmbientStars();
+    }
     initNameChanger();
     renderProjectsSection();
     initMusicPlayer();
@@ -702,13 +704,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     applySettings();
     initScrollReveal(true);
     document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            stopStarfield();
-            return;
-        }
-        if (!settings.reduceMotion && !settings.performanceMode) {
-            startStarfield();
-        }
+        syncStarfieldState();
     });
 
     // Decode obfuscated email.
@@ -743,6 +739,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Onboarding now starts only after the user explicitly clears the initial loading overlay.
     const muteToggle = document.getElementById('setting-mute');
     const volumeRange = document.getElementById('setting-volume');
+    const themeToggle = document.getElementById('setting-theme');
     const cursorToggle = document.getElementById('setting-cursor');
     const confirmToggle = document.getElementById('setting-confirm-redirects');
     const floatingPlayerToggle = document.getElementById('setting-floating-player');
@@ -776,6 +773,18 @@ document.addEventListener('DOMContentLoaded', async function() {
             settings.cursorEnabled = e.target.checked;
             saveSettings();
             applySettings();
+        });
+    }
+
+    if (themeToggle) {
+        Array.from(themeToggle.querySelectorAll('[data-theme-value]')).forEach((button) => {
+            button.addEventListener('click', () => {
+                const nextTheme = button.getAttribute('data-theme-value') === 'light' ? 'light' : 'dark';
+                if (settings.theme === nextTheme) return;
+                settings.theme = nextTheme;
+                saveSettings();
+                applySettings();
+            });
         });
     }
 
