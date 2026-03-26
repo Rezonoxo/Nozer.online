@@ -448,6 +448,10 @@ const cursorsys = {
 function hideWakeupOverlay(playMusic = true) {
     const overlay = document.getElementById('wakeup-overlay');
     if (overlay && !wakeupOverlayReady) return;
+    if (wakeupOverlayKeyHandler) {
+        document.removeEventListener('keydown', wakeupOverlayKeyHandler);
+        wakeupOverlayKeyHandler = null;
+    }
     if (playMusic && !isMusicPlaying) {
         // Try to start music inside the same user gesture to avoid autoplay blocking.
         startMusicOnWakeup();
@@ -456,6 +460,16 @@ function hideWakeupOverlay(playMusic = true) {
         overlay.classList.add('fade-out');
         setTimeout(() => {
             overlay.remove();
+
+            // First-time onboarding should open after user explicitly clears initial loading overlay.
+            if (!hasSeenWelcomeGuide()) {
+                setTimeout(() => {
+                    if (!activeModalState) {
+                        openWelcomeGuide({ language: 'en' });
+                    }
+                }, 180);
+            }
+
             // Fallback attempt if first start was blocked.
             if (playMusic && !isMusicPlaying) {
                 startMusicOnWakeup();
@@ -505,15 +519,13 @@ function checkIfReadyToWakeup() {
         if (noMusicBtn) {
             noMusicBtn.addEventListener('click', enterWithoutMusic);
         }
-        // add listener once and remove itself after execution to avoid blocking spaces later
-        const keyHandler = (e) => {
+        wakeupOverlayKeyHandler = (e) => {
             if (e.key === ' ' || e.key === 'Enter') {
                 e.preventDefault();
                 hideWakeupOverlay();
-                document.removeEventListener('keydown', keyHandler);
             }
         };
-        document.addEventListener('keydown', keyHandler);
+        document.addEventListener('keydown', wakeupOverlayKeyHandler);
     }
 }
 
@@ -679,6 +691,7 @@ function showpage(page) {
     }
     updateDocumentTitle(page);
     updateMiniMusicPlayerVisibility();
+
     initScrollReveal(true);
     
     // Initialize TOC observer for TOS page

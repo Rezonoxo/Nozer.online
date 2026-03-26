@@ -101,6 +101,7 @@ function renderProjectsSection() {
 
     grid.innerHTML = PROJECTS.map((project) => {
         const tagsHtml = (project.tech || []).slice(0, 4).map((tag) => `<span class="project-tag">${escapeHtml(tag)}</span>`).join('');
+        const bannerStyle = getProjectBannerCss(project);
         const searchBlob = [
             project.title,
             project.subtitle,
@@ -111,7 +112,7 @@ function renderProjectsSection() {
 
         return `
             <article class="project-card project-showcase-card simple-project-card" data-project-id="${escapeHtml(project.id)}" data-project-search="${escapeHtml(searchBlob)}">
-                <div class="project-banner" style="background:${escapeHtml(project.banner)}">
+                <div class="project-banner" style="${escapeHtml(bannerStyle)}">
                     <span class="project-banner-pill">${escapeHtml((project.tech || [])[0] || 'project')}</span>
                 </div>
                 <div class="project-card-body">
@@ -171,8 +172,8 @@ function initAboutSearch() {
         cards.forEach((card) => {
             const title = card.querySelector('h3')?.textContent || '';
             const text = card.querySelector('.about-panel-text')?.textContent || '';
-            const tags = Array.from(card.querySelectorAll('.about-panel-tags span')).map((tag) => tag.textContent || '').join(' ');
-            const searchBlob = `${card.getAttribute('data-about-search') || ''} ${title} ${text} ${tags}`.toLowerCase();
+            const focus = card.querySelector('.about-panel-focus')?.textContent || '';
+            const searchBlob = `${card.getAttribute('data-about-search') || ''} ${title} ${text} ${focus}`.toLowerCase();
             const match = !query || searchBlob.includes(query);
             card.hidden = !match;
             if (match) visibleCount += 1;
@@ -191,6 +192,24 @@ function getProjectById(projectId) {
     return PROJECTS.find((project) => project.id === projectId) || null;
 }
 
+function getProjectBannerCss(project) {
+    const fallbackBanner = project?.banner || 'linear-gradient(135deg, rgba(70, 90, 255, 0.75), rgba(8, 12, 24, 0.94))';
+    const bannerImage = project?.bannerImage;
+    const lightOverlay = 'linear-gradient(180deg, rgba(8, 12, 20, 0.06), rgba(8, 12, 20, 0.22))';
+
+    if (!bannerImage) {
+        return `background:${fallbackBanner};`;
+    }
+
+    return [
+        `background-color:rgb(12, 16, 24)`,
+        `background-image:${lightOverlay}, url("${bannerImage}")`,
+        'background-size:cover',
+        'background-position:center',
+        'background-repeat:no-repeat'
+    ].join(';') + ';';
+}
+
 function renderProjectDetails(project) {
     const bannerEl = document.getElementById('project-modal-banner');
     const titleEl = document.getElementById('project-modal-title');
@@ -202,7 +221,7 @@ function renderProjectDetails(project) {
     const linksEl = document.getElementById('project-modal-links');
     if (!project || !bannerEl || !titleEl || !subtitleEl || !metricsEl || !descriptionEl || !tagsEl || !highlightsEl || !linksEl) return;
 
-    bannerEl.style.background = project.banner || 'linear-gradient(135deg, rgba(70, 90, 255, 0.75), rgba(8, 12, 24, 0.94))';
+    bannerEl.style.cssText = getProjectBannerCss(project);
     titleEl.textContent = project.title || 'Project';
     subtitleEl.textContent = project.subtitle || '';
     descriptionEl.textContent = project.summary || '';
@@ -632,55 +651,55 @@ const WELCOME_GUIDE_CONTENT = {
         },
         steps: [
             {
-                kicker: 'Welcome',
-                title: 'Welcome to the site',
-                lead: 'Everything is designed to feel smooth and intuitive.',
-                stepTitle: 'Let\'s get started',
+                kicker: 'Introduction',
+                title: 'Welcome to the site!',
+                lead: 'Go through the introduction to not get lost.',
+                stepTitle: 'Step 1 of 4',
                 icon: 'fas fa-star',
-                heading: 'Smooth motion. Clear structure.',
-                text: 'This portfolio combines interactive elements with a simple layout that works whether you\'re on desktop or mobile.',
+                heading: 'What is this site?',
+                text: 'You are currently on my personal website ~nozer. Nice to have you here :D Don\'t know each other? Here you can get to know me!',
                 points: [
-                    { title: 'Built for everyone', text: 'International design with English content and full mobile support.' },
-                    { title: 'Explore at your pace', text: 'No pressure, no guessing needed. Everything is where you\'d expect.' }
+                    { title: 'Portfolio', text: 'Browse my completed and started projects and check what I\'m capable of.' },
+                    { title: 'Contact', text: 'Here you will find several options to contact me, as well as links to my social media.' }
                 ]
             },
             {
                 kicker: 'Navigation',
-                title: 'Five main sections',
-                lead: 'All key content grouped into clear areas.',
-                stepTitle: 'How to move around',
+                title: 'How to navigate the site',
+                lead: 'Learn how to use and navigate the site so you don\'t get lost ^^',
+                stepTitle: 'Navigation bar',
                 icon: 'fas fa-compass',
-                heading: 'Top nav on desktop, bottom nav on mobile',
-                text: 'Home shows everything at a glance. Projects and Contact are the quickest paths to see work and get in touch.',
+                heading: 'Using a computer? Using a mobile device?',
+                text: 'At the top of the page you will find a navigation bar with buttons to different tabs of the site. On mobile, you will find the navigation bar at the bottom of the page!',
                 points: [
-                    { title: 'Home', text: 'Live status, activity, and quick overview—start here for context.' },
-                    { title: 'Anywhere works', text: 'Jump to Projects, About, Skills, or Contact depending on what you want to see.' }
+                    { title: 'Keyboard shortcuts', text: 'Move around the site more easily using shortcuts! On the computer, by default these are the number keys from 1 to 5.' },
+                    { title: 'Safe links', text: '"Oh buttons! *click* Oops." Don\'t worry about accidentally leaving the site, by default you will see a confirmation to leave the site via a link.' }
                 ]
             },
             {
-                kicker: 'Interactive',
-                title: 'Some elements respond to clicks',
-                lead: 'Cards, toggles, and settings make the experience yours.',
-                stepTitle: 'Nice-to-know features',
+                kicker: 'Personalization',
+                title: 'Customize the site to your needs',
+                lead: 'I have taken care of the convenience of use for every person. Check accessibility features!',
+                stepTitle: 'Configure settings',
                 icon: 'fas fa-sliders',
-                heading: 'Lightweight interactions enhance the experience',
-                text: 'Favorites organize by category. The music player floats with you. Settings let you adjust motion, text, and contrast.',
+                heading: 'Click the settings button to open the menu',
+                text: 'Customize it according to your own preferences or needs.',
                 points: [
-                    { title: 'Settings icon', text: 'Control visuals, motion, text size, and audio—personalize your experience.' },
-                    { title: 'Music + widgets', text: 'Optional extras. You can ignore them and still navigate everything easily.' }
+                    { title: 'Change keyboard shortcuts', text: 'Do the current shortcuts bother you? Change them or remove them by going to the shortcuts tab in settings!' },
+                    { title: 'Music controller', text: 'There\'s even a DJ on the site! Well, almost, because there\'s a music box here that will be attached to your screen unless you hide it. The main controller is also in the Home section.' }
                 ]
             },
             {
-                kicker: 'Ready',
-                title: 'You\'re all set',
-                lead: 'This guide runs once. You can open it again from Settings anytime.',
-                stepTitle: 'Final advice',
+                kicker: 'Dismissal',
+                title: 'Almost ready!',
+                lead: 'Congratulations, you know the theory! Now we can move to the real site.',
+                stepTitle: 'We can explore',
                 icon: 'fas fa-rocket',
-                heading: 'Start with Home or Projects',
-                text: 'Take your time exploring. Every section is designed to be clear and easy to understand.',
+                heading: 'Take time to explore all sections',
+                text: 'Familiarize yourself with their content to get to know me!',
                 points: [
-                    { title: 'Explore freely', text: 'No rushing. Move through sections at your own speed.' },
-                    { title: 'Come back anytime', text: 'Find this guide again in Settings. It remembers you\'ve seen it.' }
+                    { title: 'There\'s still a show ahead of you', text: 'The assistant will now show you the Spotlight tutorial which will visually show you the elements of the site.' },
+                    { title: 'Come back when you want', text: 'If necessary, you can run this guide again in settings.' }
                 ]
             }
         ]
@@ -694,55 +713,55 @@ const WELCOME_GUIDE_CONTENT = {
         },
         steps: [
             {
-                kicker: 'Witaj',
-                title: 'Witaj na stronie',
-                lead: 'Wszystko jest zaprojektowane, by było gładkie i intuicyjne.',
-                stepTitle: 'Zaczynamy',
+                kicker: 'Wprowadzenie',
+                title: 'Witaj na stronie!',
+                lead: 'Przejdź przez wprowadzenie aby się nie pogubić.',
+                stepTitle: 'krok 1 z 4',
                 icon: 'fas fa-star',
-                heading: 'Płynne animacje. Jasna struktura.',
-                text: 'Portfolio łączy interaktywne elementy z prostym layoutem, który sprawdza się zarówno na komputerze jak i telefonie.',
+                heading: 'Co to za strona?',
+                text: 'Znajdujesz się obecnie na mojej stronie osobistej ~nozer. Miło mi cię tu gościć :D Nie znamy się? Tu możesz mnie poznać!',
                 points: [
-                    { title: 'Dla każdego', text: 'Międzynarodowy design, zawartość w angielskim i pełne wsparcie dla mobile.' },
-                    { title: 'Zwiedzaj w swoim tempie', text: 'Bez presji, nic do zgadywania. Wszystko tam, gdzie się spodziewasz.' }
+                    { title: 'Portfolio', text: 'Przejrzyj moje skończone i rozpoczęte projekty i sprawdź do czego jestem zdolny.' },
+                    { title: 'Skontaktuj się', text: 'Znajdziesz tutaj kilka opcji do kontaktu ze mną, a także odnośniki do moich social mediów.' }
                 ]
             },
             {
                 kicker: 'Nawigacja',
-                title: 'Pięć głównych sekcji',
-                lead: 'Cała ważna treść pogrupowana w jasne obszary.',
-                stepTitle: 'Jak się poruszać',
+                title: 'Jak poruszać się na stronie',
+                lead: 'Naucz się obsługi i nawigacji po stronie żeby się nie zgubić ^^',
+                stepTitle: 'Pasek nawigacji',
                 icon: 'fas fa-compass',
-                heading: 'Menu u góry na komputerze, u dołu na telefonie',
-                text: 'Home pokazuje wszystko na pierwszy rzut oka. Projects i Contact to najszybszych dostęp do prac i kontaktu.',
+                heading: 'korzystasz z komputera? Korzystasz z urządzenia mobilnego?',
+                text: 'Na górze strony znajdziesz pasek nawigacyjny z przyciskami do różnych zakładek strony. Pasek nawigacji znajdziesz na dole strony!',
                 points: [
-                    { title: 'Home', text: 'Status, aktywność i szybki przegląd—tu można zacząć dla kontekstu.' },
-                    { title: 'Skok wszędzie możliwy', text: 'Idź prosto do Projects, About, Skills lub Contact, zależnie od tego co cię interesuje.' }
+                    { title: 'Skróty klawiszowe', text: 'poruszaj się łatwiej po stronie korzystając ze skrótów! Na komputerze domyślnie są to numery klawiszy od 1 do 5.' },
+                    { title: 'Bezpieczne odnośniki', text: '"Oo przyciski! *klik* Ojć." nie martw się o przypadkowe opuszczenie strony, domyślnie wyświetli Ci się potwierdzenie opuszczenia strony przez odnośnik.' }
                 ]
             },
             {
-                kicker: 'Interakcje',
-                title: 'Niektóre elementy reagują na kliknięcia',
-                lead: 'Karty, przyciski i ustawienia tworzą doświadczenie na Twoją miarę.',
-                stepTitle: 'Warto wiedzieć',
+                kicker: 'Personalizacja',
+                title: 'Dostosuj stronę do swoich potrzeb',
+                lead: 'Zadbałem o wygodę korzystania dla każdej osoby. Sprawdź ułatwienia dostępu!',
+                stepTitle: 'Skonfiguruj ustawienia',
                 icon: 'fas fa-sliders',
-                heading: 'Lekkie interakcje ulepszają doświadczenie',
-                text: 'Ulubione organizują się po kategoriach. Odtwarzacz muzyki towarzyszy Ci wszędzie. Ustawienia pozwalają zmienić ruch, tekst i kontrast.',
+                heading: 'Kliknij przycisk ustawień aby otworzyć menu',
+                text: 'i dostosuj go według własnych upodobań lub potrzeb.',
                 points: [
-                    { title: 'Ikona ustawień', text: 'Kontroluj wygląd, animacje, rozmiar tekstu i dźwięk—dostosuj doświadczenie do siebie.' },
-                    { title: 'Muzyka + widgety', text: 'Dodatki. Możesz je ignorować i bez problemu nawigować wszędzie.' }
+                    { title: 'Zmień skróty klawiszowe', text: 'Obecne skróty Ci przeszkadzają? Zmień je lub usuń przechodząc do zakładki shortcuts w ustawieniach!' },
+                    { title: 'Kontroler muzyczny', text: 'Na stronie jest nawet DJ! no prawie, bo jest tu music box który będzie doczepiony do twojego ekranu no chyba że go ukryjesz. Główny kontroler znajduje się tez w sekcji Home.' }
                 ]
             },
             {
-                kicker: 'Gotowe',
-                title: 'Wszystko gotowe',
-                lead: 'Ten przewodnik wyświetla się raz. Możesz go otworzyć ponownie z Ustawień kiedy chcesz.',
-                stepTitle: 'Ostatnia rada',
+                kicker: 'Odprawa',
+                title: 'Już prawie gotowe!',
+                lead: 'Gratuluje znasz już teorię! Teraz możemy przejść do realnej strony.',
+                stepTitle: 'Możemy zwiedzać',
                 icon: 'fas fa-rocket',
-                heading: 'Zacznij od Home lub Projects',
-                text: 'Poświęć czas na eksplorację. Każda sekcja jest jasna i łatwa do zrozumienia.',
+                heading: 'Poświęć czas na eksploracje wszystkich sekcji',
+                text: 'i zapoznaj się z ich zawartością aby mnie poznać!',
                 points: [
-                    { title: 'Zwiedzaj swobodnie', text: 'Bez pośpiechu. Przechodzę przez sekcje w swoim tempie.' },
-                    { title: 'Wróć kiedy chcesz', text: 'Znajdziesz ten przewodnik w Ustawieniach. Pamiętam, że go widziałeś.' }
+                    { title: 'Przed tobą jeszcze pokaz', text: 'Asystent pokaże Ci teraz Spotlight tutorial który wizualnie pokaże Ci elementy strony.' },
+                    { title: 'Wróć kiedy chcesz', text: 'W razie potrzeby uruchomisz ten przewodnik ponownie w ustawieniach.' }
                 ]
             }
         ]
@@ -859,35 +878,51 @@ function getWelcomeTourSteps() {
         {
             target: ['.fixed-nav .nav-links', '.mobile-bottom-nav'],
             kicker: welcomeGuideLanguage === 'pl' ? 'Nawigacja' : 'Navigation',
-            title: welcomeGuideLanguage === 'pl' ? 'Tutaj poruszasz się po stronie' : 'This is how you move around the site',
+            title: welcomeGuideLanguage === 'pl' ? 'Jak poruszać się na stronie' : 'How to navigate the site',
             text: welcomeGuideLanguage === 'pl'
-                ? 'Te przyciski prowadzą do głównych sekcji. Na telefonie masz ten sam układ w dolnym pasku.'
-                : 'These buttons move you between the main sections. On mobile, the same logic lives in the bottom bar.'
+                ? 'Naucz się obsługi i nawigacji po stronie żeby się nie zgubić ^^ Pasek nawigacji. korzystasz z komputera? Na górze strony znajdziesz pasek nawigacyjny z przyciskami do różnych zakładek strony. Korzystasz z urządzenia mobilnego? Pasek nawigacji znajdziesz na dole strony!'
+                : 'Learn how to use and navigate the site so you don\'t get lost ^^ Navigation bar. Using a computer? At the top of the page you will find a navigation bar with buttons to different tabs of the site. Using a mobile device? You will find the navigation bar at the bottom of the page!'
         },
         {
             target: ['#favorites-card'],
-            kicker: welcomeGuideLanguage === 'pl' ? 'Interakcje' : 'Interactive section',
-            title: welcomeGuideLanguage === 'pl' ? 'Tutaj możesz przełączać ulubione kategorie' : 'Here you can switch favorite categories',
+            kicker: welcomeGuideLanguage === 'pl' ? 'Personalizacja' : 'Personalization',
+            title: welcomeGuideLanguage === 'pl' ? 'Dostosuj stronę do swoich potrzeb' : 'Customize the site to your needs',
             text: welcomeGuideLanguage === 'pl'
-                ? 'Favorites to szybka, bardziej osobista sekcja. Możesz przełączać zakładki i zwijać cały blok.'
-                : 'Favorites is a quick, more personal section. You can switch tabs and collapse the whole block.'
+                ? 'Zadbałem o wygodę korzystania dla każdej osoby. Sprawdź ułatwienia dostępu! Skonfiguruj ustawienia. Kliknij przycisk ustawień aby otworzyć menu i dostosuj go według własnych upodobań lub potrzeb. Zmień skróty klawiszowe. Obecne skróty Ci przeszkadzają? Zmień je lub usuń przechodząc do zakładki shortcuts w ustawieniach!'
+                : 'I have taken care of the convenience of use for every person. Check accessibility features! Configure settings. Click the settings button to open the menu and customize it according to your own preferences or needs. Change keyboard shortcuts. Do the current shortcuts bother you? Change them or remove them by going to the shortcuts tab in settings!'
         },
         {
             target: ['#settings-toggle'],
-            kicker: welcomeGuideLanguage === 'pl' ? 'Ustawienia' : 'Settings',
-            title: welcomeGuideLanguage === 'pl' ? 'Tu dopasujesz stronę do siebie' : 'This is where you can tune the experience',
+            kicker: welcomeGuideLanguage === 'pl' ? 'Odprawa' : 'Dismissal',
+            title: welcomeGuideLanguage === 'pl' ? 'Już prawie gotowe!' : 'Almost ready!',
             text: welcomeGuideLanguage === 'pl'
-                ? 'Jeśli chcesz zmienić ruch, rozmiar tekstu, kontrast albo ponownie otworzyć przewodnik, zajrzyj właśnie tutaj.'
-                : 'If you want to adjust motion, text size, contrast, or reopen the guide later, this is the place.'
+                ? 'Gratuluje znasz już teorię! Teraz możemy przejść do realnej strony. Możemy zwiedzać. Poświęć czas na eksploracje wszystkich sekcji i zapoznaj się z ich zawartością aby mnie poznać! Przed tobą jeszcze pokaz. Asystent pokaże Ci teraz Spotlight tutorial który wizualnie pokaże Ci elementy strony. Wróć kiedy chcesz. W razie potrzeby uruchomisz ten przewodnik ponownie w ustawieniach.'
+                : 'Congratulations, you know the theory! Now we can move to the real site. We can explore. Take time to explore all sections and familiarize yourself with their content to get to know me! There\'s still a show ahead of you. The assistant will now show you the Spotlight tutorial which will visually show you the elements of the site. Come back when you want. If necessary, you can run this guide again in settings.'
         }
     ];
+}
+
+function isElementVisible(element) {
+    if (!(element instanceof HTMLElement)) return false;
+    const style = window.getComputedStyle(element);
+    if (style.display === 'none' || style.visibility === 'hidden' || parseFloat(style.opacity) === 0) {
+        return false;
+    }
+    const rect = element.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) {
+        return false;
+    }
+    if (element.offsetParent === null && style.position !== 'fixed' && style.position !== 'sticky') {
+        return false;
+    }
+    return true;
 }
 
 function getWelcomeTourTarget(step) {
     const selectors = Array.isArray(step?.target) ? step.target : [];
     for (const selector of selectors) {
         const element = document.querySelector(selector);
-        if (element instanceof HTMLElement && !element.hidden) {
+        if (isElementVisible(element)) {
             return element;
         }
     }
@@ -983,6 +1018,7 @@ function closeWelcomeTour() {
     const overlay = document.getElementById('welcome-tour-overlay');
     if (overlay) deactivateModal(overlay);
     document.body.classList.remove('onboarding-open');
+    document.body.classList.remove('tour-music-step');
 }
 
 function nextWelcomeTourStep() {
@@ -1055,17 +1091,21 @@ function clearWelcomeTourForcedTargets() {
 
 function prepareWelcomeTourStep(step) {
     clearWelcomeTourForcedTargets();
+    document.body.classList.remove('tour-music-step');
 
     if (step?.page && currentpage !== step.page) {
         showpage(step.page);
     }
 
     if (step?.id === 'music-box') {
+        document.body.classList.add('tour-music-step');
         miniPlayerDismissed = false;
         const miniPlayer = document.getElementById('mini-music-player');
         if (miniPlayer) {
             miniPlayer.classList.add('tour-force-visible');
         }
+        updateMiniMusicPlayerVisibility();
+    } else {
         updateMiniMusicPlayerVisibility();
     }
 }
@@ -1087,7 +1127,7 @@ function getWelcomeTourSteps() {
             page: 'home',
             target: ['#discord-profile-card'],
             kicker: welcomeGuideLanguage === 'pl' ? 'Home' : 'Home',
-            title: welcomeGuideLanguage === 'pl' ? 'Sprawdź co aktualnie słychać' : 'Check what\'s currently happening',
+            title: welcomeGuideLanguage === 'pl' ? 'Sprawdź co u mnie słychać' : 'Check what I\'m currently doing',
             text: welcomeGuideLanguage === 'pl'
                 ? 'Podgląd mojego profilu Discord na żywo. Tu widzisz mój status, aktywność i co aktualnie robię.'
                 : 'Live preview of my Discord profile. See my status, activity, and what I\'m currently up to.'
@@ -1096,20 +1136,20 @@ function getWelcomeTourSteps() {
             id: 'music-box',
             page: 'projects',
             target: ['#mini-music-player.tour-force-visible', '#mini-music-player.visible', '#mini-music-player'],
-            kicker: welcomeGuideLanguage === 'pl' ? 'Muzyka' : 'Music player',
+            kicker: welcomeGuideLanguage === 'pl' ? 'Kontroler muzyczny' : 'Music controller',
             title: welcomeGuideLanguage === 'pl' ? 'Steruj muzyką w każdym momencie' : 'Control the music anytime',
             text: welcomeGuideLanguage === 'pl'
-                ? 'Odtwarzacz muzyki na stronie. Play, pause, skip—bez przerywania przeglądania.'
-                : 'Control the site\'s music playback. Play, pause, skip—all while you browse.'
+                ? 'Music Controller będzie doczepiony do twojego ekranu no chyba że go ukryjesz. Główny kontroler znajduje się tez w sekcji Home.'
+                : 'The Music Controller will be attached to your screen unless you hide it. The main controller is also in the Home section.'
         },
         {
             id: 'about',
             page: 'about',
             target: ['#about .about-shell'],
             kicker: welcomeGuideLanguage === 'pl' ? 'About' : 'About',
-            title: welcomeGuideLanguage === 'pl' ? 'Poznaj kim jestem' : 'Learn who I am',
+            title: welcomeGuideLanguage === 'pl' ? 'Dowiedz się kim jestem' : 'Learn who I am',
             text: welcomeGuideLanguage === 'pl'
-                ? 'Moja historia, co robię, moje podejście do pracy. Wszystko co musisz wiedzieć ode mnie.'
+                ? 'Moja historia, co robię, moje podejście do pracy. Wszystko co musisz wiedzieć o mnie.'
                 : 'My story, what I do, my work approach. Everything you need to know about me.'
         },
         {
@@ -1117,20 +1157,20 @@ function getWelcomeTourSteps() {
             page: 'projects',
             target: ['#projects-grid .project-card', '#projects-grid'],
             kicker: welcomeGuideLanguage === 'pl' ? 'Projects' : 'Projects',
-            title: welcomeGuideLanguage === 'pl' ? 'Przeglądaj wykonane prace' : 'Browse actual work',
+            title: welcomeGuideLanguage === 'pl' ? 'Przeglądaj moje prace' : 'Browse my work',
             text: welcomeGuideLanguage === 'pl'
-                ? 'Każda karta to projekt. Kliknij by zobaczyć tech stack, opis i najlepsze momenty.'
-                : 'Each card is a project with tech stack, detailed explanation, and highlights.'
+                ? 'Każda karta to projekt. Kliknij by zobaczyć szczegóły, opis i strukturę projektów.'
+                : 'Each card is a project with details, description, and project structure.'
         },
         {
             id: 'skills',
             page: 'skills',
             target: ['#skills .skills-shell'],
             kicker: welcomeGuideLanguage === 'pl' ? 'Skills' : 'Skills',
-            title: welcomeGuideLanguage === 'pl' ? 'Moje umiejętności i narzędzia' : 'My languages and tools',
+            title: welcomeGuideLanguage === 'pl' ? 'Moje umiejętności i narzędzia których używam' : 'My languages and tools I use',
             text: welcomeGuideLanguage === 'pl'
-                ? 'Języki programowania, narzędzia development, creativne programy. Wszystko posortowane i przeszukiwalne.'
-                : 'Programming languages, development tools, creative software. All organized and searchable.'
+                ? 'Języki programowania, narzędzia, programy.'
+                : 'Programming languages, tools, software.'
         },
         {
             id: 'contact',
@@ -1139,18 +1179,18 @@ function getWelcomeTourSteps() {
             kicker: welcomeGuideLanguage === 'pl' ? 'Contact' : 'Contact',
             title: welcomeGuideLanguage === 'pl' ? 'Jak się skontaktować' : 'Get in touch',
             text: welcomeGuideLanguage === 'pl'
-                ? 'Email, LinkedIn, GitHub i inne kanały. Wszystko na jednej stronie.'
-                : 'Email, social profiles, and direct links. Everything in one place.'
+                ? 'Znajdziesz tutaj kilka opcji do kontaktu ze mną, a także odnośniki do moich social mediów.'
+                : 'Here you will find several options to contact me, as well as links to my social media.'
         },
         {
             id: 'settings',
             page: 'contact',
             target: ['#settings-toggle'],
-            kicker: welcomeGuideLanguage === 'pl' ? 'Ustawienia' : 'Settings',
-            title: welcomeGuideLanguage === 'pl' ? 'Personalizacja strony' : 'Customize your experience',
+            kicker: welcomeGuideLanguage === 'pl' ? 'Personalizacja' : 'Personalization',
+            title: welcomeGuideLanguage === 'pl' ? 'Dostosuj stronę do swoich potrzeb' : 'Customize the site to your needs',
             text: welcomeGuideLanguage === 'pl'
-                ? 'Ruch, tekst, kontrast, muzyka. Znowu otwórz ten przewodnik w razie potrzeby.'
-                : 'Adjust motion, text, contrast, music, and reopen this guide anytime.'
+                ? 'Otwórz ustawienia i dostosuj stronę do swoich potrzeb.'
+                : 'Open settings and customize the site to your needs.'
         }
     ];
 }
@@ -1159,7 +1199,7 @@ function getWelcomeTourTarget(step) {
     const selectors = Array.isArray(step?.target) ? step.target : [];
     for (const selector of selectors) {
         const element = document.querySelector(selector);
-        if (element instanceof HTMLElement && !element.hidden) {
+        if (isElementVisible(element)) {
             return element;
         }
     }
@@ -1475,5 +1515,3 @@ function confirmExternalRedirect() {
         window.location.href = url;
     }
 }
-
-

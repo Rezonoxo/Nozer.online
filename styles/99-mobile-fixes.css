@@ -28,6 +28,7 @@
 #about .about-shell {
     grid-template-columns: 1fr;
     gap: 18px;
+    scroll-margin-top: 110px;
 }
 
 #projects .projects-grid {

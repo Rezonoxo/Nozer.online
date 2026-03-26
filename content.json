@@ -246,69 +246,100 @@
   },
   "projects": [
     {
-      "id": "project-template-1",
-      "title": "Project Title One",
-      "subtitle": "Short one-line summary of the project",
-      "summary": "Replace this text with a clear description of what the project does, who it is for, and what makes it worth showing in the portfolio.",
-      "banner": "linear-gradient(135deg, rgba(255, 120, 92, 0.84), rgba(122, 46, 28, 0.9) 50%, rgba(20, 11, 8, 0.96))",
+      "id": "nozertools",
+      "title": "NozerTools",
+      "subtitle": "Mini apps hub",
+      "summary": "NozerTools is a free platform packed with practical online tools for productivity, self-care, and creativity. It is designed to give people fast, intuitive solutions in one place while keeping everything private and local to the device.",
+      "bannerImage": "icons/projects/nozertoolsbaner.jpg",
+      "banner": "linear-gradient(135deg, rgba(106, 62, 47, 0.7), rgba(76, 44, 35, 0.88) 45%, rgba(41, 24, 20, 0.96)), radial-gradient(circle at 50% 34%, rgba(255, 241, 238, 0.18), transparent 20%), radial-gradient(circle at 50% 64%, rgba(255, 244, 241, 0.16), transparent 12%), linear-gradient(180deg, rgba(67, 40, 33, 0.92), rgba(42, 24, 20, 0.98))",
       "metrics": [
-        { "label": "Status", "value": "template" },
-        { "label": "Role", "value": "your role" },
-        { "label": "Category", "value": "project type" }
+        { "label": "Status", "value": "In development" },
+        { "label": "Role", "value": "Creator" },
+        { "label": "Time", "value": "2024-now" }
       ],
       "tech": ["HTML", "CSS", "JavaScript"],
       "highlights": [
-        "Add the first strong selling point here",
-        "Add the second standout detail here",
-        "Add the third reason this project matters"
+        "Multiple practical apps gathered in one place",
+        "Built to support productivity, self-care, and creative workflows",
+        "Fast and easy to use without unnecessary friction",
+        "No data collection - everything stays in local storage"
       ],
       "links": [
-        { "label": "Website", "url": null },
-        { "label": "Source", "url": null }
+        { "label": "Open site", "url": "https://nozertools.nozer.site/" },
+        { "label": "GitHub repository", "url": "https://github.com/rezonoxo/nozertools" }
       ]
     },
     {
-      "id": "project-template-2",
-      "title": "Project Title Two",
-      "subtitle": "Another short subtitle for the card",
-      "summary": "Use this second template for another project idea, product concept, client work, or tool you want to feature later.",
-      "banner": "linear-gradient(135deg, rgba(80, 184, 255, 0.84), rgba(18, 64, 108, 0.9) 50%, rgba(6, 14, 24, 0.96))",
+      "id": "non-stop-fm-radio",
+      "title": "Non Stop FM Radio",
+      "subtitle": "Los Santos live radio 24/7",
+      "summary": "This fan-made radio website is inspired by Non Stop Pop FM from Grand Theft Auto V. It lets visitors listen to a live-style broadcast, check the currently playing song, and jump directly to selected tracks through a sleek custom interface.",
+      "bannerImage": "icons/projects/gtavradiobaner.jpg",
+      "banner": "linear-gradient(135deg, rgba(79, 44, 63, 0.36), rgba(24, 18, 38, 0.7) 38%, rgba(15, 14, 30, 0.9) 100%), linear-gradient(180deg, rgba(255, 139, 87, 0.32) 0%, rgba(131, 78, 118, 0.08) 34%, rgba(10, 10, 24, 0.9) 100%)",
       "metrics": [
-        { "label": "Status", "value": "template" },
-        { "label": "Role", "value": "your role" },
-        { "label": "Category", "value": "project type" }
+        { "label": "Status", "value": "Completed" },
+        { "label": "Role", "value": "Solo project" },
+        { "label": "Time", "value": "Built in 1 month" }
       ],
-      "tech": ["Framework", "API", "Tooling"],
+      "tech": ["HTML", "CSS", "JavaScript"],
       "highlights": [
-        "Describe one important feature or result",
-        "Describe one visual or technical strength",
-        "Describe one user or business benefit"
+        "High-quality audio playback with a focused custom player",
+        "24/7 radio concept inspired by the GTA V station experience",
+        "Shows current tracks and supports manual song selection",
+        "Designed as a polished tribute project for fans of the original station"
       ],
       "links": [
-        { "label": "Website", "url": null },
-        { "label": "Source", "url": null }
+        { "label": "Open site", "url": "https://rezonoxo.github.io/non-stop-fm/" },
+        { "label": "GitHub repository", "url": "https://github.com/Rezonoxo/non-stop-fm" }
       ]
     },
     {
-      "id": "project-template-3",
-      "title": "Project Title Three",
-      "subtitle": "Template card ready for future content",
-      "summary": "Keep this as a spare entry for a future project, experimental build, bot, website, storefront, or design case study.",
-      "banner": "linear-gradient(135deg, rgba(119, 96, 255, 0.84), rgba(46, 29, 110, 0.9) 50%, rgba(10, 10, 24, 0.96))",
+      "id": "poko",
+      "title": "Poko",
+      "subtitle": "Budget & Finance App",
+      "summary": "Poko helps users track income, split expenses by category, manage debts, and work toward savings goals without creating an account. The app combines practical budgeting tools with clean charts, gamification, and AI-powered coaching for a more engaging finance experience.",
+      "bannerImage": "icons/projects/pokobaner.jpg",
+      "banner": "linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(245, 245, 247, 0.96) 48%, rgba(224, 224, 228, 0.98) 100%), radial-gradient(circle at 67% 30%, rgba(0, 0, 0, 0.92), transparent 12%), radial-gradient(circle at 67% 30%, rgba(255, 255, 255, 0.88), transparent 20%), linear-gradient(180deg, rgba(255, 64, 64, 0.16), rgba(255, 255, 255, 0) 35%)",
       "metrics": [
-        { "label": "Status", "value": "template" },
-        { "label": "Role", "value": "your role" },
-        { "label": "Category", "value": "project type" }
+        { "label": "Status", "value": "In development" },
+        { "label": "Role", "value": "Creator" },
+        { "label": "Time", "value": "In development for 2 months" }
       ],
-      "tech": ["Design", "Frontend", "Backend"],
+      "tech": ["React", "Recharts", "Claude AI", "HTML", "CSS", "JavaScript"],
       "highlights": [
-        "Replace with a real capability or outcome",
-        "Replace with a concrete implementation detail",
-        "Replace with a reason to click the project"
+        "Budget tracking, debt management, and savings goals in one app",
+        "Gamification system with XP, levels, and unlockable badges",
+        "Claude AI budget coach that delivers practical personalised tips",
+        "Free to use, no account required, and privacy-focused by design"
       ],
       "links": [
-        { "label": "Website", "url": null },
-        { "label": "Source", "url": null }
+        { "label": "Open site", "url": "https://rezonoxo.github.io/Poko/" },
+        { "label": "GitHub repository", "url": "https://github.com/Rezonoxo/Poko" }
+      ]
+    },
+    {
+      "id": "heaven-community-roblox",
+      "title": "Heaven Community Roblox",
+      "subtitle": "My Roblox group with products and games",
+      "summary": "Heaven Community Roblox is an active Roblox brand where I create and sell solutions for both developers and regular players. The group focuses on games, scripts, clothing, and other Roblox assets designed to balance quality, originality, and accessible pricing.",
+      "bannerImage": "icons/projects/hcrbaner.jpg",
+      "banner": "linear-gradient(135deg, rgba(89, 16, 45, 0.5), rgba(66, 12, 38, 0.78) 42%, rgba(24, 10, 22, 0.94) 100%), repeating-linear-gradient(120deg, rgba(255, 255, 255, 0.04) 0 38px, rgba(0, 0, 0, 0) 38px 76px), radial-gradient(circle at 50% 26%, rgba(255, 255, 255, 0.12), transparent 20%)",
+      "metrics": [
+        { "label": "Status", "value": "Active" },
+        { "label": "Role", "value": "Owner" },
+        { "label": "Time", "value": "Since 2026" }
+      ],
+      "tech": ["Lua", "Design", "Parcel"],
+      "highlights": [
+        "Original Roblox products built for developers and players",
+        "Custom services alongside ready-to-use assets and creations",
+        "Strong quality-to-price balance across the offer",
+        "Ongoing community brand with products, games, and social presence"
+      ],
+      "links": [
+        { "label": "Roblox group", "url": "https://www.roblox.com/communities/369646540/" },
+        { "label": "Discord server", "url": "https://discord.gg/MWM3MrBcP3" },
+        { "label": "TikTok", "url": "https://www.tiktok.com/@heavencommunityroblox" }
       ]
     }
   ],

@@ -740,14 +740,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     });
 
-    if (!hasSeenWelcomeGuide()) {
-        setTimeout(() => {
-            if (!activeModalState) {
-                openWelcomeGuide({ language: 'en' });
-            }
-        }, 280);
-    }
-
+    // Onboarding now starts only after the user explicitly clears the initial loading overlay.
     const muteToggle = document.getElementById('setting-mute');
     const volumeRange = document.getElementById('setting-volume');
     const cursorToggle = document.getElementById('setting-cursor');

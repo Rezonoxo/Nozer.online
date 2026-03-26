@@ -8,6 +8,7 @@ let musicFadeFrame = null;
 let activeSettingsCategory = 'sound';
 let nameTypewriterTimeout = null;
 let wakeupOverlayReady = false;
+let wakeupOverlayKeyHandler = null;
 let revealObserver = null;
 let deferredHomeWidgetsReady = false;
 let deferredPresenceReady = false;
