@@ -499,6 +499,25 @@ function initMiniMusicPlayerDrag() {
     let inertiaFrame = null;
     let snapGhostEl = null;
     let nearestDock = null;
+    let snapClassTimeout = null;
+
+    const clearSnapAnimation = () => {
+        if (snapClassTimeout) {
+            clearTimeout(snapClassTimeout);
+            snapClassTimeout = null;
+        }
+        miniPlayer.classList.remove('snapping');
+    };
+
+    const animateSnap = () => {
+        clearSnapAnimation();
+        if (settings.reduceMotion || settings.performanceMode) return;
+        miniPlayer.classList.add('snapping');
+        snapClassTimeout = setTimeout(() => {
+            miniPlayer.classList.remove('snapping');
+            snapClassTimeout = null;
+        }, 260);
+    };
 
     const getDockPoints = (width, height) => {
         const margin = 10;
@@ -578,6 +597,7 @@ function initMiniMusicPlayerDrag() {
         const distance = Math.hypot(currentCenterX - dockCenterX, currentCenterY - dockCenterY);
         // slightly larger threshold so the player snaps more eagerly
         if (distance > 120) return false;
+        animateSnap();
         miniPlayer.style.left = `${Math.round(nearestDock.x)}px`;
         miniPlayer.style.top = `${Math.round(nearestDock.y)}px`;
         miniPlayer.style.right = 'auto';
@@ -606,6 +626,7 @@ function initMiniMusicPlayerDrag() {
             }
         });
 
+        animateSnap();
         miniPlayer.style.left = `${Math.round(closest.x)}px`;
         miniPlayer.style.top = `${Math.round(closest.y)}px`;
         miniPlayer.style.right = 'auto';
@@ -719,6 +740,7 @@ function initMiniMusicPlayerDrag() {
 
         event.preventDefault();
         stopInertia();
+        clearSnapAnimation();
         isDragging = true;
         const rect = miniPlayer.getBoundingClientRect();
         offsetX = event.clientX - rect.left;

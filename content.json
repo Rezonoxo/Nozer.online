@@ -13,7 +13,7 @@
     }
   },
   "weather": {
-    "locationLabel": "Rzeszow",
+    "locationLabel": "My local weather",
     "subtitle": "3-day forecast"
   },
   "names": [
@@ -403,6 +403,12 @@
       "artist": "Poshlaya Molly",
       "file": "audio/Strip Club.ogg",
       "image": "icons/Strip Club.jpg"
+    },
+    {
+      "name": "Дом Периньон",
+      "artist": "Poshlaya Molly, Eldzhey",
+      "file": "audio/Дом Периньон.ogg",
+      "image": "icons/Дом Периньон.jpeg"
     }
   ],
   "workStatus": {

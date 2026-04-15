@@ -3941,8 +3941,8 @@ body[data-theme="light"] {
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background: rgba(2, 4, 10, 0.78);
-    backdrop-filter: blur(22px);
+    background: rgba(2, 4, 10, 0.72);
+    backdrop-filter: blur(10px);
     z-index: 10002;
     opacity: 0;
     transition: opacity 0.25s ease;
@@ -3962,7 +3962,7 @@ body[data-theme="light"] {
     border-radius: 28px;
     background: linear-gradient(180deg, rgba(9, 12, 20, 0.98), rgba(6, 8, 16, 0.98));
     border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 34px 90px rgba(0, 0, 0, 0.52);
+    box-shadow: 0 28px 72px rgba(0, 0, 0, 0.44);
 }
 
 .project-modal-banner {
@@ -4050,6 +4050,7 @@ body[data-theme="light"] {
     color: var(--text-secondary);
     font-size: 15px;
     line-height: 1.8;
+    margin: 0;
 }
 
 .project-modal-metrics {
@@ -4077,6 +4078,7 @@ body[data-theme="light"] {
 
 .project-modal-metric strong {
     font-size: 15px;
+    line-height: 1.35;
 }
 
 .project-modal-section {
@@ -4104,15 +4106,20 @@ body[data-theme="light"] {
 .project-modal-highlights {
     display: grid;
     gap: 10px;
+    gap: 10px;
 }
 
 .project-modal-highlight {
     display: flex;
     align-items: flex-start;
     gap: 10px;
+    padding: 0;
+    border-radius: 0;
     color: var(--text-secondary);
     font-size: 14px;
     line-height: 1.6;
+    background: transparent;
+    border: 0;
 }
 
 .project-modal-highlight i {
@@ -4124,7 +4131,8 @@ body[data-theme="light"] {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    min-width: 180px;
+    min-width: 0;
+    width: 100%;
     justify-content: space-between;
     padding: 14px 16px;
     border-radius: 18px;
@@ -4144,6 +4152,21 @@ body[data-theme="light"] {
 .project-modal-link.disabled {
     color: var(--text-secondary);
     cursor: default;
+}
+
+.project-modal-link small {
+    color: var(--text-muted);
+}
+
+.project-modal-tags {
+    gap: 10px;
+}
+
+.project-modal-tag {
+    padding: 7px 11px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .social-links-container {
@@ -4317,11 +4340,6 @@ body[data-theme="light"] {
     .project-modal-section {
         padding-top: 16px;
         margin-top: 16px;
-    }
-
-    .project-modal-link {
-        min-width: 0;
-        width: 100%;
     }
 
     .contact-grid {
@@ -4881,10 +4899,22 @@ body.onboarding-open .settings-toggle {
     transition: opacity 0.24s ease, transform 0.24s ease;
 }
 
+.mini-music-player.snapping {
+    transition:
+        opacity 0.24s ease,
+        transform 0.24s ease,
+        left 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+        top 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 .mini-music-player.visible {
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
+}
+
+.mini-music-player.dragging {
+    transition: opacity 0.24s ease, transform 0.24s ease;
 }
 
 .mini-player-header {

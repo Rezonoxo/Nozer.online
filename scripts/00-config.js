@@ -95,7 +95,12 @@ let aboutFacts = [];
 function loadSettings() {
     try {
         const raw = localStorage.getItem(SETTINGS_KEY);
-        if (!raw) return { ...defaultSettings };
+        if (!raw) {
+            // Detect system theme preference if no saved settings
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const systemTheme = prefersDark ? 'dark' : 'light';
+            return { ...defaultSettings, theme: systemTheme };
+        }
         const parsed = JSON.parse(raw);
         const merged = { ...defaultSettings, ...parsed };
         if (merged.theme !== 'light' && merged.theme !== 'dark') {
