@@ -160,6 +160,8 @@
     background: rgba(255, 255, 255, 0.12);
     overflow: hidden;
     margin-bottom: 8px;
+    cursor: pointer;
+    touch-action: none;
 }
 
 .mini-player-progress-fill {

@@ -200,6 +200,75 @@ function initMusicPlayer() {
     musicAudio.addEventListener('ended', () => {
         nextTrack();
     });
+
+    const musicProgressContainer = document.querySelector('.music-progress-container');
+    if (musicProgressContainer) {
+        musicProgressContainer.addEventListener('click', seekMusicTrack);
+        musicProgressContainer.addEventListener('mousedown', startDragSeek);
+    }
+
+    const miniProgressContainer = document.querySelector('.mini-player-progress');
+    if (miniProgressContainer) {
+        miniProgressContainer.addEventListener('click', seekMusicTrackMini);
+        miniProgressContainer.addEventListener('mousedown', startDragSeekMini);
+    }
+}
+
+function seekMusicTrack(event) {
+    if (!musicAudio || !musicAudio.duration) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    const clickX = event.clientX - rect.left;
+    const ratio = Math.min(Math.max(clickX / rect.width, 0), 1);
+    musicAudio.currentTime = ratio * musicAudio.duration;
+    updateMusicProgress();
+}
+
+function seekMusicTrackMini(event) {
+    if (!musicAudio || !musicAudio.duration) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    const clickX = event.clientX - rect.left;
+    const ratio = Math.min(Math.max(clickX / rect.width, 0), 1);
+    musicAudio.currentTime = ratio * musicAudio.duration;
+    updateMusicProgress();
+}
+
+let isDraggingSeek = false;
+let dragTarget = null;
+
+function startDragSeek(event) {
+    if (!musicAudio || !musicAudio.duration) return;
+    event.preventDefault();
+    isDraggingSeek = true;
+    dragTarget = event.currentTarget;
+    document.addEventListener('mousemove', dragSeek);
+    document.addEventListener('mouseup', stopDragSeek);
+    dragSeek(event);
+}
+
+function startDragSeekMini(event) {
+    if (!musicAudio || !musicAudio.duration) return;
+    event.preventDefault();
+    isDraggingSeek = true;
+    dragTarget = event.currentTarget;
+    document.addEventListener('mousemove', dragSeek);
+    document.addEventListener('mouseup', stopDragSeek);
+    dragSeek(event);
+}
+
+function dragSeek(event) {
+    if (!isDraggingSeek || !musicAudio || !musicAudio.duration || !dragTarget) return;
+    const rect = dragTarget.getBoundingClientRect();
+    const clickX = event.clientX - rect.left;
+    const ratio = Math.min(Math.max(clickX / rect.width, 0), 1);
+    musicAudio.currentTime = ratio * musicAudio.duration;
+    updateMusicProgress();
+}
+
+function stopDragSeek() {
+    isDraggingSeek = false;
+    dragTarget = null;
+    document.removeEventListener('mousemove', dragSeek);
+    document.removeEventListener('mouseup', stopDragSeek);
 }
 
 function loadTrack(trackIndex, options = {}) {

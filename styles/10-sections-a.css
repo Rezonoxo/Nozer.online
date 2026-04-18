@@ -453,7 +453,8 @@
     text-transform: lowercase;
 }
 
-#skills .skills-meta-pills {
+#skills .skills-meta-pills,
+.about-hero-card .skills-meta-pills {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -462,7 +463,8 @@
     margin-bottom: 16px;
 }
 
-#skills .skills-pill {
+#skills .skills-pill,
+.about-hero-card .skills-pill {
     display: inline-flex;
     align-items: center;
     justify-content: center;

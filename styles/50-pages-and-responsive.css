@@ -586,14 +586,18 @@ body[data-theme="light"] .about-fact-card,
 body[data-theme="light"] .skills-final-card,
 body[data-theme="light"] .language-card,
 body[data-theme="light"] .contact-primary-card,
-body[data-theme="light"] .contact-social-card,
-body[data-theme="light"] .contact-social-link,
 body[data-theme="light"] .contact-item,
 body[data-theme="light"] #contact .contact-item,
 body[data-theme="light"] #contact .social-link {
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.998), rgba(246, 245, 241, 0.994)) !important;
     border-color: rgba(22, 26, 33, 0.12) !important;
     box-shadow: 0 12px 28px rgba(18, 22, 28, 0.055) !important;
+}
+
+body[data-theme="light"] .contact-social-link {
+    background: transparent !important;
+    border-color: rgba(22, 26, 33, 0.08) !important;
+    box-shadow: none !important;
 }
 
 body[data-theme="light"] .spotify-history-card::before,
@@ -612,12 +616,17 @@ body[data-theme="light"] .skills-final-card:hover,
 body[data-theme="light"] .info-item:hover,
 body[data-theme="light"] .language-card:hover,
 body[data-theme="light"] .contact-primary-card:hover,
-body[data-theme="light"] .contact-social-link:hover,
 body[data-theme="light"] .contact-item:hover,
 body[data-theme="light"] #contact .contact-item:hover {
     background: linear-gradient(180deg, rgba(255, 255, 255, 1), rgba(244, 243, 239, 0.996)) !important;
     border-color: rgba(22, 26, 33, 0.16) !important;
     box-shadow: 0 16px 32px rgba(18, 22, 28, 0.07) !important;
+}
+
+body[data-theme="light"] .contact-social-link:hover {
+    background: transparent !important;
+    border-color: rgba(22, 26, 33, 0.12) !important;
+    box-shadow: none !important;
 }
 
 body[data-theme="light"] .history-tag,
@@ -683,7 +692,7 @@ body[data-theme="light"] .spotify-history-card.is-playing .bar {
 body[data-theme="light"] #skills .language-icon,
 body[data-theme="light"] #contact .contact-social-icon,
 body[data-theme="light"] #contact .social-link-icon {
-    background: rgba(255, 255, 255, 0.998) !important;
+    background: transparent !important;
     border-color: rgba(22, 26, 33, 0.1) !important;
 }
 

@@ -335,6 +335,7 @@
     border-radius: 2.5px;
     overflow: hidden;
     cursor: pointer;
+    touch-action: none;
     transition: all 0.3s ease;
 }
 
