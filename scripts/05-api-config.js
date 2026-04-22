@@ -21,11 +21,13 @@ window.APP_API_CONFIG = {
         refreshMs: 30 * 60 * 1000
     },
     counter: {
-        endpoints: [
-            'https://api.countapi.xyz'
+        providers: [
+            {
+                type: 'visitorapi',
+                baseUrl: 'https://visitor.6developer.com'
+            }
         ],
-        namespace: 'nozersite',
-        key: 'home-views-v1',
+        domainOverride: '',
         fallbackStorageKey: 'nozersite_home_views_local_fallback_v1',
         sharedAcrossDeployments: true
     }

@@ -203,72 +203,82 @@ function initMusicPlayer() {
 
     const musicProgressContainer = document.querySelector('.music-progress-container');
     if (musicProgressContainer) {
-        musicProgressContainer.addEventListener('click', seekMusicTrack);
-        musicProgressContainer.addEventListener('mousedown', startDragSeek);
+        initSeekInteractions(musicProgressContainer);
     }
 
     const miniProgressContainer = document.querySelector('.mini-player-progress');
     if (miniProgressContainer) {
-        miniProgressContainer.addEventListener('click', seekMusicTrackMini);
-        miniProgressContainer.addEventListener('mousedown', startDragSeekMini);
+        initSeekInteractions(miniProgressContainer);
     }
 }
 
-function seekMusicTrack(event) {
-    if (!musicAudio || !musicAudio.duration) return;
-    const rect = event.currentTarget.getBoundingClientRect();
-    const clickX = event.clientX - rect.left;
-    const ratio = Math.min(Math.max(clickX / rect.width, 0), 1);
+let activeSeekSession = null;
+
+function getSeekRatioFromEvent(event, target) {
+    if (!target) return 0;
+    const rect = target.getBoundingClientRect();
+    if (!rect.width) return 0;
+    const pointerX = typeof event.clientX === 'number' ? event.clientX : rect.left;
+    return Math.min(Math.max((pointerX - rect.left) / rect.width, 0), 1);
+}
+
+function applySeekFromEvent(event, target) {
+    if (!musicAudio || !musicAudio.duration || !target) return;
+    const ratio = getSeekRatioFromEvent(event, target);
     musicAudio.currentTime = ratio * musicAudio.duration;
     updateMusicProgress();
 }
 
-function seekMusicTrackMini(event) {
-    if (!musicAudio || !musicAudio.duration) return;
-    const rect = event.currentTarget.getBoundingClientRect();
-    const clickX = event.clientX - rect.left;
-    const ratio = Math.min(Math.max(clickX / rect.width, 0), 1);
-    musicAudio.currentTime = ratio * musicAudio.duration;
-    updateMusicProgress();
+function initSeekInteractions(container) {
+    if (!container) return;
+    container.addEventListener('pointerdown', startSeekDrag);
 }
 
-let isDraggingSeek = false;
-let dragTarget = null;
-
-function startDragSeek(event) {
+function startSeekDrag(event) {
     if (!musicAudio || !musicAudio.duration) return;
-    event.preventDefault();
-    isDraggingSeek = true;
-    dragTarget = event.currentTarget;
-    document.addEventListener('mousemove', dragSeek);
-    document.addEventListener('mouseup', stopDragSeek);
-    dragSeek(event);
-}
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
 
-function startDragSeekMini(event) {
-    if (!musicAudio || !musicAudio.duration) return;
+    const target = event.currentTarget;
     event.preventDefault();
-    isDraggingSeek = true;
-    dragTarget = event.currentTarget;
-    document.addEventListener('mousemove', dragSeek);
-    document.addEventListener('mouseup', stopDragSeek);
-    dragSeek(event);
+
+    stopSeekDrag();
+    activeSeekSession = {
+        pointerId: event.pointerId,
+        target
+    };
+
+    if (target.setPointerCapture) {
+        target.setPointerCapture(event.pointerId);
+    }
+
+    document.addEventListener('pointermove', dragSeek);
+    document.addEventListener('pointerup', stopSeekDrag);
+    document.addEventListener('pointercancel', stopSeekDrag);
+    applySeekFromEvent(event, target);
 }
 
 function dragSeek(event) {
-    if (!isDraggingSeek || !musicAudio || !musicAudio.duration || !dragTarget) return;
-    const rect = dragTarget.getBoundingClientRect();
-    const clickX = event.clientX - rect.left;
-    const ratio = Math.min(Math.max(clickX / rect.width, 0), 1);
-    musicAudio.currentTime = ratio * musicAudio.duration;
-    updateMusicProgress();
+    if (!activeSeekSession || event.pointerId !== activeSeekSession.pointerId) return;
+    applySeekFromEvent(event, activeSeekSession.target);
 }
 
-function stopDragSeek() {
-    isDraggingSeek = false;
-    dragTarget = null;
-    document.removeEventListener('mousemove', dragSeek);
-    document.removeEventListener('mouseup', stopDragSeek);
+function stopSeekDrag(event) {
+    if (event && activeSeekSession && event.pointerId !== activeSeekSession.pointerId) return;
+
+    if (event && activeSeekSession) {
+        applySeekFromEvent(event, activeSeekSession.target);
+    }
+
+    if (activeSeekSession && activeSeekSession.target && event && activeSeekSession.target.releasePointerCapture) {
+        if (activeSeekSession.target.hasPointerCapture && activeSeekSession.target.hasPointerCapture(event.pointerId)) {
+            activeSeekSession.target.releasePointerCapture(event.pointerId);
+        }
+    }
+
+    activeSeekSession = null;
+    document.removeEventListener('pointermove', dragSeek);
+    document.removeEventListener('pointerup', stopSeekDrag);
+    document.removeEventListener('pointercancel', stopSeekDrag);
 }
 
 function loadTrack(trackIndex, options = {}) {

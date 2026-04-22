@@ -234,10 +234,41 @@ function formatCounterValue(value) {
 }
 
 const VIEW_COUNTER_CONFIG = window.APP_API_CONFIG?.counter || {};
-const VIEW_COUNTER_ENDPOINTS = VIEW_COUNTER_CONFIG.endpoints || [
-    'https://api.countapi.xyz'
+const VIEW_COUNTER_PROVIDERS = VIEW_COUNTER_CONFIG.providers || [
+    {
+        type: 'visitorapi',
+        baseUrl: 'https://visitor.6developer.com'
+    }
 ];
 const VIEW_COUNTER_FALLBACK_KEY = VIEW_COUNTER_CONFIG.fallbackStorageKey || 'nozersite_home_views_local_fallback_v1';
+
+function getCounterDomain() {
+    const configuredDomain = String(VIEW_COUNTER_CONFIG.domainOverride || '').trim().toLowerCase();
+    const hostname = (configuredDomain || window.location.hostname || 'localhost').toLowerCase();
+    return hostname
+        .replace(/^www\./, '')
+        .replace(/[^a-z0-9.-]/g, '-');
+}
+
+function isLocalCounterDomain(domain) {
+    return domain === 'localhost' || domain === '127.0.0.1' || domain === '::1' || domain.endsWith('.local');
+}
+
+function getSearchQueryFromReferrer() {
+    if (!document.referrer) return '';
+
+    try {
+        const url = new URL(document.referrer);
+        if (url.hostname.includes('google.')) return url.searchParams.get('q') || '';
+        if (url.hostname.includes('bing.com')) return url.searchParams.get('q') || '';
+        if (url.hostname.includes('duckduckgo.com')) return url.searchParams.get('q') || '';
+        if (url.hostname.includes('yahoo.com')) return url.searchParams.get('p') || '';
+    } catch (error) {
+        return '';
+    }
+
+    return '';
+}
 
 function getLocalFallbackViewCount() {
     const current = Number(localStorage.getItem(VIEW_COUNTER_FALLBACK_KEY)) || 0;
@@ -246,27 +277,55 @@ function getLocalFallbackViewCount() {
     return nextValue;
 }
 
-async function countApiHit(namespace, key) {
-    const encodedNamespace = encodeURIComponent(namespace);
-    const encodedKey = encodeURIComponent(key);
+async function hitVisitorApi(domain) {
+    const provider = VIEW_COUNTER_PROVIDERS.find(entry => entry.type === 'visitorapi' && entry.baseUrl);
+    if (!provider) throw new Error('Visitor API provider unavailable');
 
-    for (const baseUrl of VIEW_COUNTER_ENDPOINTS) {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 4000);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4000);
 
+    try {
+        const url = `${provider.baseUrl}/visit`;
+        const response = await fetch(url, {
+            method: 'POST',
+            cache: 'no-store',
+            signal: controller.signal,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                domain,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                page_path: window.location.pathname,
+                page_title: document.title,
+                referrer: document.referrer,
+                search_query: getSearchQueryFromReferrer()
+            })
+        });
+        if (!response.ok) throw new Error('Visitor API failed');
+        const payload = await response.json();
+        const value = Number(payload?.totalCount);
+        if (!Number.isFinite(value)) throw new Error('Visitor API invalid payload');
+        return { value };
+    } finally {
+        clearTimeout(timeoutId);
+    }
+}
+
+async function countApiHit() {
+    const domain = getCounterDomain();
+
+    if (isLocalCounterDomain(domain)) {
+        throw new Error('Localhost is excluded from the global counter');
+    }
+
+    for (const provider of VIEW_COUNTER_PROVIDERS) {
         try {
-            const url = `${baseUrl}/hit/${encodedNamespace}/${encodedKey}`;
-            const response = await fetch(url, {
-                cache: 'no-store',
-                signal: controller.signal
-            });
-            if (!response.ok) throw new Error('Counter hit failed');
-            const payload = await response.json();
-            if (payload && Number.isFinite(Number(payload.value))) return payload;
+            if (provider.type === 'visitorapi') {
+                return await hitVisitorApi(domain);
+            }
         } catch (error) {
             // Try next endpoint.
-        } finally {
-            clearTimeout(timeoutId);
         }
     }
 
@@ -276,20 +335,20 @@ async function countApiHit(namespace, key) {
 async function initHomeViewCounter() {
     const viewEl = document.getElementById('home-view-count');
     if (!viewEl) return;
-
-    const namespace = VIEW_COUNTER_CONFIG.namespace || 'nozersite';
-    const key = VIEW_COUNTER_CONFIG.key || 'home-views-v1';
+    const domain = getCounterDomain();
 
     try {
-        const data = await countApiHit(namespace, key);
+        const data = await countApiHit();
         viewEl.textContent = formatCounterValue(data.value);
         viewEl.dataset.counterSource = 'remote';
-        viewEl.removeAttribute('title');
+        viewEl.title = `Global visits for ${domain}`;
     } catch (error) {
         const fallbackValue = getLocalFallbackViewCount();
         viewEl.textContent = formatCounterValue(fallbackValue);
         viewEl.dataset.counterSource = 'local-fallback';
-        viewEl.title = 'Local fallback counter';
+        viewEl.title = isLocalCounterDomain(domain)
+            ? 'Local preview count only. Set counter.domainOverride to your real domain for global history in localhost.'
+            : 'Fallback local counter';
     }
 }
 

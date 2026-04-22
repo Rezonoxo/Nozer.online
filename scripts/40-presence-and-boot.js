@@ -107,6 +107,33 @@ function getActivityButtons(activity) {
     return html;
 }
 
+function getSpotifySearchUrl(trackName, artistName) {
+    const query = [trackName, artistName].filter(Boolean).join(' ');
+    return `https://open.spotify.com/search/${encodeURIComponent(query)}`;
+}
+
+function getCurrentSpotifyTrackUrl(activity, user) {
+    const rawTrackName = activity?.details || user?.spotify?.song || '';
+    const rawArtistName = activity?.state || user?.spotify?.artist || '';
+    const trackName = String(rawTrackName || '').trim();
+    const artistName = String(rawArtistName || '').trim();
+    const spotifySearchUrl = getSpotifySearchUrl(trackName, artistName);
+
+    const lastFmUrl = user?.spotify?.track_url || user?.spotify?.url;
+    if (typeof lastFmUrl === 'string' && /^https?:\/\//.test(lastFmUrl)) {
+        return lastFmUrl;
+    }
+
+    return spotifySearchUrl;
+}
+
+function getSpotifyListenButton(activity, user) {
+    const trackUrl = escapeHtml(getCurrentSpotifyTrackUrl(activity, user));
+    return `
+        <a class="activity-button spotify-track-button" href="${trackUrl}" target="_blank" rel="noopener noreferrer" aria-label="Open current Spotify track">Open Track</a>
+    `;
+}
+
 function getDiscordCurrentLabel(status) {
     const statusLabel = DISCORD_STATUS_TEXT[status] || DISCORD_STATUS_TEXT.offline;
     return `Currently: ${statusLabel}`;
@@ -228,6 +255,7 @@ function renderDiscordProfile(user) {
                     currentSpotifyData = activity;
                     activityCard.classList.add('spotify');
                     activityCard.id = 'spotify-activity-card';
+                    const spotifyTrackButtonHtml = getSpotifyListenButton(activity, user);
                     const albumArt = activity.assets?.large_image
                         ? `https://i.scdn.co/image/${activity.assets.large_image.replace('spotify:', '')}`
                         : (user.spotify?.album_art_url || '');
@@ -236,10 +264,15 @@ function renderDiscordProfile(user) {
 
                     activityCard.innerHTML = `
                         <div class="activity-header">
-                            <div class="activity-icon">
-                                <i class="fab fa-spotify"></i>
+                            <div class="spotify-header-main">
+                                <div class="activity-icon">
+                                    <i class="fab fa-spotify"></i>
+                                </div>
+                                <div class="activity-type">LISTENING TO SPOTIFY</div>
                             </div>
-                            <div class="activity-type">LISTENING TO SPOTIFY</div>
+                            <div class="spotify-header-action">
+                                ${spotifyTrackButtonHtml}
+                            </div>
                         </div>
                         <div class="spotify-content">
                             <div class="spotify-album-container">
