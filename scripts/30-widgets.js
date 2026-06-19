@@ -1,28 +1,166 @@
-function initAboutFacts() {
-    const factTextEl = document.getElementById('about-fact-text');
-    const factChipEl = document.getElementById('about-fact-chip');
-    const factCardEl = document.getElementById('about-fact-card');
-    const shuffleBtn = document.getElementById('about-fact-btn');
+function initAboutEditorial() {
+    const galleryTrack = document.getElementById('about-gallery-track');
+    const prevBtn = document.getElementById('about-gallery-prev');
+    const nextBtn = document.getElementById('about-gallery-next');
+    const progressBar = document.getElementById('about-gallery-progress-bar');
+    const statCards = Array.from(document.querySelectorAll('[data-about-stat]'));
+    const portraitFrame = document.getElementById('about-portrait-frame');
 
-    if (!factTextEl || !factChipEl || !factCardEl || !shuffleBtn) return;
-    if (!Array.isArray(aboutFacts) || !aboutFacts.length) return;
+    if (portraitFrame) {
+        const slides = Array.from(portraitFrame.querySelectorAll('.about-portrait-slide'));
+        const dots = Array.from(portraitFrame.querySelectorAll('.about-portrait-dot'));
+        const portraitPrev = document.getElementById('about-portrait-prev');
+        const portraitNext = document.getElementById('about-portrait-next');
+        const controls = portraitFrame.querySelector('.about-portrait-controls');
+        let portraitIndex = 0;
 
-    const renderFact = () => {
-        let nextIndex = Math.floor(Math.random() * aboutFacts.length);
-        if (aboutFacts.length > 1 && nextIndex === aboutFactIndex) {
-            nextIndex = (nextIndex + 1) % aboutFacts.length;
+        const showPortrait = (index) => {
+            if (!slides.length) return;
+            portraitIndex = (index + slides.length) % slides.length;
+            portraitFrame.dataset.slideIndex = String(portraitIndex);
+            slides.forEach((slide, slideIndex) => {
+                slide.classList.toggle('active', slideIndex === portraitIndex);
+            });
+            dots.forEach((dot, dotIndex) => {
+                dot.classList.toggle('active', dotIndex === portraitIndex);
+            });
+        };
+
+        if (slides.length <= 1 && controls) {
+            controls.hidden = true;
+        } else if (slides.length > 1) {
+            portraitPrev?.addEventListener('click', () => showPortrait(portraitIndex - 1));
+            portraitNext?.addEventListener('click', () => showPortrait(portraitIndex + 1));
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => showPortrait(index));
+            });
+            portraitFrame.addEventListener('keydown', (event) => {
+                if (event.key === 'ArrowLeft') {
+                    event.preventDefault();
+                    showPortrait(portraitIndex - 1);
+                } else if (event.key === 'ArrowRight') {
+                    event.preventDefault();
+                    showPortrait(portraitIndex + 1);
+                }
+            });
+            portraitFrame.tabIndex = 0;
+            showPortrait(0);
+        }
+    }
+
+    if (galleryTrack && prevBtn && nextBtn) {
+        const galleryCards = Array.from(galleryTrack.querySelectorAll('.about-gallery-card'));
+        let currentIndex = 0;
+
+        const scrollToIndex = (index, behavior = 'smooth') => {
+            if (!galleryCards.length) return;
+            currentIndex = Math.max(0, Math.min(index, galleryCards.length - 1));
+            const targetCard = galleryCards[currentIndex];
+            galleryTrack.scrollTo({
+                left: targetCard.offsetLeft,
+                behavior
+            });
+        };
+
+        const syncGalleryUi = () => {
+            if (!galleryCards.length) return;
+            let nearestIndex = 0;
+            let nearestDistance = Number.POSITIVE_INFINITY;
+
+            galleryCards.forEach((card, index) => {
+                const distance = Math.abs(card.offsetLeft - galleryTrack.scrollLeft);
+                if (distance < nearestDistance) {
+                    nearestDistance = distance;
+                    nearestIndex = index;
+                }
+            });
+
+            currentIndex = nearestIndex;
+            const progress = galleryCards.length > 1 ? currentIndex / (galleryCards.length - 1) : 1;
+
+            if (progressBar) {
+                progressBar.style.transform = `scaleX(${Math.max(0.12, progress)})`;
+            }
+
+            prevBtn.disabled = currentIndex <= 0;
+            nextBtn.disabled = currentIndex >= galleryCards.length - 1;
+        };
+
+        prevBtn.addEventListener('click', () => scrollToIndex(currentIndex - 1));
+        nextBtn.addEventListener('click', () => scrollToIndex(currentIndex + 1));
+        galleryTrack.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                scrollToIndex(currentIndex - 1);
+            } else if (event.key === 'ArrowRight') {
+                event.preventDefault();
+                scrollToIndex(currentIndex + 1);
+            }
+        });
+        galleryTrack.addEventListener('scroll', syncGalleryUi, { passive: true });
+        window.addEventListener('resize', syncGalleryUi);
+
+        const galleryImages = Array.from(galleryTrack.querySelectorAll('img'));
+        galleryImages.forEach((image) => {
+            image.addEventListener('load', syncGalleryUi, { once: true });
+        });
+
+        requestAnimationFrame(() => {
+            syncGalleryUi();
+            scrollToIndex(0, 'auto');
+        });
+    }
+
+    if (!statCards.length) return;
+
+    const animateStat = (card) => {
+        if (!card || card.dataset.animated === 'true') return;
+        card.dataset.animated = 'true';
+
+        const valueEl = card.querySelector('.about-stat-value');
+        const target = Number(card.dataset.target || 0);
+        const suffix = card.dataset.suffix || '';
+        if (!valueEl || !Number.isFinite(target)) return;
+
+        const shouldAnimate = !settings.reduceMotion && !settings.performanceMode;
+        if (!shouldAnimate) {
+            valueEl.textContent = `${target}${suffix}`;
+            return;
         }
 
-        aboutFactIndex = nextIndex;
-        factTextEl.textContent = aboutFacts[nextIndex].text;
-        factChipEl.textContent = aboutFacts[nextIndex].tag;
-        factCardEl.classList.remove('fact-animate');
-        void factCardEl.offsetWidth;
-        factCardEl.classList.add('fact-animate');
+        const duration = 900;
+        const startTime = performance.now();
+
+        const tick = (now) => {
+            const progress = Math.min(1, (now - startTime) / duration);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = Math.round(target * eased);
+            valueEl.textContent = `${current}${suffix}`;
+
+            if (progress < 1) {
+                requestAnimationFrame(tick);
+            }
+        };
+
+        requestAnimationFrame(tick);
     };
 
-    shuffleBtn.addEventListener('click', renderFact);
-    renderFact();
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                animateStat(entry.target);
+                observer.unobserve(entry.target);
+            });
+        }, {
+            threshold: 0.35
+        });
+
+        statCards.forEach((card) => observer.observe(card));
+        return;
+    }
+
+    statCards.forEach(animateStat);
 }
 
 function weatherCodeToInfo(code) {

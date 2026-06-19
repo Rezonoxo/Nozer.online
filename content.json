@@ -25,7 +25,7 @@
     "Rezon"
   ],
   "pageTitles": {
-    "base": "Nozer.site",
+    "base": "Nozer.online",
     "home": "Home",
     "about": "About",
     "projects": "Projects",
@@ -36,25 +36,38 @@
     "tagline": "Available for focused collaborations and high-quality digital work."
   },
   "about": {
-    "cards": [
-      {
-        "title": "Who I Am",
-        "text": "I'm Wiktor, an 18-year-old graphic designer, developer, and content creator. I started Nozercode about 3 years ago with simple graphics in Photopea and websites built with HTML and CSS. Since then, I have been improving every year."
-      },
-      {
-        "title": "My Mission",
-        "text": "I challenge myself every day to learn something new and build projects I can be proud of. My goal is to create practical, creative work that helps me grow and delivers real value for clients."
-      },
-      {
-        "title": "Roblox Development",
-        "text": "Alongside coding and design, I build Roblox games and models. I run my own group where I publish and sell projects created by me and my team."
-      }
+    "tagline": "Short, clear context about who I am and how I work",
+    "badge": "Nozercode",
+    "kicker": "About me",
+    "statement": "I create digital work that is simple, clean and worth showing.",
+    "intro": "I am Wiktor from Poland, building under the name Nozercode. I work across graphics, short videos, websites and game assets, with the same goal every time: turn an idea into something clear, useful and well-made.",
+    "sideNote": "My direction is straightforward: fewer things, better executed, with more taste and more control each year.",
+    "heroImage": "icons/about/photo1.jpg",
+    "heroImages": [
+      { "src": "icons/about/photo1.jpg", "alt": "Wiktor portrait" },
+      { "src": "icons/about/photo2.jpg", "alt": "Wiktor portrait alternate" },
+      { "src": "icons/about/photo3.jpg", "alt": "Wiktor portrait alternate" }
     ],
-    "finalCard": {
-      "title": "Always Learning, Always Growing",
-      "text": "My journey is still in progress. I keep learning new technologies, improving my workflow, and taking projects that raise my level."
+    "microFacts": [
+      "18 y/o from Poland",
+      "4+ years creating",
+      "Quality over quantity"
+    ],
+    "origin": {
+      "eyebrow": "Origin",
+      "title": "Why I started",
+      "text": "Nozercode started because I wanted to build something of my own and use my skills in a real way. It began small, but the point was always the same: keep improving until the work feels genuinely solid."
     },
-    "randomFactPlaceholder": "Click shuffle to reveal a fact about me."
+    "currentWork": {
+      "eyebrow": "Work",
+      "title": "What I do now",
+      "text": "Right now I work between graphic design, short-form video, websites and Roblox-related assets. The medium changes, but the approach stays the same: make it clean, readable and intentional."
+    },
+    "drives": {
+      "eyebrow": "Approach",
+      "title": "How I think about quality",
+      "text": "I care more about precision than volume. I would rather publish less and know it is polished than fill the page with work that does not say much."
+    }
   },
   "randomFacts": [
     {
@@ -154,18 +167,6 @@
       },
       {
         "category": "movies",
-        "url": "https://www.imdb.com/title/tt15398776/",
-        "accent": "239 68 68",
-        "image": "https://upload.wikimedia.org/wikipedia/en/thumb/4/4a/Oppenheimer_%28film%29.jpg/250px-Oppenheimer_%28film%29.jpg",
-        "position": "50% 24%",
-        "scale": "1.08",
-        "alt": "Oppenheimer cover",
-        "badge": "Movie",
-        "name": "Oppenheimer",
-        "description": "An emotional and intense film that feels both thoughtful and deeply memorable."
-      },
-      {
-        "category": "movies",
         "url": "https://www.imdb.com/title/tt7286456/",
         "accent": "168 85 247",
         "image": "https://upload.wikimedia.org/wikipedia/en/thumb/e/e1/Joker_%282019_film%29_poster.jpg/250px-Joker_%282019_film%29_poster.jpg",
@@ -178,27 +179,27 @@
       },
       {
         "category": "movies",
-        "url": "https://www.youtube.com/@GLITCH",
-        "accent": "34 211 238",
-        "image": "https://static.wixstatic.com/media/84ed6a_7e2283d8851444cba3b1dc206647b061~mv2.png/v1/fill/w_188,h_172,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/MD_bottomBanner_WIP%20(3).png",
-        "position": "50% 40%",
-        "scale": "1.16",
-        "alt": "Murder Drones cover",
-        "badge": "Series",
-        "name": "Murder Drones",
-        "description": "A funny and well-made animated series with genuinely great dialogue."
-      },
-      {
-        "category": "movies",
-        "url": "https://www.imdb.com/title/tt6468322/",
+        "url": "https://www.imdb.com/title/tt12042730/",
         "accent": "245 158 11",
         "image": "https://images.ctfassets.net/4cd45et68cgf/1XqJANWZsMplwzKfX0v7jb/5f0db14f91f0ea785f98ee9c5f0a4344/lcdp_part3_announcement.jpg",
         "position": "50% 40%",
         "scale": "1.02",
         "alt": "Money Heist cover",
         "badge": "Series",
-        "name": "Money Heist (La Casa de Papel)",
-        "description": "For me, it is simply one of the best series ever made."
+        "name": "Money Heist",
+        "description": "One of my favorite series for its tension, style, and unforgettable characters."
+      },
+      {
+        "category": "movies",
+        "url": "https://www.goodreads.com/book/show/54493401-project-hail-mary",
+        "accent": "34 197 94",
+        "image": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1597695864i/54493401.jpg",
+        "position": "50% 50%",
+        "scale": "1.08",
+        "alt": "Project Hail Mary cover",
+        "badge": "Story",
+        "name": "Projekt Hail Mary",
+        "description": "A favorite for its mix of science, scale, and a story that stays exciting the whole way through."
       },
       {
         "category": "color",
@@ -265,7 +266,7 @@
         "No data collection - everything stays in local storage"
       ],
       "links": [
-        { "label": "Open site", "url": "https://nozertools.nozer.site/" },
+        { "label": "Open site", "url": "https://nozertools.nozer.online/" },
         { "label": "GitHub repository", "url": "https://github.com/rezonoxo/nozertools" }
       ]
     },
@@ -341,6 +342,29 @@
         { "label": "Discord server", "url": "https://discord.gg/MWM3MrBcP3" },
         { "label": "TikTok", "url": "https://www.tiktok.com/@heavencommunityroblox" }
       ]
+    },
+    {
+      "id": "nozerbin",
+      "title": "NozerBin",
+      "subtitle": "Anonymous post publishing platform",
+      "summary": "NozerBin is a privacy-focused platform for posting anonymous text updates. It is built to keep sharing simple, fast, and private while giving users a safe place to publish short thoughts without registration.",
+      "bannerImage": "icons/projects/nozerbin.jpg",
+      "banner": "linear-gradient(135deg, rgba(11, 35, 67, 0.92), rgba(12, 45, 96, 0.88) 40%, rgba(17, 77, 151, 0.85) 100%), radial-gradient(circle at 20% 20%, rgba(255,255,255,0.08), transparent 18%), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.06), transparent 14%)",
+      "metrics": [
+        { "label": "Status", "value": "In development" },
+        { "label": "Role", "value": "Creator" },
+        { "label": "Time", "value": "2026" }
+      ],
+      "tech": ["PHP", "SQL", "HTML", "CSS"],
+      "highlights": [
+        "Anonymous posting with no login required",
+        "Clear, mobile-friendly feed for fast browsing",
+        "Built around privacy and minimum data collection",
+        "Simple moderation workflow for safer content"
+      ],
+      "links": [
+        { "label": "Open site", "url": "https://nozerbin.nozer.online/" }
+      ]
     }
   ],
   "musicTracks": [
@@ -360,13 +384,7 @@
       "name": "Circles",
       "artist": "Post Malone",
       "file": "audio/Circles.ogg",
-      "image": "icons/circles.jpg"
-    },
-    {
-      "name": "Dla zasady",
-      "artist": "Nita",
-      "file": "audio/Dla zasady.ogg",
-      "image": "icons/Dla zasady.jpg"
+      "image": "icons/Circles.jpg"
     },
     {
       "name": "Espresso",
@@ -385,6 +403,12 @@
       "artist": "daryana",
       "file": "audio/Kto Tbi.ogg",
       "image": "icons/Kto Tbi.jpg"
+    },
+    {
+      "name": "MILLIE WALKY - bambi",
+      "artist": "bambi / charlie moncler",
+      "file": "audio/MILLIE WALKY - bambi.ogg",
+      "image": "icons/MILLIE WALKY.jpg"
     },
     {
       "name": "LOYALTY",

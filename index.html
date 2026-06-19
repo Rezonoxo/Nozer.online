@@ -16,7 +16,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Nozer">
 <meta property="og:description" content="Personal portfolio of Nozer">
-<meta property="og:url" content="https://nozer.site/">
+<meta property="og:url" content="https://nozer.online/">
 <meta property="og:site_name" content="Nozer">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://i.pinimg.com/1200x/80/f0/19/80f01908e898e4c2a29f86f91474cb27.jpg">
@@ -30,9 +30,9 @@
 <meta name="twitter:image:alt" content="Portfolio preview">
 <meta name="twitter:site" content="@nozer">
 <meta name="twitter:creator" content="@nozer">
-<meta name="twitter:url" content="https://nozer.site/">
+<meta name="twitter:url" content="https://nozer.online/">
 <title>Nozer</title>
-<link rel="canonical" href="https://nozer.site/">
+<link rel="canonical" href="https://nozer.online/">
 <link rel="icon" href="icons/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -54,7 +54,7 @@
   "@context": "https://schema.org",
   "@type": "Person",
   "name": "Nozer",
-  "url": "https://nozer.site/",
+  "url": "https://nozer.online/",
   "sameAs": [
     "https://github.com/rezonoxo",
     "https://www.behance.net/nozercode",
@@ -131,7 +131,7 @@
     <div id="home" class="container">
         <div class="content">
             <div class="header">
-                <h1 class="name">nozer.site</h1>
+                <h1 class="name">nozer.online</h1>
                 <p class="tagline" id="home-tagline">Hey, I'm: <span id="changing-name" class="animated-name">Nozer</span></p>
             </div>
 
@@ -242,8 +242,8 @@
                             <span class="track-name">${trackName}</span>
                             <span class="track-artist">${artistName}</span>
                         </div>
-                        <span class="status-badge ${playingNow ? 'status-now' : ''}">
-                            ${playingNow ? 'LISTENING' : 'PAST'}
+                        <span class="status-badge ${playingNow ? 'status-now' : 'status-past'}">
+                            ${playingNow ? 'LISTENING' : 'PLAYED'}
                         </span>
                     </a>
                 `;
@@ -387,125 +387,74 @@
                 <p class="tagline">Who I am and what I bring to every project</p>
             </div>
 
-            <div class="about-availability">
-                <div class="open-work" id="work-status" data-open-label="Available" data-closed-label="Not available" aria-live="polite">
-                    <span class="status-dot" id="work-status-dot"></span>
-                    <span id="work-status-text">Available</span>
+            <section class="about-editorial" aria-label="About overview">
+                <article class="about-editorial-hero about-surface">
+                    <div class="about-hero-copy">
+                        <div class="about-hero-head">
+                            <div class="about-hero-branding">
+                                <span class="about-hero-badge" id="about-badge">Nozercode</span>
+                                <p class="about-hero-kicker" id="about-kicker">Editorial profile</p>
+                            </div>
+                            <div class="about-hero-status">
+                                <div class="open-work" id="work-status" data-open-label="Available" data-closed-label="Not available" aria-live="polite">
+                                    <span class="status-dot" id="work-status-dot"></span>
+                                    <span id="work-status-text">Available</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h2 class="about-editorial-statement" id="about-statement">I build internet-native work that turns curiosity into visuals, videos, websites and game assets.</h2>
+                        <p class="about-editorial-intro" id="about-intro">I am Wiktor, an 18-year-old creator from Poland building under the name Nozercode. I like creating things that feel intentional, useful and alive, then releasing them into the internet exactly the way I imagined them.</p>
+                        <div class="about-microfacts" id="about-microfacts" aria-label="Quick facts"></div>
+
+                        <div class="about-hero-side-note about-side-note-panel">
+                            <span class="about-side-note-label">Current direction</span>
+                            <p id="about-side-note">Building a personal brand with better taste, sharper execution and a much stronger creative identity every year.</p>
+                        </div>
+                    </div>
+
+
+                </article>
+
+                <div class="about-story-grid">
+                    <article class="about-story-card about-surface about-story-card-wide">
+                        <p class="about-story-eyebrow" id="about-origin-eyebrow">Origin</p>
+                        <h3 id="about-origin-title">Why Nozercode exists</h3>
+                        <p class="about-story-text" id="about-origin-text">Nozercode started because I wanted to build something of my own and finally use my skills in a real way. I wanted to reach people, create content that helps, and offer good work in a good atmosphere even while I was still learning in public.</p>
+                    </article>
+
+                    <article class="about-story-card about-surface">
+                        <p class="about-story-eyebrow" id="about-current-eyebrow">Now creating</p>
+                        <h3 id="about-current-title">What I make today</h3>
+                        <p class="about-story-text" id="about-current-text">Today I move between graphics, short-form videos, websites and game assets. I do not create on a fixed schedule yet, but I keep returning to the same thing: taking an idea from my head and turning it into something real that can live online and help someone else.</p>
+                    </article>
+
+                    <article class="about-story-card about-surface">
+                        <p class="about-story-eyebrow" id="about-drives-eyebrow">Mindset</p>
+                        <h3 id="about-drives-title">What drives me</h3>
+                        <p class="about-story-text" id="about-drives-text">The biggest fuel is progress. I want my level to keep rising, my taste to get sharper, and my work to feel more complete. I care more about quality than volume, and I want the things I release to feel finished and worth someone’s time.</p>
+                    </article>
                 </div>
-                <p class="open-work-note">
-                    Working hours: Mon-Fri 15:00-19:00, Sat 09:00-19:00. This does not guarantee an instant reply,
-                    but these windows have the highest chance of response.
-                </p>
-            </div>
+            </section>
 
-            <section class="about-shell" aria-label="About overview">
-                <!-- search bar moved to top for better visibility -->
-                <div class="section-search-wrap about-search-wrap">
-                    <label class="section-search" for="about-search">
-                        <i class="fas fa-magnifying-glass"></i>
-                        <input id="about-search" type="search" placeholder="Search focus areas, background, workflow...">
-                    </label>
-                    <div id="about-search-empty" class="section-search-empty" hidden>No about cards match this search.</div>
+            <!-- Photo Gallery Section -->
+            <section class="about-gallery about-surface" aria-label="Photo gallery">
+                <div class="gallery-header">
+                    <h2 class="gallery-title">Gallery</h2>
+                    <p class="gallery-subtitle">A visual look at who I am</p>
                 </div>
-
-                <aside class="about-hero-card">
-                    <div class="about-hero-top">
-                        <span class="about-hero-badge">Nozercode</span>
-                        <div class="about-hero-avatar">
-                            <i class="fas fa-user-astronaut"></i>
-                        </div>
-                    </div>
-                    <h2>My Career and Brand</h2>
-                    <p>For over three years, I've been creating various types of online content under the nickname Nozercode. I wanted to turn it into a studio of sorts, but for now it's a one-person operation. Nozercode offers graphic design, development, and other services.</p>
-                    <div class="about-hero-stats">
-                        <div class="about-stat">
-                            <strong>3+ years</strong>
-                            <span>building online</span>
-                        </div>
-                        <div class="about-stat">
-                            <strong>Multi-discipline</strong>
-                            <span>design + code</span>
-                        </div>
-                    </div>
-                    <div class="about-hero-pills skills-meta-pills" aria-label="Core roles">
-                        <span class="skills-pill">Designer</span>
-                        <span class="skills-pill">Developer</span>
-                        <span class="skills-pill">Creator</span>
-                    </div>
-                </aside>
-
-                <div class="about-main-panel">
-
-                    <div class="about-card-grid">
-                        <article class="about-panel-card" data-about-card data-about-card-index="0" data-about-search="who i am background developer designer content creator html css photopea">
-                            <div class="about-panel-head">
-                                <div class="about-panel-icon">
-                                    <i class="fas fa-user-circle"></i>
-                                </div>
-                                <div>
-                                    <h3>Who I Am</h3>
-                                    <p class="about-panel-kicker">Background</p>
-                                </div>
-                            </div>
-                            <p class="about-panel-text">I'm Wiktor, an 18 year old graphic designer, developer and content creator with a passion for creating innovative projects to serve others. The start of my business under the name 'Nozercode' began 3 years ago with the creation of simple graphics in Photopea and websites using HTML and CSS. Since then, I've been constantly evolving.</p>
-                            <div class="about-panel-focus">Brand narrative and web identity</div>
-                        </article>
-
-                        <article class="about-panel-card" data-about-card data-about-card-index="1" data-about-search="mission growth practical creative client value learning">
-                            <div class="about-panel-head">
-                                <div class="about-panel-icon">
-                                    <i class="fas fa-rocket"></i>
-                                </div>
-                                <div>
-                                    <h3>My Mission</h3>
-                                    <p class="about-panel-kicker">Approach</p>
-                                </div>
-                            </div>
-                            <p class="about-panel-text">I challenge myself every day to learn something new and create projects I can be proud of. I focus on creating inventive work that helps me grow professionally and attract clients who value creativity.</p>
-                            <div class="about-panel-focus">Client growth, quality delivery</div>
-                        </article>
-
-                        <article class="about-panel-card" data-about-card data-about-card-index="2" data-about-search="roblox development games models group team shop lua">
-                            <div class="about-panel-head">
-                                <div class="about-panel-icon">
-                                    <i class="fas fa-gamepad"></i>
-                                </div>
-                                <div>
-                                    <h3>Roblox Development</h3>
-                                    <p class="about-panel-kicker">Games and models</p>
-                                </div>
-                            </div>
-                            <p class="about-panel-text">In addition to coding, graphics and content creator, I specialise in creating games and models for Roblox. I run my own group on which I also sell my creations.</p>
-                            <div class="about-panel-focus">Roblox game systems and asset creation</div>
-                        </article>
-
-                        <article class="about-panel-card about-growth-card" data-about-card data-about-search="always learning growth workflow new technologies frameworks">
-                            <div class="about-panel-head">
-                                <div class="about-panel-icon">
-                                    <i class="fas fa-graduation-cap"></i>
-                                </div>
-                                <div>
-                                    <h3>Always Learning, Always Growing</h3>
-                                    <p class="about-panel-kicker">Mindset</p>
-                                </div>
-                            </div>
-                            <p class="about-panel-text">My journey is far from over. I'm constantly exploring new technologies, mastering new frameworks, and taking on challenging projects that expand my skillset.</p>
-                            <div class="about-panel-focus">Ongoing skills development and learning</div>
-                        </article>
-
-                        <div class="about-fact-card" id="about-fact-card">
-                            <div class="about-fact-top">
-                                <span class="about-fact-badge">Random Fact</span>
-                                <button class="about-fact-btn" id="about-fact-btn" type="button">
-                                    <i class="fas fa-shuffle"></i>
-                                    Shuffle
-                                </button>
-                            </div>
-                            <div class="about-fact-body">
-                                <p class="about-fact-text" id="about-fact-text">Click shuffle to reveal a fact about me.</p>
-                                <span class="about-fact-chip" id="about-fact-chip">About</span>
-                            </div>
-                        </div>
+                <div class="about-portrait-frame" id="about-portrait-frame" aria-label="About photo slider">
+                    <div class="about-portrait-slides" id="about-portrait-slides"></div>
+                    <img class="about-portrait-image" id="about-portrait-image" alt="Wiktor portrait" loading="lazy" decoding="async" hidden>
+                    <div class="about-portrait-placeholder" id="about-portrait-placeholder" hidden></div>
+                    <div class="about-portrait-controls" aria-label="Photo controls">
+                        <button class="about-portrait-btn" id="about-portrait-prev" type="button" aria-label="Previous photo">
+                            <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                        </button>
+                        <div class="about-portrait-dots" id="about-portrait-dots"></div>
+                        <button class="about-portrait-btn" id="about-portrait-next" type="button" aria-label="Next photo">
+                            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                        </button>
                     </div>
                 </div>
             </section>

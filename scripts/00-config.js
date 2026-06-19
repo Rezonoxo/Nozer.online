@@ -85,12 +85,11 @@ let musicTracks = [];
 let currentMusicTrack = 0;
 let musicAudio = null;
 let isMusicPlaying = false;
+let aboutPortraitAutoRotateId = null;
 let miniMusicObserver = null;
 let isMainPlayerVisible = true;
 let miniPlayerDismissed = false;
-let aboutFactIndex = -1;
 let PROJECTS = [];
-let aboutFacts = [];
 
 function loadSettings() {
     try {
@@ -185,10 +184,6 @@ function applyContentConfig(data) {
         PROJECTS = data.projects.slice();
     }
 
-    if (Array.isArray(data.randomFacts) && data.randomFacts.length) {
-        aboutFacts = data.randomFacts.slice();
-    }
-
     if (data.siteNotice) {
         SITE_NOTICE_CONFIG.enabled = data.siteNotice.enabled !== false;
         SITE_NOTICE_CONFIG.dismissible = data.siteNotice.dismissible !== false;
@@ -229,32 +224,7 @@ function applyContentConfig(data) {
     if (weatherLocationEl && data.weather?.locationLabel) weatherLocationEl.textContent = data.weather.locationLabel;
     if (weatherSubtitleEl && data.weather?.subtitle) weatherSubtitleEl.textContent = data.weather.subtitle;
 
-    if (data.about?.randomFactPlaceholder) {
-        const placeholder = document.getElementById('about-fact-text');
-        if (placeholder) placeholder.textContent = data.about.randomFactPlaceholder;
-    }
-
-    if (Array.isArray(data.about?.cards)) {
-        const cardContentEls = Array.from(document.querySelectorAll('#about [data-about-card-index]'));
-        data.about.cards.forEach((card, index) => {
-            const target = cardContentEls[index];
-            if (!target) return;
-            const titleEl = target.querySelector('h3');
-            const textEl = target.querySelector('.about-panel-text');
-            if (titleEl && card.title) titleEl.textContent = card.title;
-            if (textEl && card.text) textEl.textContent = card.text;
-        });
-    }
-
-    if (data.about?.finalCard) {
-        const finalCard = document.querySelector('.about-growth-card');
-        if (finalCard) {
-            const titleEl = finalCard.querySelector('h3');
-            const textEl = finalCard.querySelector('.about-panel-text');
-            if (titleEl && data.about.finalCard.title) titleEl.textContent = data.about.finalCard.title;
-            if (textEl && data.about.finalCard.text) textEl.textContent = data.about.finalCard.text;
-        }
-    }
+    applyAboutContent(data.about || {});
 
     if (data.workStatus) {
         const workStatus = document.getElementById('work-status');
@@ -307,9 +277,11 @@ function getRevealGroups() {
         '.music-player-card',
         '.weather-card',
         '.info-grid .info-item',
-        '.about-hero-card',
-        '.about-card-grid > *',
-        '.about-fact-card',
+        '.about-editorial-hero',
+        '.about-story-grid > *',
+        '.about-gallery-shell',
+        '.about-metrics-layout > *',
+        '.about-closing-card',
         '.favorites-card',
         '.projects-grid > *',
         '.skills-shell .skills-group',
@@ -317,6 +289,273 @@ function getRevealGroups() {
         '.contact-primary-grid > *',
         '.contact-social-grid > *'
     ];
+}
+
+function setTextContentIfPresent(id, value) {
+    const element = document.getElementById(id);
+    if (element && value) element.textContent = value;
+}
+
+function renderAboutMicroFacts(items) {
+    const container = document.getElementById('about-microfacts');
+    if (!container) return;
+    if (!Array.isArray(items) || !items.length) {
+        container.remove();
+        return;
+    }
+
+    container.innerHTML = items
+        .map((item) => `<span class="about-microfact">${escapeHtml(item)}</span>`)
+        .join('');
+}
+
+function renderAboutStats(items) {
+    const container = document.getElementById('about-stats-grid');
+    if (!container || !Array.isArray(items) || !items.length) return;
+
+    container.innerHTML = items.map((item) => {
+        const value = Number(item.value);
+        const numericValue = Number.isFinite(value) ? value : 0;
+        const suffix = item.suffix || '';
+        const label = item.label || '';
+        const detail = item.detail || '';
+        const progress = Math.max(0, Math.min(1, Number(item.progress) || 0));
+
+        return `
+            <article class="about-stat-card" data-about-stat data-target="${escapeHtml(numericValue)}" data-suffix="${escapeHtml(suffix)}">
+                <div class="about-stat-top">
+                    <strong class="about-stat-value">${escapeHtml(numericValue)}${escapeHtml(suffix)}</strong>
+                    <span class="about-stat-label">${escapeHtml(label)}</span>
+                </div>
+                <p class="about-stat-detail">${escapeHtml(detail)}</p>
+                <div class="about-stat-meter" aria-hidden="true">
+                    <span style="--about-stat-progress:${progress};"></span>
+                </div>
+            </article>
+        `;
+    }).join('');
+}
+
+function renderAboutGallery(items) {
+    const track = document.getElementById('about-gallery-track');
+    if (!track || !Array.isArray(items) || !items.length) return;
+
+    track.innerHTML = items.map((item, index) => {
+        const image = item.image || '';
+        const title = item.title || `Frame ${index + 1}`;
+        const caption = item.caption || '';
+        const eyebrow = item.eyebrow || 'Frame';
+        const theme = item.theme || 'default';
+        const imageHtml = image
+            ? `<img class="about-gallery-image" src="${escapeHtml(image)}" alt="${escapeHtml(item.alt || title)}" loading="lazy" decoding="async">`
+            : `
+                <div class="about-gallery-placeholder about-gallery-theme-${escapeHtml(theme)}" aria-hidden="true">
+                    <span>${escapeHtml(eyebrow)}</span>
+                    <strong>${escapeHtml(title)}</strong>
+                </div>
+            `;
+
+        return `
+            <article class="about-gallery-card">
+                <div class="about-gallery-media">
+                    ${imageHtml}
+                </div>
+                <div class="about-gallery-copy">
+                    <span class="about-gallery-eyebrow">${escapeHtml(eyebrow)}</span>
+                    <h4>${escapeHtml(title)}</h4>
+                    <p>${escapeHtml(caption)}</p>
+                </div>
+            </article>
+        `;
+    }).join('');
+}
+
+function renderAboutPortraitSlider(about = {}) {
+    const frame = document.getElementById('about-portrait-frame');
+    const slides = document.getElementById('about-portrait-slides');
+    const dots = document.getElementById('about-portrait-dots');
+    const prevButton = document.getElementById('about-portrait-prev');
+    const nextButton = document.getElementById('about-portrait-next');
+    const legacyImage = document.getElementById('about-portrait-image');
+    const placeholder = document.getElementById('about-portrait-placeholder');
+    if (!frame || !slides) return false;
+
+    const images = Array.isArray(about.heroImages) && about.heroImages.length
+        ? about.heroImages
+        : (about.heroImage ? [{ src: about.heroImage, alt: about.heroAlt || 'Wiktor portrait' }] : []);
+
+    if (!images.length) return false;
+
+    frame.classList.add('has-image');
+    const imageItems = images.map((item) => {
+        const src = typeof item === 'string' ? item : item.src;
+        const alt = typeof item === 'string' ? about.heroAlt || 'Wiktor portrait' : item.alt || about.heroAlt || 'Wiktor portrait';
+        return { src, alt };
+    });
+
+    slides.innerHTML = imageItems.map((item, index) => `
+        <img class="about-portrait-slide${index === 0 ? ' active' : ''}" src="${escapeHtml(item.src)}" alt="${escapeHtml(item.alt)}" loading="${index === 0 ? 'eager' : 'lazy'}" decoding="async">
+    `).join('');
+
+    const slideEls = Array.from(slides.querySelectorAll('.about-portrait-slide'));
+    slideEls.forEach((image) => {
+        const markLoaded = () => image.classList.add('is-loaded');
+        image.addEventListener('load', markLoaded, { once: true });
+        image.addEventListener('error', () => image.classList.add('is-missing'), { once: true });
+        if (image.complete && image.naturalWidth > 0) markLoaded();
+    });
+
+    if (dots) {
+        dots.innerHTML = imageItems.map((_, index) => (
+            `<button class="about-portrait-dot${index === 0 ? ' active' : ''}" type="button" aria-label="Show photo ${index + 1}"></button>`
+        )).join('');
+    }
+
+    const dotEls = Array.from(dots?.querySelectorAll('.about-portrait-dot') || []);
+    let currentIndex = 0;
+
+    const clearAutoRotate = () => {
+        if (aboutPortraitAutoRotateId !== null) {
+            clearInterval(aboutPortraitAutoRotateId);
+            aboutPortraitAutoRotateId = null;
+        }
+    };
+
+    const getHeroVisual = () => frame.closest('.about-editorial-hero') || document.querySelector('.about-editorial-hero');
+
+    const updateHeroBackground = (index) => {
+        const visual = getHeroVisual();
+        if (!visual || !visual.classList.contains('hero-bg-mode')) return;
+        const imageSrc = imageItems[index]?.src || '';
+        if (!imageSrc) return;
+        visual.style.backgroundImage = `linear-gradient(180deg, rgba(8,10,14,0.14), rgba(8,10,14,0.28)), url("${imageSrc}")`;
+        visual.style.backgroundSize = 'cover';
+        visual.style.backgroundPosition = 'center';
+    };
+
+    const setActiveSlide = (index) => {
+        const count = imageItems.length;
+        currentIndex = ((index % count) + count) % count;
+
+        slideEls.forEach((slide, slideIndex) => {
+            slide.classList.toggle('active', slideIndex === currentIndex);
+        });
+
+        dotEls.forEach((dot, dotIndex) => {
+            dot.classList.toggle('active', dotIndex === currentIndex);
+        });
+
+        if (getHeroVisual()?.classList.contains('hero-bg-mode')) {
+            updateHeroBackground(currentIndex);
+        }
+
+        frame.dataset.slideIndex = String(currentIndex);
+    };
+
+    const startAutoRotate = () => {
+        clearAutoRotate();
+        if (imageItems.length > 1) {
+            aboutPortraitAutoRotateId = setInterval(() => {
+                setActiveSlide(currentIndex + 1);
+            }, 7000);
+        }
+    };
+
+    const bindControlEvents = () => {
+        if (prevButton) {
+            prevButton.addEventListener('click', () => {
+                setActiveSlide(currentIndex - 1);
+                startAutoRotate();
+            });
+        }
+        if (nextButton) {
+            nextButton.addEventListener('click', () => {
+                setActiveSlide(currentIndex + 1);
+                startAutoRotate();
+            });
+        }
+        dotEls.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                setActiveSlide(index);
+                startAutoRotate();
+            });
+        });
+    };
+
+    if (legacyImage) legacyImage.hidden = true;
+    if (placeholder) placeholder.hidden = true;
+    frame.dataset.slideIndex = '0';
+
+    const applyBgMode = () => {
+        const mq = window.matchMedia('(min-width: 900px)');
+        const visual = getHeroVisual();
+        if (!visual) return;
+
+        if (mq.matches) {
+            visual.classList.add('hero-bg-mode');
+            updateHeroBackground(currentIndex);
+        } else {
+            visual.classList.remove('hero-bg-mode');
+            visual.style.backgroundImage = '';
+        }
+    };
+
+    bindControlEvents();
+    setActiveSlide(0);
+    applyBgMode();
+    window.addEventListener('resize', applyBgMode);
+    startAutoRotate();
+
+    return true;
+}
+
+function applyAboutContent(about = {}) {
+    const taglineEl = document.querySelector('#about .tagline');
+    if (taglineEl && about.tagline) taglineEl.textContent = about.tagline;
+
+    setTextContentIfPresent('about-badge', about.badge);
+    setTextContentIfPresent('about-kicker', about.kicker);
+    setTextContentIfPresent('about-statement', about.statement);
+    setTextContentIfPresent('about-intro', about.intro);
+    setTextContentIfPresent('about-side-note', about.sideNote);
+
+    if (!renderAboutPortraitSlider(about) && about.heroImage) {
+        const frame = document.getElementById('about-portrait-frame');
+        const image = document.getElementById('about-portrait-image');
+        const placeholder = document.getElementById('about-portrait-placeholder');
+        if (frame) frame.classList.add('has-image');
+        if (image) {
+            image.src = about.heroImage;
+            image.alt = about.heroAlt || 'Wiktor portrait';
+            image.hidden = false;
+        }
+        if (placeholder) placeholder.hidden = true;
+    }
+
+    renderAboutMicroFacts(about.microFacts);
+
+    setTextContentIfPresent('about-origin-eyebrow', about.origin?.eyebrow);
+    setTextContentIfPresent('about-origin-title', about.origin?.title);
+    setTextContentIfPresent('about-origin-text', about.origin?.text);
+
+    setTextContentIfPresent('about-current-eyebrow', about.currentWork?.eyebrow);
+    setTextContentIfPresent('about-current-title', about.currentWork?.title);
+    setTextContentIfPresent('about-current-text', about.currentWork?.text);
+
+    setTextContentIfPresent('about-drives-eyebrow', about.drives?.eyebrow);
+    setTextContentIfPresent('about-drives-title', about.drives?.title);
+    setTextContentIfPresent('about-drives-text', about.drives?.text);
+
+    setTextContentIfPresent('about-lifestyle-eyebrow', about.lifestyle?.eyebrow);
+    setTextContentIfPresent('about-lifestyle-title', about.lifestyle?.title);
+    setTextContentIfPresent('about-lifestyle-text', about.lifestyle?.text);
+
+    setTextContentIfPresent('about-closing-eyebrow', about.closing?.eyebrow);
+    setTextContentIfPresent('about-closing-title', about.closing?.title);
+    setTextContentIfPresent('about-closing-text', about.closing?.text);
+
+    renderAboutStats(about.stats);
+    renderAboutGallery(about.gallery);
 }
 
 function primeRevealTargets() {

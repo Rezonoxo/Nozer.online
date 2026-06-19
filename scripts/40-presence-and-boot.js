@@ -723,10 +723,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     initMusicPlayer();
     initFavoritesWidget();
     initProjectsSearch();
-    initAboutSearch();
     initSkillsSearch();
     initWorkAvailabilityStatus();
-    initAboutFacts();
+    initAboutEditorial();
     initProjectDetailsOverlay();
     initDeferredHomeObservers();
     checkIfReadyToWakeup();

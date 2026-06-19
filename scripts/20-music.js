@@ -175,6 +175,23 @@ function getRandomInitialTrackIndex() {
     return Math.floor(Math.random() * musicTracks.length);
 }
 
+const MUSIC_COVER_FALLBACK = 'icons/icon.png';
+
+function getTrackCover(track) {
+    return track?.image || MUSIC_COVER_FALLBACK;
+}
+
+function setMusicCoverImage(element, track) {
+    if (!element) return;
+    const cover = getTrackCover(track);
+    element.onerror = () => {
+        if (element.src.endsWith(MUSIC_COVER_FALLBACK)) return;
+        element.onerror = null;
+        element.src = MUSIC_COVER_FALLBACK;
+    };
+    element.src = cover;
+}
+
 function initMusicPlayer() {
     musicAudio = document.getElementById('music-audio');
     if (!musicAudio) return;
@@ -293,7 +310,7 @@ function loadTrack(trackIndex, options = {}) {
     
     musicAudio.src = track.file;
     document.getElementById('music-title').textContent = track.name;
-    document.getElementById('music-album-art').src = track.image;
+    setMusicCoverImage(document.getElementById('music-album-art'), track);
     document.getElementById('music-artist').textContent = track.artist;
     syncMiniMusicPlayerMeta();
     
@@ -391,10 +408,10 @@ function syncMiniMusicPlayerMeta() {
 
     if (titleEl) titleEl.textContent = track.name;
     if (artistEl) artistEl.textContent = track.artist;
-    if (artEl) artEl.src = track.image;
+    setMusicCoverImage(artEl, track);
     if (playlistTitleEl) playlistTitleEl.textContent = track.name;
     if (playlistArtistEl) playlistArtistEl.textContent = track.artist;
-    if (playlistArtEl) playlistArtEl.src = track.image;
+    setMusicCoverImage(playlistArtEl, track);
     updateMusicTrackIndicators();
     renderPlaylistItems();
 }
@@ -410,7 +427,7 @@ function renderPlaylistItems() {
         button.className = `playlist-item ${index === currentMusicTrack ? 'active' : ''}`;
         button.innerHTML = `
             <span class="playlist-item-order">${index + 1}</span>
-            <img src="${escapeHtml(track.image)}" alt="${escapeHtml(track.name)}" loading="lazy" decoding="async">
+            <img src="${escapeHtml(getTrackCover(track))}" alt="${escapeHtml(track.name)}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${MUSIC_COVER_FALLBACK}';">
             <span class="playlist-item-meta">
                 <strong>${escapeHtml(track.name)}</strong>
                 <small>${escapeHtml(track.artist)}</small>
