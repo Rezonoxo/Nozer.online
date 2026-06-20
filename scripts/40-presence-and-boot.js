@@ -682,15 +682,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
     }
 
-    const welcomeGuideOverlay = document.getElementById('welcome-guide-overlay');
-    if (welcomeGuideOverlay) {
-        welcomeGuideOverlay.addEventListener('click', (e) => {
-            if (e.target === welcomeGuideOverlay) {
-                closeWelcomeGuide(true);
-            }
-        });
-    }
-
     const welcomeTourOverlay = document.getElementById('welcome-tour-overlay');
     if (welcomeTourOverlay) {
         welcomeTourOverlay.addEventListener('click', (e) => {
@@ -704,7 +695,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         if (e.key === 'Escape') {
             cancelExternalRedirect();
             closeWelcomeTour();
-            closeWelcomeGuide(true);
             closeSettings();
             closePlaylistOverlay();
             closeProjectDetails();
@@ -739,17 +729,16 @@ document.addEventListener('DOMContentLoaded', async function() {
         syncStarfieldState();
     });
 
-    // Decode obfuscated email.
     const emailElement = document.getElementById('email');
     if (emailElement) {
-        emailElement.textContent = atob(emailElement.textContent);
+        emailElement.textContent = emailElement.textContent.trim();
     }
 
     // Configure email link target.
     const emailLink = document.getElementById('contact-email-link');
     if (emailLink && emailElement) {
         const decodedEmail = emailElement.textContent;
-        emailLink.href = `https://mail.google.com/mail/?view=cm&fs=1&to=${decodedEmail}`;
+        emailLink.href = `mailto:${decodedEmail}`;
     }
 
     const initialPageFromHash = window.location.hash ? window.location.hash.replace('#', '').toLowerCase() : '';

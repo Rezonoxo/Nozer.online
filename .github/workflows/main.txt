@@ -1,5 +1,5 @@
 title: nozer.online
-email: wiktorkonopka.nozer@gmail.com
+email: kontakt@nozer.online
 description: Moja osobista strona
 baseurl: "#"
 url: "https://nozer.online"

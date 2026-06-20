@@ -219,7 +219,8 @@ function renderProjectDetails(project) {
     const tagsEl = document.getElementById('project-modal-tags');
     const highlightsEl = document.getElementById('project-modal-highlights');
     const linksEl = document.getElementById('project-modal-links');
-    if (!project || !bannerEl || !titleEl || !subtitleEl || !metricsEl || !descriptionEl || !tagsEl || !highlightsEl || !linksEl) return;
+    const attachmentsEl = document.getElementById('project-modal-attachments');
+    if (!project || !bannerEl || !titleEl || !subtitleEl || !metricsEl || !descriptionEl || !tagsEl || !highlightsEl || !linksEl || !attachmentsEl) return;
 
     bannerEl.style.cssText = getProjectBannerCss(project);
     titleEl.textContent = project.title || 'Project';
@@ -256,6 +257,39 @@ function renderProjectDetails(project) {
                 <span>${escapeHtml(link.label)}</span>
                 <i class="fas fa-arrow-up-right-from-square"></i>
             </a>
+        `;
+    }).join('');
+
+    const attachments = Array.isArray(project.attachments) ? project.attachments : [];
+    if (!attachments.length) {
+        attachmentsEl.innerHTML = '<div class="project-modal-empty">No attachments available for this project.</div>';
+        return;
+    }
+
+    attachmentsEl.innerHTML = attachments.map((attachment) => {
+        const type = (attachment.type || '').toLowerCase();
+        const imageUrl = attachment.image || attachment.src || attachment.url || '';
+        const title = attachment.title || attachment.label || attachment.name || 'Attachment';
+        const description = attachment.description || attachment.caption || '';
+
+        if (type === 'link' || (!imageUrl && attachment.url)) {
+            return `
+                <a class="project-modal-attachment project-modal-attachment-link" href="${escapeHtml(attachment.url)}" target="_blank" rel="noopener noreferrer">
+                    <span class="project-modal-attachment-title">${escapeHtml(title)}</span>
+                    ${description ? `<span class="project-modal-attachment-description">${escapeHtml(description)}</span>` : ''}
+                    <i class="fas fa-arrow-up-right-from-square"></i>
+                </a>
+            `;
+        }
+
+        return `
+            <figure class="project-modal-attachment">
+                <img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(attachment.alt || title)}" loading="lazy" decoding="async">
+                <figcaption>
+                    <span class="project-modal-attachment-title">${escapeHtml(title)}</span>
+                    ${description ? `<span class="project-modal-attachment-description">${escapeHtml(description)}</span>` : ''}
+                </figcaption>
+            </figure>
         `;
     }).join('');
 }
@@ -940,7 +974,7 @@ function getWelcomeTourSteps() {
                 ? 'Gratuluje znasz już teorię! Teraz możemy przejść do realnej strony. Możemy zwiedzać. Poświęć czas na eksploracje wszystkich sekcji i zapoznaj się z ich zawartością aby mnie poznać! Przed tobą jeszcze pokaz. Asystent pokaże Ci teraz Spotlight tutorial który wizualnie pokaże Ci elementy strony. Wróć kiedy chcesz. W razie potrzeby uruchomisz ten przewodnik ponownie w ustawieniach.'
                 : 'Congratulations, you know the theory! Now we can move to the real site. We can explore. Take time to explore all sections and familiarize yourself with their content to get to know me! There\'s still a show ahead of you. The assistant will now show you the Spotlight tutorial which will visually show you the elements of the site. Come back when you want. If necessary, you can run this guide again in settings.'
         }
-    ];
+    ].filter((step) => !['about', 'skills', 'music-box'].includes(step.id));
 }
 
 function isElementVisible(element) {
@@ -1233,7 +1267,7 @@ function getWelcomeTourSteps() {
                 ? 'Otwórz ustawienia i dostosuj stronę do swoich potrzeb.'
                 : 'Open settings and customize the site to your needs.'
         }
-    ];
+    ].filter((step) => !['about', 'skills'].includes(step.id));
 }
 
 function getWelcomeTourTarget(step) {
@@ -1411,28 +1445,6 @@ function initCoreUIBindings() {
         element.addEventListener('click', confirmExternalRedirect);
     });
 
-    document.querySelectorAll('[data-guide-lang]').forEach((element) => {
-        element.addEventListener('click', () => {
-            welcomeGuideLanguage = element.getAttribute('data-guide-lang') === 'pl' ? 'pl' : 'en';
-            renderWelcomeGuide();
-            if (document.getElementById('welcome-tour-overlay')?.classList.contains('active')) {
-                syncWelcomeTourStep(false);
-            }
-        });
-    });
-
-    document.querySelectorAll('[data-welcome-guide-close], [data-welcome-guide-skip]').forEach((element) => {
-        element.addEventListener('click', () => closeWelcomeGuide(true));
-    });
-
-    document.querySelectorAll('[data-welcome-guide-next]').forEach((element) => {
-        element.addEventListener('click', nextWelcomeGuideStep);
-    });
-
-    document.querySelectorAll('[data-welcome-guide-prev]').forEach((element) => {
-        element.addEventListener('click', prevWelcomeGuideStep);
-    });
-
     document.querySelectorAll('[data-welcome-tour-next]').forEach((element) => {
         element.addEventListener('click', nextWelcomeTourStep);
     });
@@ -1450,7 +1462,7 @@ function initCoreUIBindings() {
         showGuideBtn.addEventListener('click', () => {
             closeWelcomeTour();
             closeSettings();
-            openWelcomeGuide({ language: welcomeGuideLanguage });
+            openWelcomeTour();
         });
     }
 

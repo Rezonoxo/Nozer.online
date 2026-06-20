@@ -662,7 +662,7 @@ function hideWakeupOverlay(playMusic = true) {
             if (!hasSeenWelcomeGuide()) {
                 setTimeout(() => {
                     if (!activeModalState) {
-                        openWelcomeGuide({ language: 'en' });
+                        openWelcomeTour();
                     }
                 }, 180);
             }

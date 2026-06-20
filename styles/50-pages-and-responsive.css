@@ -7479,6 +7479,11 @@ body[data-theme="light"] #contact .social-link {
     transform: scale(1);
 }
 
+.about-portrait-slide.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
 .about-portrait-controls {
     position: absolute;
     left: 14px;

@@ -360,11 +360,6 @@ function renderAboutGallery(items) {
                 <div class="about-gallery-media">
                     ${imageHtml}
                 </div>
-                <div class="about-gallery-copy">
-                    <span class="about-gallery-eyebrow">${escapeHtml(eyebrow)}</span>
-                    <h4>${escapeHtml(title)}</h4>
-                    <p>${escapeHtml(caption)}</p>
-                </div>
             </article>
         `;
     }).join('');
@@ -388,7 +383,8 @@ function renderAboutPortraitSlider(about = {}) {
 
     frame.classList.add('has-image');
     const imageItems = images.map((item) => {
-        const src = typeof item === 'string' ? item : item.src;
+        const rawSrc = typeof item === 'string' ? item : item.src;
+        const src = rawSrc ? new URL(rawSrc, document.baseURI).href : '';
         const alt = typeof item === 'string' ? about.heroAlt || 'Wiktor portrait' : item.alt || about.heroAlt || 'Wiktor portrait';
         return { src, alt };
     });
@@ -421,18 +417,6 @@ function renderAboutPortraitSlider(about = {}) {
         }
     };
 
-    const getHeroVisual = () => frame.closest('.about-editorial-hero') || document.querySelector('.about-editorial-hero');
-
-    const updateHeroBackground = (index) => {
-        const visual = getHeroVisual();
-        if (!visual || !visual.classList.contains('hero-bg-mode')) return;
-        const imageSrc = imageItems[index]?.src || '';
-        if (!imageSrc) return;
-        visual.style.backgroundImage = `linear-gradient(180deg, rgba(8,10,14,0.14), rgba(8,10,14,0.28)), url("${imageSrc}")`;
-        visual.style.backgroundSize = 'cover';
-        visual.style.backgroundPosition = 'center';
-    };
-
     const setActiveSlide = (index) => {
         const count = imageItems.length;
         currentIndex = ((index % count) + count) % count;
@@ -444,10 +428,6 @@ function renderAboutPortraitSlider(about = {}) {
         dotEls.forEach((dot, dotIndex) => {
             dot.classList.toggle('active', dotIndex === currentIndex);
         });
-
-        if (getHeroVisual()?.classList.contains('hero-bg-mode')) {
-            updateHeroBackground(currentIndex);
-        }
 
         frame.dataset.slideIndex = String(currentIndex);
     };
@@ -484,26 +464,12 @@ function renderAboutPortraitSlider(about = {}) {
 
     if (legacyImage) legacyImage.hidden = true;
     if (placeholder) placeholder.hidden = true;
+    frame.classList.add('has-image');
     frame.dataset.slideIndex = '0';
-
-    const applyBgMode = () => {
-        const mq = window.matchMedia('(min-width: 900px)');
-        const visual = getHeroVisual();
-        if (!visual) return;
-
-        if (mq.matches) {
-            visual.classList.add('hero-bg-mode');
-            updateHeroBackground(currentIndex);
-        } else {
-            visual.classList.remove('hero-bg-mode');
-            visual.style.backgroundImage = '';
-        }
-    };
+    frame.style.backgroundImage = imageItems[0]?.src ? `linear-gradient(180deg, rgba(8,10,14,0.06), rgba(8,10,14,0.18)), url("${imageItems[0].src}")` : '';
 
     bindControlEvents();
     setActiveSlide(0);
-    applyBgMode();
-    window.addEventListener('resize', applyBgMode);
     startAutoRotate();
 
     return true;
