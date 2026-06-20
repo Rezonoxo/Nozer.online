@@ -32,7 +32,7 @@
     color: #eff3fb;
     padding: 18px 20px;
     border-radius: 20px;
-    border: 1px solid rgba(112, 143, 255, 0.22);
+    border: 1px solid #708fff38;
     background:
         radial-gradient(circle at left top, rgba(var(--accent) / 0.18), transparent 40%),
         linear-gradient(145deg, rgba(10, 14, 26, 0.92), rgba(5, 7, 14, 0.98));

@@ -296,6 +296,18 @@ function setTextContentIfPresent(id, value) {
     if (element && value) element.textContent = value;
 }
 
+const ABOUT_QUOTES = [
+    'We are what we repeatedly do. Excellence, then, is not an act, but a habit.',
+    'The best time to plant a tree was 20 years ago. The second best time is now.',
+    'The best way to predict the future is to create it.',
+    'Do it with passion or not at all.'
+];
+
+function getRandomAboutQuote() {
+    const index = Math.floor(Math.random() * ABOUT_QUOTES.length);
+    return ABOUT_QUOTES[index] || ABOUT_QUOTES[0];
+}
+
 function renderAboutMicroFacts(items) {
     const container = document.getElementById('about-microfacts');
     if (!container) return;
@@ -481,7 +493,7 @@ function applyAboutContent(about = {}) {
 
     setTextContentIfPresent('about-badge', about.badge);
     setTextContentIfPresent('about-kicker', about.kicker);
-    setTextContentIfPresent('about-statement', about.statement);
+    setTextContentIfPresent('about-statement', getRandomAboutQuote());
     setTextContentIfPresent('about-intro', about.intro);
     setTextContentIfPresent('about-side-note', about.sideNote);
 

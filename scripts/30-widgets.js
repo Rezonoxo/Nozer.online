@@ -5,6 +5,34 @@ function initAboutEditorial() {
     const progressBar = document.getElementById('about-gallery-progress-bar');
     const statCards = Array.from(document.querySelectorAll('[data-about-stat]'));
     const portraitFrame = document.getElementById('about-portrait-frame');
+    const visualLayer = document.querySelector('.about-scroll-visuals');
+
+    if (visualLayer) {
+        let scrollRaf = null;
+
+        const syncAboutVisuals = () => {
+            scrollRaf = null;
+            if (settings.reduceMotion || settings.performanceMode) return;
+
+            const aboutPage = document.getElementById('about');
+            if (!aboutPage || aboutPage.classList.contains('hidden')) return;
+
+            const rect = visualLayer.getBoundingClientRect();
+            const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
+            const progress = 1 - ((rect.top + rect.height) / (viewportHeight + rect.height));
+            const clamped = Math.max(0, Math.min(1, progress));
+            visualLayer.style.setProperty('--about-scroll', clamped.toFixed(3));
+        };
+
+        const queueAboutVisuals = () => {
+            if (scrollRaf !== null) return;
+            scrollRaf = requestAnimationFrame(syncAboutVisuals);
+        };
+
+        window.addEventListener('scroll', queueAboutVisuals, { passive: true });
+        window.addEventListener('resize', queueAboutVisuals);
+        queueAboutVisuals();
+    }
 
     if (portraitFrame) {
         const slides = Array.from(portraitFrame.querySelectorAll('.about-portrait-slide'));
