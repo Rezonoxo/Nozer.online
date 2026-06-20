@@ -686,7 +686,7 @@ body[data-theme="light"] .about-portrait-dot.active {
 
 .favorites-tabs {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 4px;
     margin-bottom: 14px;
     padding: 4px;
