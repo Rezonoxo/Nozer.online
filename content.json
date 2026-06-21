@@ -396,18 +396,6 @@
   ],
   "musicTracks": [
     {
-      "name": "$WERVIN",
-      "artist": "purge!",
-      "file": "audio/$WERVIN.ogg",
-      "image": "icons/$WERVIN.png"
-    },
-    {
-      "name": "Chupa Chups",
-      "artist": "Eldzhey, Poshlaya Molly",
-      "file": "audio/Chupa Chups.ogg",
-      "image": "icons/Chupa Chups.jpg"
-    },
-    {
       "name": "Circles",
       "artist": "Post Malone",
       "file": "audio/Circles.ogg",
@@ -426,18 +414,6 @@
       "image": "icons/Headlock.png"
     },
     {
-      "name": "Kto Tbi",
-      "artist": "daryana",
-      "file": "audio/Kto Tbi.ogg",
-      "image": "icons/Kto Tbi.jpg"
-    },
-    {
-      "name": "MILLIE WALKY - bambi",
-      "artist": "bambi / charlie moncler",
-      "file": "audio/MILLIE WALKY - bambi.ogg",
-      "image": "icons/MILLIE WALKY.jpg"
-    },
-    {
       "name": "LOYALTY",
       "artist": "Daniel Di Angelo",
       "file": "audio/Loyalty.ogg",
@@ -448,12 +424,6 @@
       "artist": "Kill Eva, Мэйби Бэйби",
       "file": "audio/Popstars.ogg",
       "image": "icons/Popstars.jpg"
-    },
-    {
-      "name": "Strip Club",
-      "artist": "Poshlaya Molly",
-      "file": "audio/Strip Club.ogg",
-      "image": "icons/Strip Club.jpg"
     },
     {
       "name": "Дом Периньон",
