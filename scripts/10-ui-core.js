@@ -219,79 +219,47 @@ function renderProjectDetails(project) {
     const tagsEl = document.getElementById('project-modal-tags');
     const highlightsEl = document.getElementById('project-modal-highlights');
     const linksEl = document.getElementById('project-modal-links');
-    const attachmentsEl = document.getElementById('project-modal-attachments');
-    if (!project || !bannerEl || !titleEl || !subtitleEl || !metricsEl || !descriptionEl || !tagsEl || !highlightsEl || !linksEl || !attachmentsEl) return;
+    if (!project || !bannerEl || !titleEl || !subtitleEl || !metricsEl || !descriptionEl || !tagsEl || !highlightsEl || !linksEl) return;
 
     bannerEl.style.cssText = getProjectBannerCss(project);
     titleEl.textContent = project.title || 'Project';
     subtitleEl.textContent = project.subtitle || '';
     descriptionEl.textContent = project.summary || '';
 
+    // Metrics - status, role, timeline
     metricsEl.innerHTML = (project.metrics || []).map((metric) => `
-        <span class="project-modal-metric">
-            <small>${escapeHtml(metric.label)}</small>
-            <strong>${escapeHtml(metric.value)}</strong>
-        </span>
-    `).join('');
-
-    tagsEl.innerHTML = (project.tech || []).map((tag) => `<span class="project-modal-tag">${escapeHtml(tag)}</span>`).join('');
-    highlightsEl.innerHTML = (project.highlights || []).map((highlight) => `
-        <div class="project-modal-highlight">
-            <i class="fas fa-check"></i>
-            <span>${escapeHtml(highlight)}</span>
+        <div class="project-metric">
+            <span class="project-metric-label">${escapeHtml(metric.label)}</span>
+            <span class="project-metric-value">${escapeHtml(metric.value)}</span>
         </div>
     `).join('');
 
+    // Tech tags
+    tagsEl.innerHTML = (project.tech || []).map((tag) => `<span class="project-modal-tag">${escapeHtml(tag)}</span>`).join('');
+    
+    // Highlights/key features
+    highlightsEl.innerHTML = (project.highlights || []).map((highlight) => `
+        <li class="project-highlight">${escapeHtml(highlight)}</li>
+    `).join('');
+
+    // Project links (GitHub, live demo, etc.)
     linksEl.innerHTML = (project.links || []).map((link) => {
         if (!link.url) {
-            return `
-                <span class="project-modal-link disabled">
-                    <span>${escapeHtml(link.label)}</span>
-                    <small>Private</small>
-                </span>
-            `;
+            return `<span class="project-link-item disabled">${escapeHtml(link.label)} <small>(Private)</small></span>`;
         }
-
         return `
-            <a class="project-modal-link" href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">
-                <span>${escapeHtml(link.label)}</span>
-                <i class="fas fa-arrow-up-right-from-square"></i>
+            <a class="project-link-item" href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">
+                ${escapeHtml(link.label)} <i class="fas fa-external-link-alt"></i>
             </a>
         `;
     }).join('');
 
-    const attachments = Array.isArray(project.attachments) ? project.attachments : [];
-    if (!attachments.length) {
-        attachmentsEl.innerHTML = '<div class="project-modal-empty">No attachments available for this project.</div>';
-        return;
+    // Hide Resources section if no attachments
+    const attachmentsSection = document.getElementById('project-modal-attachments-section');
+    if (attachmentsSection) {
+        const hasAttachments = Array.isArray(project.attachments) && project.attachments.length > 0;
+        attachmentsSection.style.display = hasAttachments ? 'block' : 'none';
     }
-
-    attachmentsEl.innerHTML = attachments.map((attachment) => {
-        const type = (attachment.type || '').toLowerCase();
-        const imageUrl = attachment.image || attachment.src || attachment.url || '';
-        const title = attachment.title || attachment.label || attachment.name || 'Attachment';
-        const description = attachment.description || attachment.caption || '';
-
-        if (type === 'link' || (!imageUrl && attachment.url)) {
-            return `
-                <a class="project-modal-attachment project-modal-attachment-link" href="${escapeHtml(attachment.url)}" target="_blank" rel="noopener noreferrer">
-                    <span class="project-modal-attachment-title">${escapeHtml(title)}</span>
-                    ${description ? `<span class="project-modal-attachment-description">${escapeHtml(description)}</span>` : ''}
-                    <i class="fas fa-arrow-up-right-from-square"></i>
-                </a>
-            `;
-        }
-
-        return `
-            <figure class="project-modal-attachment">
-                <img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(attachment.alt || title)}" loading="lazy" decoding="async">
-                <figcaption>
-                    <span class="project-modal-attachment-title">${escapeHtml(title)}</span>
-                    ${description ? `<span class="project-modal-attachment-description">${escapeHtml(description)}</span>` : ''}
-                </figcaption>
-            </figure>
-        `;
-    }).join('');
 }
 
 function openProjectDetails(projectId) {

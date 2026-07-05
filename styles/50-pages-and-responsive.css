@@ -3876,6 +3876,9 @@ body[data-theme="light"] {
 .project-banner {
     height: 172px;
     position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .project-banner::after {
@@ -7334,9 +7337,10 @@ body[data-theme="light"] #contact .social-link {
 .about-editorial-hero {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 28px;
-    padding: 28px 24px;
+    gap: 18px;
+    padding: 18px 12px;
     align-items: start;
+    width: 100%;
 }
 
 .about-hero-copy,
@@ -7346,9 +7350,9 @@ body[data-theme="light"] #contact .social-link {
 }
 
 .about-hero-copy {
-    display: grid;
-    gap: 18px;
-    max-width: 72ch;
+    display: block;
+    max-width: 78ch;
+    padding: 0;
 }
 
 .about-hero-head {
@@ -7400,13 +7404,20 @@ body[data-theme="light"] #contact .social-link {
 
 .about-editorial-statement {
     margin: 0;
-    max-width: 60ch;
+    max-width: 68ch;
     font-family: 'Space Grotesk', 'Inter', sans-serif;
-    font-size: clamp(1.8rem, 4.5vw, 2.8rem);
-    line-height: 1.14;
-    letter-spacing: -0.02em;
+    font-size: clamp(1.75rem, 3.8vw, 2.45rem);
+    line-height: 1.16;
+    letter-spacing: -0.03em;
     color: var(--text-primary);
     font-weight: 700;
+}
+
+@media (min-width: 1100px) {
+    .about-editorial-statement {
+        max-width: 88ch;
+        font-size: clamp(1.75rem, 2.6vw, 2.6rem);
+    }
 }
 
 .about-editorial-intro,
@@ -7418,6 +7429,7 @@ body[data-theme="light"] #contact .social-link {
     color: var(--text-secondary);
     font-size: 15px;
     line-height: 1.8;
+    letter-spacing: 0.002em;
 }
 
 .about-hero-visual {
@@ -7609,23 +7621,215 @@ body[data-theme="light"] .about-side-note-panel {
 
 .about-story-grid {
     display: grid;
-    grid-template-columns: 1fr !important;
-    gap: 18px;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 22px;
+    align-items: start;
 }
 
 .about-story-card {
-    padding: 20px;
-    display: grid;
-    align-content: start;
-    gap: 12px;
+    padding: 26px;
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
     min-height: 100%;
-    background: rgba(255,255,255,0.02);
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.04);
+    background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.16);
 }
 
-.about-story-card-wide {
-    grid-column: auto;
+/* Center all tile content except explicitly wide story cards */
+.about-story-card:not(.about-story-card-wide) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.about-story-card:not(.about-story-card-wide) .about-story-text {
+    text-align: center;
+}
+
+/* Also center the wide intro tile so 'Who I am' matches other tiles */
+.about-intro-card,
+.about-tiles-intro {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.about-intro-card .about-tile-icon,
+.about-tiles-intro .about-tile-icon {
+    margin: 0 auto 10px auto;
+}
+
+/* Ensure eyebrow labels sit centered under the icon even when other rules try to left-align */
+#about .about-story-card.about-tile-card .about-tile-icon {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#about .about-story-card.about-tile-card > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center !important;
+}
+
+#about .about-story-card .about-story-eyebrow {
+    display: block;
+    text-align: center !important;
+    margin-bottom: 8px;
+    color: var(--text-muted);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+}
+
+/* Strongly enforce centering for the Intro / Tiles intro card (overrides global left-align) */
+#about .about-story-card.about-intro-card > div,
+#about .about-tiles-intro > div {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+}
+
+#about .about-story-card.about-intro-card h3,
+#about .about-tiles-intro h3,
+#about .about-story-card.about-intro-card .about-story-eyebrow,
+#about .about-tiles-intro .about-story-eyebrow {
+    text-align: center !important;
+}
+
+/* Ensure icons are visually centered inside their circular background */
+#about .about-story-card .about-tile-icon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+#about .about-story-card .about-tile-icon i {
+    display: inline-block !important;
+}
+
+.about-tiles-intro {
+    grid-column: 1 / -1;
+    padding: 24px;
+    align-items: center;
+    justify-items: center;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03));
+}
+
+.about-tile-icon {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    color: var(--text-primary);
+    font-size: 1.05rem;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+}
+
+/* Tile cards: center icon and heading for a cleaner, card-like look */
+.about-tile-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.about-tile-card .about-tile-icon {
+    margin-bottom: 8px;
+}
+
+.about-intro-card {
+    background: linear-gradient(135deg, rgba(74, 144, 226, 0.14), rgba(255,255,255,0.03));
+    border-color: rgba(74, 144, 226, 0.22);
+}
+
+.about-principles-card {
+    background: linear-gradient(135deg, rgba(255, 120, 120, 0.13), rgba(255,255,255,0.025));
+    border-color: rgba(255, 120, 120, 0.2);
+}
+
+.about-faith-card {
+    background: linear-gradient(135deg, rgba(188, 130, 255, 0.14), rgba(255,255,255,0.025));
+    border-color: rgba(188, 130, 255, 0.2);
+}
+
+.about-movement-card {
+    background: linear-gradient(135deg, rgba(255, 180, 80, 0.13), rgba(255,255,255,0.025));
+    border-color: rgba(255, 180, 80, 0.2);
+}
+
+.about-achievements-card {
+    border-color: rgba(255, 195, 90, 0.22);
+    background: linear-gradient(145deg, rgba(255, 195, 90, 0.12), rgba(255,255,255,0.025));
+}
+
+.about-achievements-wide {
+    grid-column: 1 / -1;
+    align-items: stretch;
+}
+
+.about-achievements-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.about-achievements-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+}
+
+.about-achievements-list {
+    margin: 0;
+    padding-left: 18px;
+    color: var(--text-secondary);
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 10px 14px;
+    line-height: 1.7;
+    width: 100%;
+}
+
+.about-achievements-list li::marker {
+    color: var(--text-primary);
+}
+
+.about-future-card {
+    border-color: rgba(95, 180, 255, 0.22);
+    background: linear-gradient(145deg, rgba(95, 180, 255, 0.09), rgba(255,255,255,0.025));
+}
+
+.about-erasmus-card {
+    border-color: rgba(129, 92, 255, 0.22);
+    background: linear-gradient(145deg, rgba(129, 92, 255, 0.08), rgba(255,255,255,0.025));
+}
+
+.about-business-card {
+    border-color: rgba(72, 214, 147, 0.22);
+    background: linear-gradient(145deg, rgba(72, 214, 147, 0.1), rgba(255,255,255,0.025));
+}
+
+.about-future-card {
+    border-color: rgba(95, 180, 255, 0.22);
+    background: linear-gradient(145deg, rgba(95, 180, 255, 0.1), rgba(255,255,255,0.025));
+}
+
+.about-story-card > div:last-child {
+    flex: 1;
 }
 
 .about-story-card h3,
@@ -7633,12 +7837,70 @@ body[data-theme="light"] .about-side-note-panel {
 .about-metrics-panel h3,
 .about-lifestyle-card h3,
 .about-closing-card h3 {
-    margin: 0;
+    margin: 0 0 6px;
     font-family: 'Space Grotesk', 'Inter', sans-serif;
-    font-size: clamp(1.45rem, 2vw, 2rem);
+    font-size: clamp(1.18rem, 1.7vw, 1.5rem);
     line-height: 1.08;
     letter-spacing: -0.04em;
     color: var(--text-primary);
+}
+
+/* Center headings for tile cards specifically */
+.about-tile-card h3 {
+    text-align: center;
+}
+
+.about-story-card .about-story-text {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+/* Quote decoration inside editorial hero */
+.about-editorial-statement {
+    position: relative;
+    margin: 0;
+}
+
+.about-editorial-statement::before {
+    content: "“";
+    font-size: 2.6rem;
+    opacity: 0.12;
+    position: absolute;
+    left: 12px;
+    top: -8px;
+    font-family: 'Georgia', serif;
+}
+
+.about-editorial-statement::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: rgba(255,255,255,0.045);
+    border-radius: 2px;
+}
+
+.about-editorial-statement {
+    padding-left: 18px;
+}
+
+/* Achievements two-column layout on wide screens */
+@media (min-width: 1000px) {
+    .about-achievements-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px 24px;
+    }
+}
+
+.about-story-card .about-story-text + .about-story-text {
+    margin-top: 8px;
+}
+
+.about-story-card-wide {
+    grid-column: auto;
 }
 
 .about-gallery-shell,
@@ -7656,8 +7918,8 @@ body[data-theme="light"] .about-side-note-panel {
     background-position: center;
     background-repeat: no-repeat;
     border-radius: 26px;
-    padding: 32px 28px;
-    min-height: 420px;
+    padding: 22px 20px;
+    min-height: 320px;
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
@@ -7677,11 +7939,16 @@ body[data-theme="light"] .about-side-note-panel {
 }
 
 .about-editorial-hero.hero-bg-mode .about-hero-copy {
-    padding: 28px;
-    border-radius: 24px;
-    background: rgba(6, 9, 18, 0.82);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(18px);
+    /* fill hero area and remove inner boxed background */
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    border: none;
+    backdrop-filter: none;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .about-editorial-hero.hero-bg-mode .about-hero-visual {
@@ -7725,6 +7992,73 @@ body[data-theme="light"] .about-editorial-hero.hero-bg-mode .about-hero-side-not
 
 @media (min-width: 1000px) {
     .about-editorial-hero.hero-bg-mode { min-height: 500px; padding: 42px; }
+}
+
+/* New hero-reworked styles: full-bleed quote with decorative bar */
+.hero-reworked {
+    padding: 0;
+    min-height: 320px;
+    display: block;
+    position: relative;
+}
+
+.hero-reworked .about-hero-quote {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 28px 32px;
+    position: relative;
+}
+
+.hero-reworked .quote-text {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-size: clamp(1.4rem, 3.6vw, 2.6rem);
+    line-height: 1.15;
+    font-weight: 700;
+    color: var(--text-primary);
+    max-width: 78ch;
+    margin: 0;
+}
+
+.hero-reworked .quote-author {
+    margin: 12px 0 0 0;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.hero-reworked .quote-text::before {
+    content: "“";
+    font-family: Georgia, serif;
+    font-size: 2.8rem;
+    color: rgba(255,255,255,0.12);
+    margin-right: 8px;
+    vertical-align: top;
+}
+
+.hero-reworked::before {
+    /* thin decorative vertical bar at left */
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 18px;
+    bottom: 18px;
+    width: 2px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 2px;
+}
+
+@media (max-width: 999px) {
+    .hero-reworked .about-hero-quote {
+        justify-content: center;
+        padding: 22px;
+        text-align: center;
+    }
+
+    .hero-reworked::before { left: 12px; }
+
+    .hero-reworked .quote-text { font-size: clamp(1.6rem, 6.5vw, 2.2rem); }
 }
 
 .about-gallery-head {
@@ -8013,6 +8347,56 @@ body.performance-mode .about-gallery-btn,
 body.reduce-motion .about-gallery-progress-bar,
 body.performance-mode .about-gallery-progress-bar {
     transition: none;
+}
+
+/* About surface reveal state */
+.about-surface.is-visible,
+.about-surface[data-reveal="true"].is-visible {
+    opacity: 1;
+    transform: none;
+    transition: opacity 520ms cubic-bezier(0.22,1,0.36,1), transform 520ms cubic-bezier(0.22,1,0.36,1);
+}
+
+/* Responsive editorial hero: two-column on wide screens, single on small */
+.about-editorial-hero {
+    grid-template-columns: 1fr;
+    gap: 18px;
+}
+
+@media (min-width: 1000px) {
+    .about-editorial-hero {
+        grid-template-columns: 1fr 420px;
+        align-items: center;
+        gap: 28px;
+    }
+
+    .about-hero-copy {
+        padding: 0 0 0 8px;
+    }
+}
+
+@media (max-width: 999px) {
+    .about-story-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .about-story-card {
+        padding: 18px;
+    }
+
+    .about-tile-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 520px) {
+    .about-tile-icon {
+        width: 44px;
+        height: 44px;
+    }
 }
 
 @media (max-width: 760px) {

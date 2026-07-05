@@ -90,24 +90,33 @@ let miniMusicObserver = null;
 let isMainPlayerVisible = true;
 let miniPlayerDismissed = false;
 let PROJECTS = [];
+let systemThemeMediaQuery = null;
+let userHasManuallyChosenTheme = false;
+
+function getSystemTheme() {
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return prefersDark ? 'dark' : 'light';
+}
 
 function loadSettings() {
     try {
         const raw = localStorage.getItem(SETTINGS_KEY);
         if (!raw) {
-            // Detect system theme preference if no saved settings
-            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const systemTheme = prefersDark ? 'dark' : 'light';
+            // No saved settings - use system theme preference
+            const systemTheme = getSystemTheme();
+            userHasManuallyChosenTheme = false;
             return { ...defaultSettings, theme: systemTheme };
         }
         const parsed = JSON.parse(raw);
         const merged = { ...defaultSettings, ...parsed };
         if (merged.theme !== 'light' && merged.theme !== 'dark') {
-            merged.theme = defaultSettings.theme;
+            merged.theme = getSystemTheme();
         }
+        // Check if user manually chose a theme (different from system)
+        userHasManuallyChosenTheme = merged.theme !== getSystemTheme();
         return merged;
     } catch (error) {
-        return { ...defaultSettings };
+        return { ...defaultSettings, theme: getSystemTheme() };
     }
 }
 
@@ -258,7 +267,8 @@ async function loadContentConfig() {
         const data = await response.json();
         applyContentConfig(data);
     } catch (error) {
-        console.warn('Using embedded fallback content.', error);
+        console.warn('Content loading deferred or unavailable in file:// mode. Using embedded content.', error);
+        // Fallback: content will be applied when needed
     }
 }
 

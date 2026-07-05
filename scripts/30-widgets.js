@@ -670,7 +670,7 @@ const cursorsys = {
     }
 };
 
-function hideWakeupOverlay(playMusic = true) {
+function hideWakeupOverlay(playMusic = false) {
     const overlay = document.getElementById('wakeup-overlay');
     if (overlay && !wakeupOverlayReady) return;
     if (wakeupOverlayKeyHandler) {
@@ -693,11 +693,6 @@ function hideWakeupOverlay(playMusic = true) {
                         openWelcomeTour();
                     }
                 }, 180);
-            }
-
-            // Fallback attempt if first start was blocked.
-            if (playMusic && !isMusicPlaying) {
-                startMusicOnWakeup();
             }
         }, 500);
     }

@@ -803,9 +803,23 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const nextTheme = button.getAttribute('data-theme-value') === 'light' ? 'light' : 'dark';
                 if (settings.theme === nextTheme) return;
                 settings.theme = nextTheme;
+                userHasManuallyChosenTheme = true;
                 saveSettings();
                 applySettings();
             });
+        });
+    }
+
+    // Setup system theme listener for automatic theme switching
+    if (window.matchMedia) {
+        systemThemeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        systemThemeMediaQuery.addEventListener('change', (e) => {
+            // Only auto-switch if user hasn't manually chosen a theme
+            if (!userHasManuallyChosenTheme) {
+                const newTheme = e.matches ? 'dark' : 'light';
+                settings.theme = newTheme;
+                applySettings();
+            }
         });
     }
 

@@ -1,0 +1,10 @@
+This folder contains ambient background music files.
+
+Add your ambient audio files (.ogg, .mp3) to this folder:
+- forest-rain.ogg
+- ocean-waves.ogg
+- coffee-shop.ogg
+- meditation-calm.ogg
+- night-sky.ogg
+
+These files will be loaded for the ambient background music feature.

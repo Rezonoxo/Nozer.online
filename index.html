@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="refresh" content="0; url=przerwa.html">
+    <!-- <meta http-equiv="refresh" content="90; url=przerwa.html"> PRZERWA -->
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="theme-color" content="#000000">
@@ -275,7 +275,7 @@
                         <div class="music-top-row">
                             <div class="music-main">
                                 <div class="music-album-container" onclick="togglePlayPause()" style="cursor: pointer;">
-                                <img class="music-album-art" id="music-album-art" src="https://i.pinimg.com/474x/95/e8/27/95e8270466b1aae5199ff8bdc2a7d214.jpg" alt="Album Art" decoding="async">
+                                    <img id="music-album-art" class="music-album-art" src="icons/icon.png" alt="Album cover" loading="lazy" decoding="async">
                                 </div>
                                 <div class="music-track-info">
                                     <div class="music-title-row">
@@ -389,42 +389,79 @@
             </div>
 
             <section class="about-editorial" aria-label="About overview">
-                <article class="about-editorial-hero about-surface">
-                    <div class="about-scroll-visuals" aria-hidden="true">
-                        <span class="about-scroll-line line-one"></span>
-                        <span class="about-scroll-line line-two"></span>
-                        <span class="about-scroll-dot dot-one"></span>
-                        <span class="about-scroll-dot dot-two"></span>
-                        <span class="about-scroll-ring"></span>
-                    </div>
-                    <div class="about-hero-copy">
-                        <p class="about-hero-kicker" id="about-kicker">About me</p>
-
-                        <blockquote class="about-editorial-statement" id="about-statement">The best way to predict the future is to create it.</blockquote>
-                        <p class="about-editorial-intro" id="about-intro">I make graphics, websites, videos and game assets with a simple goal: take an idea, give it a clear shape, and make the final result feel clean, useful and personal.</p>
-                        <div class="about-microfacts" id="about-microfacts" aria-label="Quick facts"></div>
-                    </div>
-
-
-                </article>
+                <!-- hero removed -->
 
                 <div class="about-story-grid">
-                    <article class="about-story-card about-surface about-story-card-wide">
-                        <p class="about-story-eyebrow" id="about-origin-eyebrow">Origin</p>
-                        <h3 id="about-origin-title">Why Nozercode exists</h3>
-                        <p class="about-story-text" id="about-origin-text">Nozercode started because I wanted to build something of my own and finally use my skills in a real way. I wanted to reach people, create content that helps, and offer good work in a good atmosphere even while I was still learning in public.</p>
+                    <article class="about-story-card about-surface about-story-card-wide about-tiles-intro about-intro-card">
+                        <div class="about-tile-icon"><i class="fas fa-user"></i></div>
+                        <div>
+                            <p class="about-story-eyebrow">About me</p>
+                            <h3>Who I am</h3>
+                            <p class="about-story-text">My name is Wiktor, and I’m an 18-year-old from Poland. I’m an introvert, but I deeply value genuine connections with other people. I believe it matters to bring positive energy, kindness, and strong personal culture into the world — and I try to inspire that in others.</p>
+                            <p class="about-story-text">I also share my life with two pets: a parrot and a gecko.</p>
+                        </div>
                     </article>
 
-                    <article class="about-story-card about-surface">
-                        <p class="about-story-eyebrow" id="about-current-eyebrow">Now creating</p>
-                        <h3 id="about-current-title">What I make today</h3>
-                        <p class="about-story-text" id="about-current-text">Today I move between graphics, youtube and tiktok videos, websites and roblox assets. I do not create on a fixed schedule yet, but I keep returning to the same thing: taking an idea from my head and turning it into something real that can live online and help someone else.</p>
+                    <article class="about-story-card about-surface about-tile-card about-principles-card">
+                        <div class="about-tile-icon"><i class="fas fa-heart"></i></div>
+                        <div>
+                            <p class="about-story-eyebrow">Values</p>
+                            <h3>Living by principles</h3>
+                            <p class="about-story-text">I live by clear principles. I don’t drink alcohol, I don’t smoke, and I take care of my health. For me, steady progress matters more than shortcuts, and I try to grow in a balanced, intentional way.</p>
+                        </div>
                     </article>
 
-                    <article class="about-story-card about-surface">
-                        <p class="about-story-eyebrow" id="about-drives-eyebrow">Mindset</p>
-                        <h3 id="about-drives-title">What drives me</h3>
-                        <p class="about-story-text" id="about-drives-text">The biggest fuel is progress. I want my level to keep rising, my taste to get sharper, and my work to feel more complete. I care more about quality than volume, and I want the things I release to feel finished and worth someone’s time.</p>
+                    <article class="about-story-card about-surface about-tile-card about-faith-card">
+                        <div class="about-tile-icon"><i class="fas fa-book-open"></i></div>
+                        <div>
+                            <p class="about-story-eyebrow">Faith</p>
+                            <h3>Christian perspective</h3>
+                            <p class="about-story-text">I’m a Christian, and that strongly shapes my values, the way I live, and the way I approach people, work, and responsibility.</p>
+                        </div>
+                    </article>
+
+                    <article class="about-story-card about-surface about-tile-card about-movement-card">
+                        <div class="about-tile-icon"><i class="fas fa-dumbbell"></i></div>
+                        <div>
+                            <p class="about-story-eyebrow">Movement</p>
+                            <h3>Activity and growth</h3>
+                            <p class="about-story-text">Beyond creating content and living online, I’m deeply drawn to movement and sport. I enjoy cycling, reaching mountain peaks, kayaking, and reading books — especially those focused on personal growth and discipline.</p>
+                        </div>
+                    </article>
+
+                    <article class="about-story-card about-surface about-tile-card about-achievements-card about-achievements-wide">
+                        <div class="about-achievements-content">
+                            <div class="about-achievements-head">
+                                <div class="about-tile-icon"><i class="fas fa-trophy"></i></div>
+                                <div>
+                                    <p class="about-story-eyebrow">Achievements</p>
+                                    <h3>Selected milestones</h3>
+                                </div>
+                            </div>
+                            <ul class="about-achievements-list">
+                                <li>Won multiple graphic design competitions for companies such as Castorama and EkoSan.</li>
+                                <li>Received the main prize in the largest school graphic competition for Safer Internet Day.</li>
+                                <li>Participated in the Erasmus+ cultural and educational exchange project in Malaga in 2025.</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="about-story-card about-surface about-tile-card about-business-card">
+                        <div class="about-tile-icon"><i class="fas fa-briefcase"></i></div>
+                        <div>
+                            <p class="about-story-eyebrow">Business</p>
+                            <h3>Entrepreneurship</h3>
+                            <p class="about-story-text">I’m a beginner entrepreneur and I create graphics, videos, resources, and other services for clients on a paid basis. I’ve developed a solid understanding of how businesses operate, how marketing works, and how a strong brand is built.</p>
+                        </div>
+                    </article>
+
+                    <article class="about-story-card about-surface about-tile-card about-future-card">
+                        <div class="about-tile-icon"><i class="fas fa-camera"></i></div>
+                        <div>
+                            <p class="about-story-eyebrow">Future plans</p>
+                            <h3>What’s next</h3>
+                            <p class="about-story-text">One of my main goals is to become a professional photographer. It’s a path that genuinely interests me, and I want to develop it with full commitment, discipline, and long-term focus.</p>
+                        </div>
                     </article>
                 </div>
             </section>
@@ -825,6 +862,18 @@
                                 <img src="https://cdn.simpleicons.org/roblox/ffffff" alt="Roblox Studio" loading="lazy" decoding="async">
                             </div>
                             <div class="language-name">Roblox Studio</div>
+                        </div>
+                        <div class="language-card">
+                            <div class="language-icon">
+                                <img src="https://cdn.simpleicons.org/googleworkspace/ffffff" alt="Google Workspace" loading="lazy" decoding="async">
+                            </div>
+                            <div class="language-name">Google Workspace</div>
+                        </div>
+                        <div class="language-card">
+                            <div class="language-icon">
+                                <img src="https://cdn.simpleicons.org/cloudflare/ffffff" alt="Cloudflare" loading="lazy" decoding="async">
+                            </div>
+                            <div class="language-name">Cloudflare</div>
                         </div>
                     </div>
                 </div>
@@ -1285,33 +1334,35 @@
             <div class="project-modal-inner">
                 <div class="project-modal-head">
                     <span class="project-modal-kicker">Project Details</span>
-                    <button class="project-modal-close" type="button" aria-label="Close project details" onclick="closeProjectDetails()">
+                    <button class="project-modal-close" type="button" aria-label="Close" onclick="closeProjectDetails()">
                         <i class="fas fa-xmark"></i>
                     </button>
                 </div>
                 <div class="project-modal-body">
-                    <div class="project-modal-intro">
-                        <h2 id="project-modal-title">Project</h2>
-                        <p id="project-modal-subtitle">Project subtitle</p>
-                    </div>
-                    <div class="project-modal-metrics" id="project-modal-metrics"></div>
-                    <p class="project-modal-description" id="project-modal-description"></p>
-                    <div class="project-modal-section">
-                        <div class="project-modal-section-title">Languages / Tech Used</div>
-                        <div class="project-modal-tags" id="project-modal-tags"></div>
-                    </div>
-                    <div class="project-modal-section">
-                        <div class="project-modal-section-title">Highlights</div>
-                        <div class="project-modal-highlights" id="project-modal-highlights"></div>
-                    </div>
-                    <div class="project-modal-section">
-                        <div class="project-modal-section-title">Project Links</div>
-                        <div class="project-modal-links" id="project-modal-links"></div>
-                    </div>
-                    <div class="project-modal-section">
-                        <div class="project-modal-section-title">Attachments</div>
-                        <div class="project-modal-attachments" id="project-modal-attachments"></div>
-                    </div>
+                    <h2 id="project-modal-title">Project</h2>
+                    <p id="project-modal-subtitle" class="project-modal-subtitle">Subtitle</p>
+                    <div id="project-modal-metrics" class="project-modal-metrics"></div>
+                    <p id="project-modal-description" class="project-modal-description"></p>
+                    
+                    <section class="project-modal-section">
+                        <h3>Tech Stack</h3>
+                        <div id="project-modal-tags" class="project-modal-tags"></div>
+                    </section>
+                    
+                    <section class="project-modal-section">
+                        <h3>Key Features</h3>
+                        <ul id="project-modal-highlights" class="project-modal-highlights"></ul>
+                    </section>
+                    
+                    <section class="project-modal-section">
+                        <h3>Links</h3>
+                        <div id="project-modal-links" class="project-modal-links"></div>
+                    </section>
+                    
+                    <section class="project-modal-section" id="project-modal-attachments-section">
+                        <h3>Resources</h3>
+                        <div id="project-modal-attachments"></div>
+                    </section>
                 </div>
             </div>
         </div>

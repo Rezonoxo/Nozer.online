@@ -36,12 +36,12 @@
     "tagline": "Available for focused collaborations and high-quality digital work."
   },
   "about": {
-    "tagline": "Short, clear context about who I am and how I work",
+    "tagline": "Wiktor from Poland – Designer, Creator, and Future Photographer",
     "badge": "Nozercode",
-    "kicker": "About me",
-    "statement": "The best way to predict the future is to create it.",
-    "intro": "I make graphics, websites, videos and game assets with a simple goal: take an idea, give it a clear shape, and make the final result feel clean, useful and personal.",
-    "sideNote": "My direction is straightforward: fewer things, better executed, with more taste and more control each year.",
+    "kicker": "Who I am",
+    "statement": "Ideas start in your head. My job is to bring them to life—polished, purposeful, and personal.",
+    "intro": "I'm Wiktor, 18, from Poland. I create graphics, videos, and web experiences with a singular focus: take something meaningful and make it real. I dream of becoming a photographer someday. For now, I'm building my craft across design, content creation, and code—learning something new with every project.",
+    "sideNote": "I believe in quality over noise. I'd rather spend time perfecting one thing than rushing through ten. That's how I approach everything I make.",
     "heroImage": "icons/about/photo1.jpg",
     "heroImages": [
       { "src": "icons/about/photo1.jpg", "alt": "Wiktor portrait" },
@@ -49,24 +49,24 @@
       { "src": "icons/about/photo3.jpg", "alt": "Wiktor portrait alternate" }
     ],
     "microFacts": [
-      "18 y/o from Poland",
-      "4+ years creating",
-      "Quality over quantity"
+      "18 y/o, Polish creator",
+      "5+ years of active making",
+      "Quality beats everything"
     ],
     "origin": {
-      "eyebrow": "Origin",
-      "title": "Why I started",
-      "text": "Nozercode started because I wanted to build something of my own and use my skills in a real way. It began small, but the point was always the same: keep improving until the work feels genuinely solid."
+      "eyebrow": "Personally",
+      "title": "Life outside the screen",
+      "text": "I'm a real person with real interests. I love hiking mountain peaks, cycling through nature, and getting lost in good stories. I have two quirky pets—a cockatiel and a crested gecko. I've traveled to eight countries, climbed mountains in Poland and Slovakia, and participated in an Erasmus+ exchange in Spain. These experiences shape how I see the world and what I create."
     },
     "currentWork": {
-      "eyebrow": "Work",
-      "title": "What I do now",
-      "text": "Right now I work between graphic design, short-form video, websites and Roblox-related assets. The medium changes, but the approach stays the same: make it clean, readable and intentional."
+      "eyebrow": "Creatively",
+      "title": "What I make",
+      "text": "Right now I'm juggling graphics, short-form videos, websites, and Roblox assets. But my real passion? Photography. I'm slowly building toward becoming a professional photographer, and until then, I'm learning through design and visual storytelling. Every medium teaches me something different."
     },
     "drives": {
-      "eyebrow": "Approach",
-      "title": "How I think about quality",
-      "text": "I care more about precision than volume. I would rather publish less and know it is polished than fill the page with work that does not say much."
+      "eyebrow": "Mindset",
+      "title": "What drives my work",
+      "text": "Progress is everything to me. I want to get better every single day—sharper taste, cleaner execution, more control. I won competition for best graphic design at my school and it fueled my desire to keep pushing. I'd rather produce something finished and meaningful than a pile of half-done projects."
     }
   },
   "randomFacts": [
@@ -430,6 +430,38 @@
       "artist": "Poshlaya Molly, Eldzhey",
       "file": "audio/Дом Периньон.ogg",
       "image": "icons/Дом Периньон.jpeg"
+    }
+  ],
+  "ambientTracks": [
+    {
+      "name": "Forest Rain",
+      "artist": "Ambient",
+      "file": "audio/ambient/forest-rain.ogg",
+      "image": "icons/ambient-default.png"
+    },
+    {
+      "name": "Ocean Waves",
+      "artist": "Ambient",
+      "file": "audio/ambient/ocean-waves.ogg",
+      "image": "icons/ambient-default.png"
+    },
+    {
+      "name": "Coffee Shop",
+      "artist": "Ambient",
+      "file": "audio/ambient/coffee-shop.ogg",
+      "image": "icons/ambient-default.png"
+    },
+    {
+      "name": "Meditation Calm",
+      "artist": "Ambient",
+      "file": "audio/ambient/meditation-calm.ogg",
+      "image": "icons/ambient-default.png"
+    },
+    {
+      "name": "Night Sky",
+      "artist": "Ambient",
+      "file": "audio/ambient/night-sky.ogg",
+      "image": "icons/ambient-default.png"
     }
   ],
   "workStatus": {
