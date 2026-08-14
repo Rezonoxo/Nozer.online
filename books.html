@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books | Nozer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="icon.png">
+
+    <style>
+        :root {
+            --bg-color: #09090b;
+            --surface-card: #18181b;
+            --text-main: #f4f4f5;
+            --text-muted: #a1a1aa;
+            --border: rgba(255, 255, 255, 0.06);
+            --accent: #10b981;
+            --accent-bg: rgba(16, 185, 129, 0.08);
+            --pill-bg: rgba(255, 255, 255, 0.03);
+            --glow: rgba(139, 92, 246, 0.12);
+            --nav-bg: rgba(24, 24, 27, 0.6);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #fafafa;
+            --surface-card: #ffffff;
+            --text-main: #09090b;
+            --text-muted: #71717a;
+            --border: rgba(0, 0, 0, 0.06);
+            --pill-bg: rgba(0, 0, 0, 0.02);
+            --glow: rgba(139, 92, 246, 0.04);
+            --nav-bg: rgba(255, 255, 255, 0.6);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        body::before {
+            content: ''; position: fixed; inset: 0;
+            background-image: radial-gradient(var(--border) 1px, transparent 1px);
+            background-size: 24px 24px; pointer-events: none; z-index: -2; opacity: 0.6;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* --- NAVBAR (shared with the main site) --- */
+        .nav-wrapper {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 1.25rem 0;
+            display: flex; flex-direction: column; align-items: center; pointer-events: none;
+        }
+        .site-nav {
+            background: var(--nav-bg); border: 1px solid var(--border); border-radius: 99px;
+            padding: 0.4rem 1.2rem; display: flex; justify-content: space-between; align-items: center;
+            width: min(calc(100% - 3rem), 900px); margin: 0 auto;
+            backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%);
+            pointer-events: auto; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease; position: relative;
+        }
+        [data-theme="light"] .site-nav { box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05); }
+        .site-nav .logo { font-weight: 700; letter-spacing: -0.5px; font-size: 0.95rem; color: var(--text-main); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .site-nav .logo i { color: var(--text-muted); font-size: 0.8rem; }
+        .nav-right { display: flex; align-items: center; gap: 10px; }
+        .theme-toggle {
+            background: var(--pill-bg); border: 1px solid var(--border); color: var(--text-main);
+            cursor: pointer; font-size: 0.85rem; width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+        }
+        .theme-toggle:hover { transform: rotate(15deg); background: var(--border); }
+
+        /* --- PAGE HEADER --- */
+        .books-hero { padding: 8.5rem 0 2.5rem 0; text-align: center; position: relative; }
+        .books-hero::after {
+            content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 500px; height: 300px; background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+            pointer-events: none; z-index: -1;
+        }
+        .books-hero h1 { font-size: 2.6rem; font-weight: 800; letter-spacing: -0.04em; margin-bottom: 0.6rem; }
+        .books-hero p { color: var(--text-muted); max-width: 480px; margin: 0 auto; font-size: 0.95rem; }
+
+        /* --- SECTIONS --- */
+        .section-header { display: flex; justify-content: space-between; align-items: baseline; margin: 3.5rem 0 1.25rem 0; }
+        .section-header h3 { font-size: 1.05rem; font-weight: 600; letter-spacing: -0.01em; text-transform: lowercase; }
+        .section-header h3 span { color: var(--text-muted); font-weight: 400; }
+        .section-count { font-size: 0.75rem; color: var(--text-muted); background: var(--pill-bg); border: 1px solid var(--border); padding: 3px 10px; border-radius: 99px; }
+
+        /* --- BOOK GRID --- */
+        .books-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .book-card {
+            cursor: pointer; border-radius: 12px; overflow: hidden; background: var(--surface-card);
+            border: 1px solid var(--border); transition: transform 0.2s ease, border-color 0.2s ease;
+            position: relative;
+        }
+        .book-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.15); }
+        .book-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+        .book-cover-wrap { aspect-ratio: 2 / 3; overflow: hidden; background: #222; position: relative; }
+        .book-cover-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.35s ease; }
+        .book-card:hover .book-cover-wrap img { transform: scale(1.05); }
+        .book-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.25); opacity: 0; transition: opacity 0.2s ease; }
+        .book-card:hover .book-overlay, .book-card:focus-visible .book-overlay { opacity: 1; }
+        .book-overlay i { color: #fff; font-size: 1.1rem; }
+        .book-caption { padding: 0.7rem 0.8rem; }
+        .book-caption h4 { font-size: 0.85rem; font-weight: 600; line-height: 1.25; margin-bottom: 2px; }
+        .book-caption p { font-size: 0.72rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        /* --- MODAL (cover left / details right) --- */
+        .book-modal {
+            position: fixed; inset: 0; background: rgba(5, 7, 11, 0.88); display: none;
+            align-items: center; justify-content: center; z-index: 2000; padding: 1.5rem; backdrop-filter: blur(16px);
+        }
+        .book-modal.active { display: flex; }
+        .book-modal-content {
+            position: relative; width: min(100%, 820px); max-height: 88vh; overflow-y: auto;
+            border-radius: 20px; background: var(--surface-card); border: 1px solid var(--border);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.4); display: flex;
+        }
+        .book-modal-cover { width: 38%; flex-shrink: 0; background: #222; }
+        .book-modal-cover img { width: 100%; height: 100%; object-fit: cover; display: block; min-height: 320px; }
+        .book-modal-details { padding: 2rem; display: flex; flex-direction: column; gap: 0.9rem; min-width: 0; }
+        .book-modal-details .modal-status { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+        .book-modal-details .modal-status.recommended { color: var(--accent); }
+        .book-modal-details .modal-status.planned { color: #3b82f6; }
+        .book-modal-details h3 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; }
+        .book-modal-details .modal-author { color: var(--text-muted); font-size: 0.9rem; margin-top: -0.4rem; }
+        .book-modal-details .modal-desc { color: var(--text-muted); font-size: 0.9rem; line-height: 1.65; }
+        .book-modal-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 0.4rem; }
+        .book-modal-links a {
+            display: inline-flex; align-items: center; gap: 8px; background: var(--pill-bg); border: 1px solid var(--border);
+            border-radius: 999px; padding: 8px 14px; font-size: 0.8rem; color: var(--text-main); text-decoration: none;
+            transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+        }
+        .book-modal-links a:hover { transform: translateY(-1px); background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); }
+        .book-modal-links a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+        .book-modal-links a i { color: var(--accent); font-size: 0.85rem; }
+        .book-modal-close {
+            position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; border-radius: 50%;
+            background: rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.12); color: #fff;
+            display: grid; place-items: center; cursor: pointer; z-index: 3;
+        }
+        .book-modal-close:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+        /* --- BACK LINK --- */
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+        .back-link:hover { color: var(--text-main); }
+
+        /* --- FOOTER --- */
+        .site-footer { border-top: 1px solid var(--border); margin-top: 5rem; padding: 2rem 0; text-align: center; font-size: 0.8rem; color: var(--text-muted); }
+
+        .reveal-on-scroll { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.2s ease; }
+        .reveal-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+            .reveal-on-scroll { opacity: 1 !important; transform: none !important; }
+        }
+
+        @media (max-width: 760px) {
+            .books-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+            .books-hero { padding: 7rem 0 2rem 0; }
+            .books-hero h1 { font-size: 2.1rem; }
+        }
+
+        @media (max-width: 520px) {
+            .books-grid { grid-template-columns: repeat(2, 1fr); }
+            .book-modal-content { flex-direction: column; max-height: 92vh; }
+            .book-modal-cover { width: 100%; }
+            .book-modal-cover img { min-height: 220px; max-height: 42vh; }
+            .book-modal-details { padding: 1.4rem; }
+            .site-nav { width: calc(100% - 2rem); padding: 0.45rem 0.8rem; }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+
+    <div class="nav-wrapper">
+        <nav class="site-nav">
+            <a href="index.html" class="logo"><i class="fas fa-arrow-left"></i> nozer.online</a>
+            <div class="nav-right">
+                <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+            </div>
+        </nav>  
+    </div>
+
+    <header class="books-hero">
+        <div class="container">
+            <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Return to the home page</a>
+            <h1 style="margin-top: 1.25rem;">Books</h1>
+            <p>Books I have read and recommend — plus the list of what I plan to read next.</p>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <section id="recommended">
+            <div class="section-header">
+                <h3>recommended / <span>read</span></h3>
+                <span class="section-count" id="recommended-count">0</span>
+            </div>
+            <div class="books-grid" id="recommended-grid"></div>
+        </section>
+
+        <section id="planned">
+            <div class="section-header">
+                <h3>planned / <span>want to read</span></h3>
+                <span class="section-count" id="planned-count">0</span>
+            </div>
+            <div class="books-grid" id="planned-grid"></div>
+        </section>
+
+        <footer class="site-footer">
+            &copy; <span class="current-year"></span> nozer.online. All rights reserved.
+        </footer>
+    </div>
+
+    <div class="book-modal" id="book-modal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="book-modal-content">
+            <button class="book-modal-close" id="book-modal-close" aria-label="Close"><i class="fas fa-times"></i></button>
+            <div class="book-modal-cover">
+                <img id="book-modal-img" src="" alt="">
+            </div>
+            <div class="book-modal-details">
+                <span class="modal-status" id="book-modal-status">Recommended</span>
+                <h3 id="book-modal-title">Book title</h3>
+                <p class="modal-author" id="book-modal-author">Author</p>
+                <p class="modal-desc" id="book-modal-desc">Description.</p>
+                <div class="book-modal-links" id="book-modal-links"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* Edit this list to change covers, descriptions and links — the rest of the page renders automatically. */
+        const BOOKS = [
+            {
+                id: "atomic-habits",
+                title: "Atomic Habits",
+                author: "James Clear",
+                status: "recommended",
+                cover: "https://ecsmedia.pl/cdn-cgi/image/format=avif,width=544,height=544,/c/atomowe-nawyki-drobne-zmiany-niezwykle-efekty-b-iext202430750.jpg",
+                description: "This book showed me how valuable small changes can be in life and how tiny habits shape us over time. It's practical, full of examples, and an easy read. I recommend it to everyone.",
+                links: [
+                    { label: "jamesclear.com", url: "https://jamesclear.com/atomic-habits", icon: "fa-star" },
+                    { label: "Kup / Empik", url: "https://www.empik.com/atomowe-nawyki-drobne-zmiany-niezwykle-efekty-clear-james,p1230627986,ksiazka-p?%243p=a_tradedoubler&~click_id=bcd5a5c0e0405a4c544448b7d1a5ffd9&~secondary_publisher=Twenga%20%28PL%29&mpShopId=0&%24web_only=true&utm_source=tradedoubler&utm_medium=3144841%28Twenga%20%28PL%29%29&tduid=bcd5a5c0e0405a4c544448b7d1a5ffd9&pitd=3144841&_branch_match_id=1605974275619271738&utm_campaign=Affiliate&_branch_referrer=H4sIAAAAAAAAA41QTUvEMBD9Ne2tu23a7odQRBYFQVBQwVuZJNNttvkiTQjdw%2F52s4oH8eLwDjNvhjePN3pv55v1WpkTKiumFVi7kkJPa1zH53q6x4%2F3EOhtRpradtB7Bxy5CVSiyxM5gJQU2NQHJ7vxKpbVdxl5SIgxrr41mVFpBm%2BUiVhoiMskCu4M1ViclQC9FFrgOdESCxxw8kvBJIIrTqBwzsjBVqQuN2S7323SNM0CzhMU9uogIu2NlkvnXcDc8yB4RxlvoWUllk3ZQsPaJtWObnkF7TDwfX5hUiTT%2FzkNXvUKuQiqq6u0aqqM7N4i6iNkpEz9y1NG9gn5ZUZmNAe39DYFJOYRXffnMlf2dTT2kXdlboXnP6pfj2YTHMPuV8oXlyJxTuhjT52JcxI9jM4o%2FAS9LnO2vAEAAA%3D%3D", icon: "fa-cart-shopping" }
+                ]
+            },
+            {
+                id: "psychology-of-money",
+                title: "The Psychology of Money",
+                author: "Morgan Housel",
+                status: "recommended",
+                cover: "https://ecsmedia.pl/cdn-cgi/image/format=avif,width=544,height=544,/c/psychologia-pieniedzy-b-iext199141643.jpg",
+                description: "A thoughtful book on finance and investing. The author explains how emotions and human behavior shape our financial decisions. Highly recommended for anyone who wants to understand their money mindset better.",
+                links: [
+                    { label: "lubimyczytac.pl", url: "https://lubimyczytac.pl/ksiazka/4976009/psychologia-pieniedzy-ponadczasowe-lekcje-o-bogactwie-chciwosci-i-szczesciu#kup", icon: "fa-star" },
+                    { label: "Kup / Empik", url: "https://www.empik.com/psychologia-pieniedzy-housel-morgan,p1266348927,ksiazka-p", icon: "fa-cart-shopping" }
+                ]
+            },
+            {
+                id: "Cant-Hurt-Me",
+                title: "Can't Hurt Me",
+                author: "David Goggins",
+                status: "recommended",
+                cover: "https://ecsmedia.pl/cirl/n/c/nic-mnie-nie-zlamie-zapanuj-nad-swoim-umyslem-i-pokonaj-przeciwnosci-losu-b-iext202836080.jpg",
+                description: "I started reading this book lastly to improve discipline and motivation. The author shares his experiences and shows how to overcome personal limits.",
+                links: [
+                    { label: "lubimyczytac.pl", url: "https://lubimyczytac.pl/ksiazka/5062901/nic-mnie-nie-zlamie-zapanuj-nad-swoim-umyslem-i-pokonaj-przeciwnosci-losu", icon: "fa-star" },
+                    { label: "Kup / Empik", url: "https://www.empik.com/nic-mnie-nie-zlamie-zapanuj-nad-swoim-umyslem-i-pokonaj-przeciwnosci-losu-goggins-david,p1371591159,ksiazka-p", icon: "fa-cart-shopping" }
+                ]
+            },
+            {
+                id: "how-to-talk-to-anyone",
+                title: "How to Talk to Anyone",
+                author: "Leil Lowndes",
+                status: "planned",
+                cover: "https://ecsmedia.pl/cdn-cgi/image/format=avif,width=544,height=544,/c/dogadaj-sie-z-kazdym-poznaj-92-triki-mistrzow-budowania-dobrych-relacji-b-iext195756938.jpg",
+                description: "I want to better understand people and improve my communication skills. The book offers practical tips for building relationships and speaking confidently.",
+                links: [
+                    { label: "lubimyczytac.pl", url: "https://lubimyczytac.pl/ksiazka/5189786/dogadaj-sie-z-kazdym-poznaj-92-triki-mistrzow-budowania-dobrych-relacji", icon: "fa-star" },
+                    { label: "Kup / Empik", url: "https://www.empik.com/dogadaj-sie-z-kazdym-poznaj-92-triki-mistrzow-budowania-dobrych-relacji-lowndes-leil,p1566148780,ksiazka-p", icon: "fa-cart-shopping" }
+                ]
+            },
+            {
+                id: "how-to-stop-worrying-and-start-living",
+                title: "How to Stop Worrying and Start Living",
+                author: "Christel Petitcollin",
+                status: "planned",
+                cover: "https://ecsmedia.pl/cdn-cgi/image/format=avif,width=544,height=544,/c/jak-mniej-myslec-dla-analizujacych-bez-konca-i-wysoko-wrazliwych-b-iext202820992.jpg",
+                description: "This book aims to help with excessive analysis and overthinking. It is packed with strategies and techniques for calming the mind and managing stress more effectively.",
+                links: [
+                    { label: "lubimyczytac.pl", url: "https://lubimyczytac.pl/ksiazka/4885764/jak-mniej-myslec-dla-analizujacych-bez-konca-i-wysoko-wrazliwych", icon: "fa-star" },
+                    { label: "Kup / Empik", url: "https://www.empik.com/jak-mniej-myslec-dla-analizujacych-bez-konca-i-wysoko-wrazliwych-petitcollin-christel,p1222736270,ksiazka-p", icon: "fa-cart-shopping" }
+                ]
+            },
+            {
+                id: "meditations",
+                title: "Meditations",
+                author: "Marcus Aurelius",
+                status: "planned",
+                cover: "https://ecsmedia.pl/cdn-cgi/image/format=avif,width=544,height=544,/c/rozmyslania-do-siebie-samego-b-iext193963844.jpg",
+                description: "A stoic philosophy classic offering insight into the thoughts and reflections of one of Rome's greatest emperors. It is a guide to a life of self-discipline and inner calm.",
+                links: [
+                    { label: "lubimyczytac.pl", url: "https://lubimyczytac.pl/ksiazka/5242563/rozmyslania", icon: "fa-star" },
+                    { label: "Kup / Empik", url: "https://www.empik.com/rozmyslania-do-siebie-samego-marek-aureliusz,p1240006915,ksiazka-p", icon: "fa-book-open" }
+                ]
+            }
+        ];
+
+        const recommendedGrid = document.getElementById('recommended-grid');
+        const plannedGrid = document.getElementById('planned-grid');
+        const recommendedCount = document.getElementById('recommended-count');
+        const plannedCount = document.getElementById('planned-count');
+        const bookModal = document.getElementById('book-modal');
+        const bookModalClose = document.getElementById('book-modal-close');
+        const bookModalImg = document.getElementById('book-modal-img');
+        const bookModalTitle = document.getElementById('book-modal-title');
+        const bookModalAuthor = document.getElementById('book-modal-author');
+        const bookModalDesc = document.getElementById('book-modal-desc');
+        const bookModalStatus = document.getElementById('book-modal-status');
+        const bookModalLinks = document.getElementById('book-modal-links');
+        let lastFocusedEl = null;
+
+        function buildCard(book) {
+            const card = document.createElement('div');
+            card.className = 'book-card reveal-on-scroll';
+            card.tabIndex = 0;
+            card.setAttribute('role', 'button');
+            card.setAttribute('aria-label', `Open details: ${book.title}`);
+            card.innerHTML = `
+                <div class="book-cover-wrap">
+                    <img src="${book.cover}" alt="Cover: ${book.title}" loading="lazy">
+                    <div class="book-overlay"><i class="fas fa-expand"></i></div>
+                </div>
+                <div class="book-caption">
+                    <h4>${book.title}</h4>
+                    <p>${book.author}</p>
+                </div>
+            `;
+            const open = () => openBookModal(book, card);
+            card.addEventListener('click', open);
+            card.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    open();
+                }
+            });
+            return card;
+        }
+
+        function renderBooks() {
+            const recommended = BOOKS.filter(b => b.status === 'recommended');
+            const planned = BOOKS.filter(b => b.status === 'planned');
+            recommended.forEach(book => recommendedGrid.appendChild(buildCard(book)));
+            planned.forEach(book => plannedGrid.appendChild(buildCard(book)));
+            recommendedCount.textContent = recommended.length;
+            plannedCount.textContent = planned.length;
+        }
+
+        function openBookModal(book, triggerEl) {
+            lastFocusedEl = triggerEl;
+            bookModalImg.src = book.cover;
+            bookModalImg.alt = `Cover: ${book.title}`;
+            bookModalTitle.textContent = book.title;
+            bookModalAuthor.textContent = book.author;
+            bookModalDesc.textContent = book.description;
+            bookModalStatus.textContent = book.status === 'recommended' ? 'Recommended' : 'Planned';
+            bookModalStatus.className = `modal-status ${book.status}`;
+            bookModalLinks.innerHTML = '';
+            (book.links || []).forEach(link => {
+                const a = document.createElement('a');
+                a.href = link.url;
+                a.target = '_blank';
+                a.rel = 'noopener';
+                a.innerHTML = `<i class="fas ${link.icon || 'fa-link'}"></i> ${link.label}`;
+                bookModalLinks.appendChild(a);
+            });
+            bookModal.classList.add('active');
+            bookModal.setAttribute('aria-hidden', 'false');
+            bookModalClose.focus();
+        }
+
+        function closeBookModal() {
+            bookModal.classList.remove('active');
+            bookModal.setAttribute('aria-hidden', 'true');
+            if (lastFocusedEl) lastFocusedEl.focus();
+        }
+
+        bookModalClose.addEventListener('click', closeBookModal);
+        bookModal.addEventListener('click', (event) => {
+            if (event.target === bookModal) closeBookModal();
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && bookModal.classList.contains('active')) closeBookModal();
+        });
+
+        function initScrollReveal() {
+            const revealEls = document.querySelectorAll('.reveal-on-scroll');
+            if (!revealEls.length) return;
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                revealEls.forEach(el => el.classList.add('is-visible'));
+                return;
+            }
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+            revealEls.forEach(el => observer.observe(el));
+        }
+
+        function updateYearLabels() {
+            document.querySelectorAll('.current-year').forEach(el => {
+                el.textContent = new Date().getFullYear();
+            });
+        }
+
+        function initTheme() {
+            const themeToggleBtn = document.getElementById('theme-toggle-btn');
+            if (!themeToggleBtn) return;
+
+            function applyTheme(theme) {
+                document.body.setAttribute('data-theme', theme);
+                const icon = themeToggleBtn.querySelector('i');
+                if (icon) {
+                    icon.className = theme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+                }
+            }
+            const savedMode = localStorage.getItem('preferred_theme_mode') || 'system';
+            const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            applyTheme(savedMode === 'system' ? systemTheme : savedMode);
+            themeToggleBtn.addEventListener('click', () => {
+                const current = document.body.getAttribute('data-theme');
+                const next = current === 'dark' ? 'light' : 'dark';
+                localStorage.setItem('preferred_theme_mode', next);
+                applyTheme(next);
+            });
+            const savedAccent = localStorage.getItem('preferred_accent');
+            if (savedAccent) {
+                document.documentElement.style.setProperty('--accent', savedAccent);
+                document.documentElement.style.setProperty('--accent-bg', `${savedAccent}22`);
+            }
+        }
+
+        updateYearLabels();
+        renderBooks();
+        initScrollReveal();
+        initTheme();
+    </script>
+</body>
+</html>

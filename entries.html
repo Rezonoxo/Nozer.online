@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wpisy | Nozer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="icon.png">
+    
+    <!-- Parser Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #09090b;
+            --surface-card: #18181b;
+            --text-main: #f4f4f5;
+            --text-muted: #a1a1aa;
+            --border: rgba(255, 255, 255, 0.06);
+            --accent: #10b981;
+            --accent-bg: rgba(16, 185, 129, 0.08);
+            --pill-bg: rgba(255, 255, 255, 0.03);
+            --glow: rgba(139, 92, 246, 0.12);
+            --nav-bg: rgba(24, 24, 27, 0.6);
+            --heart-color: #ef4444;
+            --scrollbar-thumb: rgba(255, 255, 255, 0.15);
+            --scrollbar-thumb-hover: rgba(255, 255, 255, 0.3);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #fafafa;
+            --surface-card: #ffffff;
+            --text-main: #09090b;
+            --text-muted: #71717a;
+            --border: rgba(0, 0, 0, 0.06);
+            --pill-bg: rgba(0, 0, 0, 0.02);
+            --glow: rgba(139, 92, 246, 0.04);
+            --nav-bg: rgba(255, 255, 255, 0.6);
+            --scrollbar-thumb: rgba(0, 0, 0, 0.15);
+            --scrollbar-thumb-hover: rgba(0, 0, 0, 0.3);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        body::before {
+            content: ''; position: fixed; inset: 0;
+            background-image: radial-gradient(var(--border) 1px, transparent 1px);
+            background-size: 24px 24px; pointer-events: none; z-index: -2; opacity: 0.6;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* --- NAVBAR --- */
+        .nav-wrapper {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 1.25rem 0;
+            display: flex; flex-direction: column; align-items: center; pointer-events: none;
+        }
+        .site-nav {
+            background: var(--nav-bg); border: 1px solid var(--border); border-radius: 99px;
+            padding: 0.4rem 1.2rem; display: flex; justify-content: space-between; align-items: center;
+            width: min(calc(100% - 3rem), 900px); margin: 0 auto;
+            backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%);
+            pointer-events: auto; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        .site-nav .logo { font-weight: 700; font-size: 0.95rem; color: var(--text-main); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .theme-toggle {
+            background: var(--pill-bg); border: 1px solid var(--border); color: var(--text-main);
+            cursor: pointer; font-size: 0.85rem; width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+        }
+        .theme-toggle:hover { transform: rotate(15deg); background: var(--border); }
+
+        /* --- HERO & KONTROLI --- */
+        .hero { padding: 8.5rem 0 1.5rem 0; text-align: center; position: relative; }
+        .hero::after {
+            content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 500px; height: 300px; background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+            pointer-events: none; z-index: -1;
+        }
+        .hero h1 { font-size: 2.6rem; font-weight: 800; letter-spacing: -0.04em; margin-bottom: 0.6rem; }
+        .hero p { color: var(--text-muted); max-width: 480px; margin: 0 auto; font-size: 0.95rem; }
+
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+        .back-link:hover { color: var(--text-main); }
+
+        /* PASEK WYSZUKIWANIA I FILTRÓW */
+        .controls-wrapper {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+            width: min(100%, 420px);
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 16px 10px 40px;
+            border-radius: 99px;
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            font-size: 0.88rem;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .search-box input:focus {
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            background: var(--pill-bg); border: 1px solid var(--border); color: var(--text-muted);
+            padding: 6px 14px; border-radius: 99px; font-size: 0.82rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 6px;
+            outline: none;
+        }
+        .filter-btn:hover { color: var(--text-main); border-color: rgba(255,255,255,0.2); }
+        .filter-btn.active { background: var(--text-main); color: var(--bg-color); border-color: var(--text-main); }
+
+        /* --- STYLIZACJA DROPDOWNU SORTOWANIA --- */
+        .sort-select {
+            background-color: var(--surface-card);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 6px 30px 6px 14px;
+            border-radius: 99px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 12px;
+        }
+
+        .sort-select:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .sort-select option {
+            background-color: var(--surface-card);
+            color: var(--text-main);
+            padding: 10px;
+            font-size: 0.88rem;
+        }
+
+        /* --- GRID WPISÓW --- */
+        .entries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 16px;
+            margin-top: 1.5rem;
+        }
+
+        .entry-card {
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.25rem;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            height: 230px;
+        }
+
+        .entry-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.18);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .entry-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .entry-meta-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.72rem;
+        }
+
+        .entry-date {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .read-time {
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .fav-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            cursor: pointer;
+            padding: 4px;
+            transition: color 0.2s, transform 0.2s;
+            z-index: 2;
+        }
+
+        .fav-btn:hover { transform: scale(1.15); }
+        .fav-btn.is-fav { color: var(--heart-color); }
+
+        .entry-card h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.4rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .entry-snippet {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .entry-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-top: auto;
+        }
+
+        .entry-card-footer i {
+            transition: transform 0.2s ease;
+            margin-left: 6px;
+        }
+
+        .entry-card:hover .entry-card-footer i {
+            transform: translateX(4px);
+            color: var(--accent);
+        }
+
+        /* --- MODAL I STYLIZACJA PASEKA SCROLLOWANIA --- */
+        .entry-modal {
+            position: fixed; inset: 0; background: rgba(5, 7, 11, 0.88); display: none;
+            align-items: center; justify-content: center; z-index: 2000; padding: 1.5rem; backdrop-filter: blur(16px);
+        }
+        .entry-modal.active { display: flex; }
+        
+        .entry-modal-content {
+            position: relative; width: min(100%, 680px); max-height: 85vh;
+            border-radius: 20px; background: var(--surface-card); border: 1px solid var(--border);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5); padding: 2rem; display: flex;
+            flex-direction: column; gap: 1rem; overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--scrollbar-thumb) transparent;
+        }
+
+        .entry-modal-content::-webkit-scrollbar { width: 6px; }
+        .entry-modal-content::-webkit-scrollbar-track { background: transparent; margin: 12px 0; }
+        .entry-modal-content::-webkit-scrollbar-thumb { background-color: var(--scrollbar-thumb); border-radius: 99px; }
+        .entry-modal-content::-webkit-scrollbar-thumb:hover { background-color: var(--scrollbar-thumb-hover); }
+
+        .modal-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .modal-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.8rem;
+        }
+
+        .modal-date { font-weight: 600; color: var(--accent); display: flex; align-items: center; gap: 6px; }
+        .modal-read-time { color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
+
+        .modal-actions { display: flex; align-items: center; gap: 8px; }
+
+        .modal-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: grid; place-items: center;
+            cursor: pointer; font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .modal-btn:hover { background: rgba(255,255,255,0.15); transform: scale(1.05); }
+
+        .copy-btn.copied { background: var(--accent); color: #000; border-color: var(--accent); }
+
+        .entry-modal-content h2 {
+            font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.3;
+            white-space: normal; word-break: break-word;
+        }
+
+        .entry-modal-body {
+            color: var(--text-main); font-size: 0.95rem; line-height: 1.7;
+            word-break: break-word; opacity: 0.9; margin-top: 0.5rem;
+        }
+
+        /* STYLIZE ELEMENTÓW MARKDOWN W MODALU */
+        .entry-modal-body h1, 
+        .entry-modal-body h2, 
+        .entry-modal-body h3, 
+        .entry-modal-body h4 {
+            margin-top: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+            line-height: 1.3;
+        }
+
+        .entry-modal-body p { margin-bottom: 1rem; }
+
+        .entry-modal-body a {
+            color: var(--accent);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            transition: opacity 0.2s;
+        }
+
+        .entry-modal-body a:hover { opacity: 0.8; }
+
+        .entry-modal-body img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin: 1rem 0;
+            border: 1px solid var(--border);
+            display: block;
+        }
+
+        .entry-modal-body ul, 
+        .entry-modal-body ol {
+            margin-left: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .entry-modal-body li { margin-bottom: 0.3rem; }
+
+        .entry-modal-body blockquote {
+            border-left: 3px solid var(--accent);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .entry-modal-body code {
+            background: var(--pill-bg);
+            border: 1px solid var(--border);
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.88em;
+        }
+
+        .entry-modal-body pre {
+            background: var(--bg-color);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .entry-modal-body pre code {
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        #scroll-sentinel { height: 20px; margin-top: 2rem; }
+
+        .site-footer { border-top: 1px solid var(--border); margin-top: 3rem; padding: 2rem 0; text-align: center; font-size: 0.8rem; color: var(--text-muted); }
+    </style>
+</head>
+<body data-theme="dark">
+
+    <div class="nav-wrapper">
+        <nav class="site-nav">
+            <a href="index.html" class="logo"><i class="fas fa-arrow-left"></i> nozer.online</a>
+            <button class="theme-toggle" id="theme-toggle-btn" aria-label="Przełącz motyw"><i class="fas fa-moon"></i></button>
+        </nav>  
+    </div>
+
+    <header class="hero">
+        <div class="container">
+            <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Powrót do strony głównej</a>
+            <h1 style="margin-top: 1.25rem;">Wpisy</h1>
+            <p>Krótkie przemyślenia, notatki i aktualizacje moich działań.</p>
+
+            <div class="controls-wrapper">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Szukaj we wpisach...">
+                </div>
+
+                <div class="filter-row">
+                    <button class="filter-btn active" id="filter-all"><i class="fas fa-layer-group"></i> Wszystkie</button>
+                    <button class="filter-btn" id="filter-favs"><i class="fas fa-heart"></i> Ulubione (<span id="fav-count">0</span>)</button>
+                    
+                    <select class="sort-select" id="sort-select">
+                        <option value="newest">Najnowsze</option>
+                        <option value="oldest">Najstarsze</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="entries-grid" id="entries-grid"></div>
+        <div id="scroll-sentinel"></div>
+
+        <footer class="site-footer">
+            &copy; <span class="current-year"></span> nozer.online. Wszelkie prawa zastrzeżone.
+        </footer>
+    </div>
+
+    <!-- MODAL -->
+    <div class="entry-modal" id="entry-modal" aria-hidden="true">
+        <div class="entry-modal-content">
+            <div class="modal-top-bar">
+                <div class="modal-meta">
+                    <div class="modal-date" id="modal-date"><i class="far fa-calendar-alt"></i> <span></span></div>
+                    <div class="modal-read-time" id="modal-read-time"><i class="far fa-clock"></i> <span></span></div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="modal-btn copy-btn" id="modal-copy-btn" title="Kopiuj treść"><i class="far fa-copy"></i></button>
+                    <button class="modal-btn fav-btn" id="modal-fav-btn" title="Dodaj do ulubionych"><i class="far fa-heart"></i></button>
+                    <button class="modal-btn modal-close" id="modal-close" title="Zamknij"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+
+            <h2 id="modal-title"></h2>
+            <div class="entry-modal-body" id="modal-content"></div>
+        </div>
+    </div>
+
+    <script>
+        const grid = document.getElementById('entries-grid');
+        const modal = document.getElementById('entry-modal');
+        const modalClose = document.getElementById('modal-close');
+        const modalDate = document.getElementById('modal-date').querySelector('span');
+        const modalReadTime = document.getElementById('modal-read-time').querySelector('span');
+        const modalTitle = document.getElementById('modal-title');
+        const modalContent = document.getElementById('modal-content');
+        const modalFavBtn = document.getElementById('modal-fav-btn');
+        const modalCopyBtn = document.getElementById('modal-copy-btn');
+
+        const searchInput = document.getElementById('search-input');
+        const filterAllBtn = document.getElementById('filter-all');
+        const filterFavsBtn = document.getElementById('filter-favs');
+        const sortSelect = document.getElementById('sort-select');
+        const favCountSpan = document.getElementById('fav-count');
+
+        let allPosts = [];
+        let filteredPosts = [];
+        let favorites = JSON.parse(localStorage.getItem('favorite_entries') || '[]');
+        let currentFilter = 'all';
+        let currentSort = 'newest';
+        let currentActivePost = null;
+
+        const PAGE_SIZE = 9;
+        let displayedCount = 0;
+
+        // Pomocnik do usuwania zniekształcających tagów Markdown z kart na siatce
+        function stripMarkdown(text) {
+            return text
+                .replace(/!\[.*?\]\(.*?\)/g, '')
+                .replace(/\[(.*?)\]\(.*?\)/g, '$1')
+                .replace(/`{1,3}.*?`{1,3}/g, '')
+                .replace(/#{1,6}\s?/g, '')
+                .replace(/[*_~`]/g, '');
+        }
+
+        function getReadingTime(text) {
+            const words = text.trim().split(/\s+/).length;
+            const minutes = Math.ceil(words / 200);
+            return `${minutes} min`;
+        }
+
+        async function loadEntries() {
+            try {
+                const response = await fetch('posts.json');
+                allPosts = await response.json();
+                updateFavCount();
+                applyFilters();
+            } catch (err) {
+                grid.innerHTML = `<p style="color: var(--text-muted); text-align: center; grid-column: 1/-1;">Brak wpisów do wyświetlenia.</p>`;
+            }
+        }
+
+        function applyFilters() {
+            const query = searchInput.value.toLowerCase().trim();
+
+            filteredPosts = allPosts.filter(post => {
+                const matchesFav = currentFilter === 'favs' ? favorites.includes(post.id) : true;
+                const matchesSearch = post.title.toLowerCase().includes(query) || post.content.toLowerCase().includes(query);
+                return matchesFav && matchesSearch;
+            });
+
+            filteredPosts.sort((a, b) => {
+                if (currentSort === 'newest') return b.date.localeCompare(a.date);
+                if (currentSort === 'oldest') return a.date.localeCompare(b.date);
+            });
+
+            displayedCount = 0;
+            grid.innerHTML = '';
+
+            if (filteredPosts.length === 0) {
+                grid.innerHTML = `<p style="color: var(--text-muted); text-align: center; grid-column: 1/-1; padding: 2rem 0;">Brak wpisów pasujących do kryteriów.</p>`;
+                return;
+            }
+
+            renderNextBatch();
+        }
+
+        function renderNextBatch() {
+            const nextBatch = filteredPosts.slice(displayedCount, displayedCount + PAGE_SIZE);
+
+            nextBatch.forEach(post => {
+                const isFav = favorites.includes(post.id);
+                const readTime = getReadingTime(post.content);
+
+                const card = document.createElement('div');
+                card.className = 'entry-card';
+                card.innerHTML = `
+                    <div class="entry-card-header">
+                        <div class="entry-meta-info">
+                            <span class="entry-date">${post.date}</span>
+                            <span class="read-time"><i class="far fa-clock"></i> ${readTime}</span>
+                        </div>
+                        <button class="fav-btn ${isFav ? 'is-fav' : ''}" title="Dodaj do ulubionych">
+                            <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
+                        </button>
+                    </div>
+                    <h3>${post.title}</h3>
+                    <p class="entry-snippet">${stripMarkdown(post.content)}</p>
+                    <div class="entry-card-footer">
+                        Czytaj dalej <i class="fas fa-arrow-right"></i>
+                    </div>
+                `;
+
+                const favBtn = card.querySelector('.fav-btn');
+                favBtn.addEventListener('click', (e) => toggleFavorite(post.id, e));
+                card.addEventListener('click', () => openModal(post));
+
+                grid.appendChild(card);
+            });
+
+            displayedCount += nextBatch.length;
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && displayedCount < filteredPosts.length) {
+                renderNextBatch();
+            }
+        }, { threshold: 0.1 });
+
+        observer.observe(document.getElementById('scroll-sentinel'));
+
+        function toggleFavorite(id, e) {
+            if (e) e.stopPropagation();
+
+            if (favorites.includes(id)) {
+                favorites = favorites.filter(favId => favId !== id);
+            } else {
+                favorites.push(id);
+            }
+
+            localStorage.setItem('favorite_entries', JSON.stringify(favorites));
+            updateFavCount();
+            applyFilters();
+
+            if (currentActivePost && currentActivePost.id === id) {
+                updateModalFavIcon(id);
+            }
+        }
+
+        function updateFavCount() {
+            favCountSpan.textContent = favorites.length;
+        }
+
+        function openModal(post) {
+            currentActivePost = post;
+            modalDate.textContent = post.date;
+            modalReadTime.textContent = getReadingTime(post.content);
+            modalTitle.textContent = post.title;
+            
+            // Renderowanie HTML z Markdownu
+            modalContent.innerHTML = marked.parse(post.content);
+            
+            updateModalFavIcon(post.id);
+
+            modalCopyBtn.className = 'modal-btn copy-btn';
+            modalCopyBtn.innerHTML = `<i class="far fa-copy"></i>`;
+            modalCopyBtn.onclick = () => copyToClipboard(post.content);
+
+            modal.classList.add('active');
+            modal.setAttribute('aria-hidden', 'false');
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                modalCopyBtn.classList.add('copied');
+                modalCopyBtn.innerHTML = `<i class="fas fa-check"></i>`;
+                setTimeout(() => {
+                    modalCopyBtn.classList.remove('copied');
+                    modalCopyBtn.innerHTML = `<i class="far fa-copy"></i>`;
+                }, 2000);
+            });
+        }
+
+        function updateModalFavIcon(id) {
+            const isFav = favorites.includes(id);
+            modalFavBtn.className = `modal-btn fav-btn ${isFav ? 'is-fav' : ''}`;
+            modalFavBtn.innerHTML = `<i class="${isFav ? 'fas' : 'far'} fa-heart"></i>`;
+            modalFavBtn.onclick = () => toggleFavorite(id);
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            modal.setAttribute('aria-hidden', 'true');
+            currentActivePost = null;
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+        searchInput.addEventListener('input', applyFilters);
+
+        filterAllBtn.addEventListener('click', () => {
+            currentFilter = 'all';
+            filterAllBtn.classList.add('active');
+            filterFavsBtn.classList.remove('active');
+            applyFilters();
+        });
+
+        filterFavsBtn.addEventListener('click', () => {
+            currentFilter = 'favs';
+            filterFavsBtn.classList.add('active');
+            filterAllBtn.classList.remove('active');
+            applyFilters();
+        });
+
+        sortSelect.addEventListener('change', (e) => {
+            currentSort = e.target.value;
+            applyFilters();
+        });
+
+        function updateYearLabels() {
+            document.querySelectorAll('.current-year').forEach(el => {
+                el.textContent = new Date().getFullYear();
+            });
+        }
+
+        function initTheme() {
+            const themeToggleBtn = document.getElementById('theme-toggle-btn');
+            if (!themeToggleBtn) return;
+
+            function applyTheme(theme) {
+                document.body.setAttribute('data-theme', theme);
+                const icon = themeToggleBtn.querySelector('i');
+                if (icon) {
+                    icon.className = theme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+                }
+            }
+
+            const savedMode = localStorage.getItem('preferred_theme_mode') || 'system';
+            const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            applyTheme(savedMode === 'system' ? systemTheme : savedMode);
+
+            themeToggleBtn.addEventListener('click', () => {
+                const current = document.body.getAttribute('data-theme');
+                const next = current === 'dark' ? 'light' : 'dark';
+                localStorage.setItem('preferred_theme_mode', next);
+                applyTheme(next);
+            });
+
+            const savedAccent = localStorage.getItem('preferred_accent');
+            if (savedAccent) {
+                document.documentElement.style.setProperty('--accent', savedAccent);
+                document.documentElement.style.setProperty('--accent-bg', `${savedAccent}22`);
+            }
+        }
+
+        updateYearLabels();
+        initTheme();
+        loadEntries();
+    </script>
+</body>
+</html>
