@@ -743,6 +743,11 @@
                 photoModal.addEventListener('click', (event) => {
                     if (event.target === photoModal) closePhotoModal();
                 });
+                document.addEventListener('keydown', (event) => {
+                    if (event.key === 'Escape' && photoModal.classList.contains('active')) {
+                        closePhotoModal();
+                    }
+                });
             }
         }
 

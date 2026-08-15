@@ -41,6 +41,7 @@
             --scrollbar-thumb-hover: rgba(0, 0, 0, 0.3);
         }
 
+        html { max-width: 100%; overflow-x: clip; }
         * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
 
         body {
@@ -49,6 +50,7 @@
             color: var(--text-main);
             line-height: 1.6;
             overflow-x: hidden;
+            width: 100%; max-width: 100%;
             -webkit-font-smoothing: antialiased;
             transition: background-color 0.4s ease, color 0.4s ease;
         }
@@ -63,7 +65,7 @@
 
         /* --- NAVBAR --- */
         .nav-wrapper {
-            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 1.25rem 0;
+            position: fixed; top: 0; left: 0; right: 0; width: auto; max-width: 100%; z-index: 1000; padding: 1.25rem 0;
             display: flex; flex-direction: column; align-items: center; pointer-events: none;
         }
         .site-nav {
@@ -71,14 +73,14 @@
             padding: 0.4rem 1.2rem; display: flex; justify-content: space-between; align-items: center;
             width: min(calc(100% - 3rem), 900px); margin: 0 auto;
             backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%);
-            pointer-events: auto; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            pointer-events: auto; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2); min-width: 0; max-width: calc(100% - 1rem);
             transition: all 0.3s ease;
         }
-        .site-nav .logo { font-weight: 700; font-size: 0.95rem; color: var(--text-main); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .site-nav .logo { font-weight: 700; font-size: 0.95rem; color: var(--text-main); text-decoration: none; display: flex; align-items: center; gap: 8px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .theme-toggle {
             background: var(--pill-bg); border: 1px solid var(--border); color: var(--text-main);
             cursor: pointer; font-size: 0.85rem; width: 32px; height: 32px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex: 0 0 32px;
         }
         .theme-toggle:hover { transform: rotate(15deg); background: var(--border); }
 
@@ -185,7 +187,7 @@
         /* --- GRID WPISÓW --- */
         .entries-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
             gap: 16px;
             margin-top: 1.5rem;
         }

@@ -25,11 +25,13 @@
             transition: all 0.2s ease;
             min-height: 48px;
             height: auto;
+            min-width: 0;
+            max-width: calc(100% - 1rem);
         }
 
-        .site-nav .logo { font-weight: 700; font-size: 0.95rem; color: var(--text-main); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+        .site-nav .logo { font-weight: 700; font-size: 0.95rem; color: var(--text-main); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-        .nav-right { display: flex; align-items: center; gap: 10px; }
+        .nav-right { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; }
 
         .theme-toggle { 
             background: var(--pill-bg); 
@@ -43,6 +45,7 @@
             justify-content: center; 
             cursor: pointer;
             transition: background-color 0.2s ease, transform 0.1s ease;
+            flex: 0 0 40px;
         }
 
         .theme-toggle:active {
