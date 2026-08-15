@@ -449,7 +449,7 @@
         <div class="container">
             <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Powrót do strony głównej</a>
             <h1 style="margin-top: 1.25rem;">Wpisy</h1>
-            <p>Krótkie przemyślenia, notatki i aktualizacje moich działań.</p>
+            <p>Krótkie przemyślenia, notatki i informacje o tym, co u mnie słychać.</p>
 
             <div class="controls-wrapper">
                 <div class="search-box">
@@ -572,7 +572,7 @@
             grid.innerHTML = '';
 
             if (filteredPosts.length === 0) {
-                grid.innerHTML = `<p style="color: var(--text-muted); text-align: center; grid-column: 1/-1; padding: 2rem 0;">Brak wpisów pasujących do kryteriów.</p>`;
+                grid.innerHTML = `<p style="color: var(--text-muted); text-align: center; grid-column: 1/-1; padding: 2rem 0;">Brak wpisów pasujących do podanych kryteriów.</p>`;
                 return;
             }
 

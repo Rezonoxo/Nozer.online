@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Books | Nozer</title>
+    <title>Książki | Nozer</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="icon.png">
@@ -186,16 +186,16 @@
         <nav class="site-nav">
             <a href="index.html" class="logo"><i class="fas fa-arrow-left"></i> nozer.online</a>
             <div class="nav-right">
-                <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+                <button class="theme-toggle" id="theme-toggle-btn" aria-label="Przełącz motyw"><i class="fas fa-moon"></i></button>
             </div>
         </nav>  
     </div>
 
     <header class="books-hero">
         <div class="container">
-            <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Return to the home page</a>
-            <h1 style="margin-top: 1.25rem;">Books</h1>
-            <p>Books I have read and recommend — plus the list of what I plan to read next.</p>
+            <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Wróć na stronę główną</a>
+            <h1 style="margin-top: 1.25rem;">Książki</h1>
+            <p>Książki, które przeczytałem i polecam, oraz te, które planuję przeczytać.</p>
         </div>
     </header>
 
@@ -203,7 +203,7 @@
 
         <section id="recommended">
             <div class="section-header">
-                <h3>recommended / <span>read</span></h3>
+                <h3>rekomendowane / <span>przeczytane</span></h3>
                 <span class="section-count" id="recommended-count">0</span>
             </div>
             <div class="books-grid" id="recommended-grid"></div>
@@ -211,28 +211,28 @@
 
         <section id="planned">
             <div class="section-header">
-                <h3>planned / <span>want to read</span></h3>
+                <h3>planowane / <span>chcę przeczytać</span></h3>
                 <span class="section-count" id="planned-count">0</span>
             </div>
             <div class="books-grid" id="planned-grid"></div>
         </section>
 
         <footer class="site-footer">
-            &copy; <span class="current-year"></span> nozer.online. All rights reserved.
+            &copy; <span class="current-year"></span> nozer.online. Wszelkie prawa zastrzeżone.
         </footer>
     </div>
 
     <div class="book-modal" id="book-modal" aria-hidden="true" role="dialog" aria-modal="true">
         <div class="book-modal-content">
-            <button class="book-modal-close" id="book-modal-close" aria-label="Close"><i class="fas fa-times"></i></button>
+            <button class="book-modal-close" id="book-modal-close" aria-label="Zamknij"><i class="fas fa-times"></i></button>
             <div class="book-modal-cover">
                 <img id="book-modal-img" src="" alt="">
             </div>
             <div class="book-modal-details">
-                <span class="modal-status" id="book-modal-status">Recommended</span>
-                <h3 id="book-modal-title">Book title</h3>
-                <p class="modal-author" id="book-modal-author">Author</p>
-                <p class="modal-desc" id="book-modal-desc">Description.</p>
+                <span class="modal-status" id="book-modal-status">Rekomendowane</span>
+                <h3 id="book-modal-title">Tytuł książki</h3>
+                <p class="modal-author" id="book-modal-author">Autor</p>
+                <p class="modal-desc" id="book-modal-desc">Opis.</p>
                 <div class="book-modal-links" id="book-modal-links"></div>
             </div>
         </div>
@@ -247,7 +247,7 @@
                 author: "James Clear",
                 status: "recommended",
                 cover: "https://ecsmedia.pl/cdn-cgi/image/format=avif,width=544,height=544,/c/atomowe-nawyki-drobne-zmiany-niezwykle-efekty-b-iext202430750.jpg",
-                description: "This book showed me how valuable small changes can be in life and how tiny habits shape us over time. It's practical, full of examples, and an easy read. I recommend it to everyone.",
+                description: "Ta książka pokazała mi, jak cenne mogą być małe zmiany i jak kształtują nas codzienne nawyki. Jest praktyczna, pełna przykładów i przystępna. Polecam ją każdemu.",
                 links: [
                     { label: "jamesclear.com", url: "https://jamesclear.com/atomic-habits", icon: "fa-star" },
                     { label: "Kup / Empik", url: "https://www.empik.com/atomowe-nawyki-drobne-zmiany-niezwykle-efekty-clear-james,p1230627986,ksiazka-p?%243p=a_tradedoubler&~click_id=bcd5a5c0e0405a4c544448b7d1a5ffd9&~secondary_publisher=Twenga%20%28PL%29&mpShopId=0&%24web_only=true&utm_source=tradedoubler&utm_medium=3144841%28Twenga%20%28PL%29%29&tduid=bcd5a5c0e0405a4c544448b7d1a5ffd9&pitd=3144841&_branch_match_id=1605974275619271738&utm_campaign=Affiliate&_branch_referrer=H4sIAAAAAAAAA41QTUvEMBD9Ne2tu23a7odQRBYFQVBQwVuZJNNttvkiTQjdw%2F52s4oH8eLwDjNvhjePN3pv55v1WpkTKiumFVi7kkJPa1zH53q6x4%2F3EOhtRpradtB7Bxy5CVSiyxM5gJQU2NQHJ7vxKpbVdxl5SIgxrr41mVFpBm%2BUiVhoiMskCu4M1ViclQC9FFrgOdESCxxw8kvBJIIrTqBwzsjBVqQuN2S7323SNM0CzhMU9uogIu2NlkvnXcDc8yB4RxlvoWUllk3ZQsPaJtWObnkF7TDwfX5hUiTT%2FzkNXvUKuQiqq6u0aqqM7N4i6iNkpEz9y1NG9gn5ZUZmNAe39DYFJOYRXffnMlf2dTT2kXdlboXnP6pfj2YTHMPuV8oXlyJxTuhjT52JcxI9jM4o%2FAS9LnO2vAEAAA%3D%3D", icon: "fa-cart-shopping" }
@@ -259,7 +259,7 @@
                 author: "Morgan Housel",
                 status: "recommended",
                 cover: "https://ecsmedia.pl/cdn-cgi/image/format=avif,width=544,height=544,/c/psychologia-pieniedzy-b-iext199141643.jpg",
-                description: "A thoughtful book on finance and investing. The author explains how emotions and human behavior shape our financial decisions. Highly recommended for anyone who wants to understand their money mindset better.",
+                description: "Przemyślana książka o finansach i inwestowaniu. Autor wyjaśnia, jak emocje i ludzkie zachowania wpływają na nasze decyzje finansowe. Gorąco polecam ją wszystkim, którzy chcą lepiej zrozumieć swoje podejście do pieniędzy.",
                 links: [
                     { label: "lubimyczytac.pl", url: "https://lubimyczytac.pl/ksiazka/4976009/psychologia-pieniedzy-ponadczasowe-lekcje-o-bogactwie-chciwosci-i-szczesciu#kup", icon: "fa-star" },
                     { label: "Kup / Empik", url: "https://www.empik.com/psychologia-pieniedzy-housel-morgan,p1266348927,ksiazka-p", icon: "fa-cart-shopping" }
@@ -271,7 +271,7 @@
                 author: "David Goggins",
                 status: "recommended",
                 cover: "https://ecsmedia.pl/cirl/n/c/nic-mnie-nie-zlamie-zapanuj-nad-swoim-umyslem-i-pokonaj-przeciwnosci-losu-b-iext202836080.jpg",
-                description: "I started reading this book lastly to improve discipline and motivation. The author shares his experiences and shows how to overcome personal limits.",
+                description: "Zacząłem ją czytać, żeby pracować nad dyscypliną i motywacją. Autor dzieli się własnymi doświadczeniami i pokazuje, jak przekraczać własne ograniczenia.",
                 links: [
                     { label: "lubimyczytac.pl", url: "https://lubimyczytac.pl/ksiazka/5062901/nic-mnie-nie-zlamie-zapanuj-nad-swoim-umyslem-i-pokonaj-przeciwnosci-losu", icon: "fa-star" },
                     { label: "Kup / Empik", url: "https://www.empik.com/nic-mnie-nie-zlamie-zapanuj-nad-swoim-umyslem-i-pokonaj-przeciwnosci-losu-goggins-david,p1371591159,ksiazka-p", icon: "fa-cart-shopping" }
@@ -283,7 +283,7 @@
                 author: "Leil Lowndes",
                 status: "planned",
                 cover: "https://ecsmedia.pl/cdn-cgi/image/format=avif,width=544,height=544,/c/dogadaj-sie-z-kazdym-poznaj-92-triki-mistrzow-budowania-dobrych-relacji-b-iext195756938.jpg",
-                description: "I want to better understand people and improve my communication skills. The book offers practical tips for building relationships and speaking confidently.",
+                description: "Chcę lepiej rozumieć ludzi i doskonalić komunikację. Książka oferuje praktyczne porady dotyczące budowania relacji i mówienia z większą pewnością siebie.",
                 links: [
                     { label: "lubimyczytac.pl", url: "https://lubimyczytac.pl/ksiazka/5189786/dogadaj-sie-z-kazdym-poznaj-92-triki-mistrzow-budowania-dobrych-relacji", icon: "fa-star" },
                     { label: "Kup / Empik", url: "https://www.empik.com/dogadaj-sie-z-kazdym-poznaj-92-triki-mistrzow-budowania-dobrych-relacji-lowndes-leil,p1566148780,ksiazka-p", icon: "fa-cart-shopping" }
@@ -295,7 +295,7 @@
                 author: "Christel Petitcollin",
                 status: "planned",
                 cover: "https://ecsmedia.pl/cdn-cgi/image/format=avif,width=544,height=544,/c/jak-mniej-myslec-dla-analizujacych-bez-konca-i-wysoko-wrazliwych-b-iext202820992.jpg",
-                description: "This book aims to help with excessive analysis and overthinking. It is packed with strategies and techniques for calming the mind and managing stress more effectively.",
+                description: "Książka pomaga ograniczyć nadmierne analizowanie i zamartwianie się. Zawiera strategie oraz techniki, które ułatwiają uspokojenie umysłu i skuteczniejsze radzenie sobie ze stresem.",
                 links: [
                     { label: "lubimyczytac.pl", url: "https://lubimyczytac.pl/ksiazka/4885764/jak-mniej-myslec-dla-analizujacych-bez-konca-i-wysoko-wrazliwych", icon: "fa-star" },
                     { label: "Kup / Empik", url: "https://www.empik.com/jak-mniej-myslec-dla-analizujacych-bez-konca-i-wysoko-wrazliwych-petitcollin-christel,p1222736270,ksiazka-p", icon: "fa-cart-shopping" }
@@ -307,7 +307,7 @@
                 author: "Marcus Aurelius",
                 status: "planned",
                 cover: "https://ecsmedia.pl/cdn-cgi/image/format=avif,width=544,height=544,/c/rozmyslania-do-siebie-samego-b-iext193963844.jpg",
-                description: "A stoic philosophy classic offering insight into the thoughts and reflections of one of Rome's greatest emperors. It is a guide to a life of self-discipline and inner calm.",
+                description: "Klasyk filozofii stoickiej, zawierający myśli i refleksje jednego z największych cesarzy Rzymu. To przewodnik po życiu opartym na samodyscyplinie i wewnętrznym spokoju.",
                 links: [
                     { label: "lubimyczytac.pl", url: "https://lubimyczytac.pl/ksiazka/5242563/rozmyslania", icon: "fa-star" },
                     { label: "Kup / Empik", url: "https://www.empik.com/rozmyslania-do-siebie-samego-marek-aureliusz,p1240006915,ksiazka-p", icon: "fa-book-open" }
@@ -334,10 +334,10 @@
             card.className = 'book-card reveal-on-scroll';
             card.tabIndex = 0;
             card.setAttribute('role', 'button');
-            card.setAttribute('aria-label', `Open details: ${book.title}`);
+            card.setAttribute('aria-label', `Otwórz szczegóły: ${book.title}`);
             card.innerHTML = `
                 <div class="book-cover-wrap">
-                    <img src="${book.cover}" alt="Cover: ${book.title}" loading="lazy">
+                    <img src="${book.cover}" alt="Okładka: ${book.title}" loading="lazy">
                     <div class="book-overlay"><i class="fas fa-expand"></i></div>
                 </div>
                 <div class="book-caption">
@@ -368,11 +368,11 @@
         function openBookModal(book, triggerEl) {
             lastFocusedEl = triggerEl;
             bookModalImg.src = book.cover;
-            bookModalImg.alt = `Cover: ${book.title}`;
+            bookModalImg.alt = `Okładka: ${book.title}`;
             bookModalTitle.textContent = book.title;
             bookModalAuthor.textContent = book.author;
             bookModalDesc.textContent = book.description;
-            bookModalStatus.textContent = book.status === 'recommended' ? 'Recommended' : 'Planned';
+            bookModalStatus.textContent = book.status === 'recommended' ? 'Rekomendowane' : 'Planowane';
             bookModalStatus.className = `modal-status ${book.status}`;
             bookModalLinks.innerHTML = '';
             (book.links || []).forEach(link => {
