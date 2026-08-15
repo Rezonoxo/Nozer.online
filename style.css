@@ -1583,8 +1583,21 @@
                 flex: 1 1 100%;
             }
 
-            .site-nav-links a { padding: 0.25rem 0.35rem; }
-            .site-nav-links a .nav-link-text { display: none; }
+            .site-nav-links a {
+                padding: 0.25rem 0.35rem;
+                gap: 0;
+            }
+
+            .site-nav-links a i {
+                display: none;
+            }
+
+            .site-nav-links a .nav-link-text {
+                display: inline;
+                font-size: 0.72rem;
+                line-height: 1.2;
+                white-space: nowrap;
+            }
 
             .nav-right {
                 gap: 6px;
