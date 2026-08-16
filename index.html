@@ -74,6 +74,7 @@
     </div>
 
 
+    <div id="home-view">
     <!-- Hero -->
     <header class="hero-fullscreen">
         <div class="avatar-container">
@@ -88,8 +89,8 @@
         </div>
         <div class="hero-chip" id="hero-quote">>_ Tworzę cyfrowe doświadczenia, grafiki i materiały wizualne.</div>
         <p class="hero-sub">
-            Mam 18 lat i pochodzę z Polski. Tworzę treści, projektuję grafiki i uczę się tworzyć strony oraz aplikacje. Lubię jeździć rowerem, podróżować i wspinać się w górach.
-        </p>
+  Mam <span class="age-wrapper">18<span class="age-tooltip" id="exact-age">Wczytywanie...</span></span> lat i pochodzę z Polski. Tworzę treści, projektuję grafiki i uczę się tworzyć strony oraz aplikacje. Lubię jeździć rowerem, podróżować i wspinać się w górach.
+</p>
         <div class="hero-btns">
             <a href="#projects" class="btn btn-primary"><i class="fas fa-folder"></i> Zobacz moje prace</a>
             <a href="#connect" class="btn btn-secondary"><i class="fas fa-paper-plane"></i> Napisz do mnie</a>
@@ -252,9 +253,9 @@
         <section id="projects">
             <div class="section-header">
                 <h3>wyróżnione / <span>projekty</span></h3>
-                <a href="https://github.com/rezonoxo" target="_blank" rel="noopener noreferrer" class="view-all">wszystko ↗</a>
+                <a href="#catalog-projects" class="view-all" data-catalog-link="projects">wszystko ↗</a>
             </div>
-            <div class="projects-grid">
+            <div class="projects-grid" id="featured-projects-grid">
                 <div class="project-card">
                     <img src="poko.png" class="project-banner" alt="Banner aplikacji Poko" loading="lazy">
                     <div class="project-content">
@@ -288,9 +289,9 @@
         <section id="photography">
             <div class="section-header">
                 <h3>fotografia / <span>ostatnie zdjęcia</span></h3>
-                <a href="404.html" target="_blank" rel="noopener noreferrer" class="view-all">wszystko ↗</a>
+                <a href="#catalog-photos" class="view-all" data-catalog-link="photos">wszystko ↗</a>
             </div>
-            <div class="photo-row">
+            <div class="photo-row" id="featured-photo-row">
                 <div class="photo-item" tabindex="0" role="button" aria-label="Otwórz zdjęcie: Kościół w stylu gotyckim" data-title="Kościół w stylu gotyckim" data-location="Stalowa Wola, Polska">
                     <img src="photography/church.jpg" alt="zdjęcie kościoła" loading="lazy">
                     <div class="photo-overlay"><i class="fas fa-expand"></i></div>
@@ -369,6 +370,36 @@
         </footer>
 
     </div>
+    </div>
+
+    <section class="catalog-view" id="catalog-view" aria-hidden="true">
+        <div class="catalog-shell">
+            <div class="catalog-topbar">
+                <button class="catalog-back-btn" id="catalog-back-btn" type="button">
+                    <i class="fas fa-arrow-left"></i>
+                    Powrot
+                </button>
+                <div class="catalog-tabs" role="tablist" aria-label="Katalog">
+                    <button class="catalog-tab active" type="button" data-catalog-tab="projects">
+                        <i class="fas fa-folder-open"></i>
+                        Projekty
+                    </button>
+                    <button class="catalog-tab" type="button" data-catalog-tab="photos">
+                        <i class="fas fa-camera"></i>
+                        Fotografie
+                    </button>
+                </div>
+            </div>
+
+            <header class="catalog-hero">
+                <p id="catalog-kicker">katalog / projekty</p>
+                <h2 id="catalog-title">Wszystkie projekty</h2>
+                <span id="catalog-count">0 pozycji</span>
+            </header>
+
+            <div class="catalog-grid catalog-project-grid" id="catalog-grid"></div>
+        </div>
+    </section>
 
     <script>
         // ============================================
@@ -473,6 +504,19 @@
         const gitPrs = document.getElementById('git-prs');
         const gitBoard = document.getElementById('git-board');
         const discordCard = document.getElementById('discord-compact-card');
+        const homeView = document.getElementById('home-view');
+        const catalogView = document.getElementById('catalog-view');
+        const catalogGrid = document.getElementById('catalog-grid');
+        const catalogTitle = document.getElementById('catalog-title');
+        const catalogKicker = document.getElementById('catalog-kicker');
+        const catalogCount = document.getElementById('catalog-count');
+        const catalogBackBtn = document.getElementById('catalog-back-btn');
+        const featuredProjectsGrid = document.getElementById('featured-projects-grid');
+        const featuredPhotoRow = document.getElementById('featured-photo-row');
+        let allProjects = [];
+        let allPhotos = [];
+        let currentCatalog = 'projects';
+        if (photoModal) document.body.appendChild(photoModal);
 
         function getSystemTheme() {
             return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -683,6 +727,134 @@
             }
         }
 
+        function escapeHTML(value) {
+            return String(value || '').replace(/[&<>"']/g, (char) => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            }[char]));
+        }
+
+        function projectCardTemplate(project) {
+            const safeUrl = project.url ? escapeHTML(project.url) : '#';
+            const targetAttrs = project.url ? ' target="_blank" rel="noopener noreferrer"' : '';
+            return `
+                <div class="project-card">
+                    <img src="${escapeHTML(project.banner)}" class="project-banner" alt="Banner projektu ${escapeHTML(project.title)}" loading="lazy">
+                    <div class="project-content">
+                        <div class="project-title-row">
+                            <h4>${escapeHTML(project.title)}</h4>
+                        </div>
+                        <p class="project-desc">${escapeHTML(project.description)}</p>
+                        <div class="project-footer">
+                            <a href="${safeUrl}" class="project-action"${targetAttrs}>Pokaz projekt</a>
+                            <div class="sys-status">${escapeHTML(project.status || 'Gotowy')}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function photoItemTemplate(photo) {
+            return `
+                <div class="photo-item" tabindex="0" role="button" aria-label="Otworz zdjecie: ${escapeHTML(photo.title)}" data-title="${escapeHTML(photo.title)}" data-location="${escapeHTML(photo.location)}">
+                    <img src="${escapeHTML(photo.image)}" alt="${escapeHTML(photo.alt || photo.title)}" loading="lazy">
+                    <div class="photo-overlay"><i class="fas fa-expand"></i></div>
+                </div>
+            `;
+        }
+
+        async function loadPortfolioCatalogs() {
+            try {
+                const [projectResponse, photoResponse] = await Promise.all([
+                    fetch('projects.json'),
+                    fetch('photos.json')
+                ]);
+                allProjects = projectResponse.ok ? await projectResponse.json() : [];
+                allPhotos = photoResponse.ok ? await photoResponse.json() : [];
+                renderFeaturedCatalogItems();
+            } catch (error) {
+                allProjects = [];
+                allPhotos = [];
+            }
+        }
+
+        function renderFeaturedCatalogItems() {
+            if (featuredProjectsGrid && allProjects.length) {
+                featuredProjectsGrid.innerHTML = allProjects.slice(0, 2).map(projectCardTemplate).join('');
+            }
+            if (featuredPhotoRow && allPhotos.length) {
+                featuredPhotoRow.innerHTML = allPhotos.slice(0, 6).map(photoItemTemplate).join('');
+                initPhotoModal();
+            }
+        }
+
+        function openCatalog(type = 'projects') {
+            currentCatalog = type;
+            if (homeView) homeView.hidden = true;
+            if (catalogView) {
+                catalogView.classList.add('active');
+                catalogView.setAttribute('aria-hidden', 'false');
+            }
+            renderCatalog();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function closeCatalog() {
+            if (homeView) homeView.hidden = false;
+            if (catalogView) {
+                catalogView.classList.remove('active');
+                catalogView.setAttribute('aria-hidden', 'true');
+            }
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderCatalog() {
+            const isProjects = currentCatalog === 'projects';
+            const items = isProjects ? allProjects : allPhotos;
+            document.querySelectorAll('[data-catalog-tab]').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.catalogTab === currentCatalog);
+            });
+            if (catalogKicker) catalogKicker.textContent = isProjects ? 'katalog / projekty' : 'katalog / fotografia';
+            if (catalogTitle) catalogTitle.textContent = isProjects ? 'Wszystkie projekty' : 'Wszystkie fotografie';
+            if (catalogCount) catalogCount.textContent = `${items.length} ${items.length === 1 ? 'pozycja' : 'pozycji'}`;
+            if (!catalogGrid) return;
+            catalogGrid.className = `catalog-grid ${isProjects ? 'catalog-project-grid' : 'catalog-photo-grid'}`;
+
+            if (!items.length) {
+                catalogGrid.innerHTML = '<p class="catalog-empty">Nie ma jeszcze nic do wyswietlenia.</p>';
+                return;
+            }
+
+            catalogGrid.innerHTML = isProjects
+                ? items.map(projectCardTemplate).join('')
+                : items.map(photoItemTemplate).join('');
+
+            if (!isProjects) initPhotoModal(catalogGrid);
+        }
+
+        function initCatalogNavigation() {
+            document.querySelectorAll('[data-catalog-link]').forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    openCatalog(link.dataset.catalogLink);
+                });
+            });
+            document.querySelectorAll('[data-catalog-tab]').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    currentCatalog = tab.dataset.catalogTab;
+                    renderCatalog();
+                });
+            });
+            if (catalogBackBtn) catalogBackBtn.addEventListener('click', closeCatalog);
+
+            if (window.location.hash === '#catalog-projects') openCatalog('projects');
+            if (window.location.hash === '#catalog-photos') openCatalog('photos');
+        }
+
         // LastFM
         function fetchLastFM() {
             const trackCover = document.getElementById('track-cover');
@@ -718,8 +890,10 @@
         }
 
         // Photo Modal
-        function initPhotoModal() {
-            document.querySelectorAll('.photo-item').forEach(item => {
+        function initPhotoModal(root = document) {
+            root.querySelectorAll('.photo-item').forEach(item => {
+                if (item.dataset.modalReady === 'true') return;
+                item.dataset.modalReady = 'true';
                 const openThisPhoto = () => {
                     const img = item.querySelector('img');
                     const title = item.dataset.title || img.alt || 'Zdjęcie';
@@ -738,16 +912,22 @@
                     }
                 });
             });
-            if (photoModalClose) photoModalClose.addEventListener('click', closePhotoModal);
+            if (photoModalClose && photoModalClose.dataset.modalReady !== 'true') {
+                photoModalClose.dataset.modalReady = 'true';
+                photoModalClose.addEventListener('click', closePhotoModal);
+            }
             if (photoModal) {
-                photoModal.addEventListener('click', (event) => {
-                    if (event.target === photoModal) closePhotoModal();
-                });
-                document.addEventListener('keydown', (event) => {
-                    if (event.key === 'Escape' && photoModal.classList.contains('active')) {
-                        closePhotoModal();
-                    }
-                });
+                if (photoModal.dataset.modalReady !== 'true') {
+                    photoModal.dataset.modalReady = 'true';
+                    photoModal.addEventListener('click', (event) => {
+                        if (event.target === photoModal) closePhotoModal();
+                    });
+                    document.addEventListener('keydown', (event) => {
+                        if (event.key === 'Escape' && photoModal.classList.contains('active')) {
+                            closePhotoModal();
+                        }
+                    });
+                }
             }
         }
 
@@ -813,6 +993,7 @@
             renderGitGrid();
             initPhotoModal();
             initDiscordOverlayToggle();
+            loadPortfolioCatalogs().then(initCatalogNavigation);
 
             // Przesłanie motywu po załadowaniu ramki iframe z widżetem
             const iframe = document.querySelector('.discord-full-overlay iframe');
@@ -828,6 +1009,21 @@
             setInterval(fetchLanyard, 15000);
             setInterval(fetchLastFM, 20000);
         }
+
+        // Wiek tooltip
+const birthDate = new Date(2007, 12, 1, 23, 0, 0); 
+
+function updateExactAge() {
+  const now = new Date();
+  const diffInMs = now - birthDate;
+
+  const ageInYears = diffInMs / (1000 * 60 * 60 * 24 * 365.25);
+  
+  document.getElementById("exact-age").innerText = ageInYears.toFixed(8) + " lat";
+}
+
+setInterval(updateExactAge, 50);
+updateExactAge();
 
         document.addEventListener('DOMContentLoaded', init);
     </script>

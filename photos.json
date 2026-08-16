@@ -1,0 +1,37 @@
+[
+    {
+        "id": 5,
+        "title": "Podróż pociągiem",
+        "location": "Podkarpacie, Polska",
+        "image": "photography/podr-poci-giem-20260816-203711.jpg",
+        "alt": "Podróż pociągiem"
+    },
+    {
+        "id": 1,
+        "title": "Kosciol w stylu gotyckim",
+        "location": "Stalowa Wola, Polska",
+        "image": "photography/church.jpg",
+        "alt": "zdjecie kosciola"
+    },
+    {
+        "id": 2,
+        "title": "Jesienny las",
+        "location": "Pieninski Park Narodowy, Polska",
+        "image": "photography/forest.jpg",
+        "alt": "Fotografia spokojnej sceny jesiennego lasu ze sciezka i promieniami slonca."
+    },
+    {
+        "id": 3,
+        "title": "Ulica Pragi",
+        "location": "Praga, Czechy",
+        "image": "photography/prague.jpg",
+        "alt": "Widok ulicy w Pradze z brukowanym przejsciem i ozdobnym budynkiem."
+    },
+    {
+        "id": 4,
+        "title": "Alpy Szwajcarskie",
+        "location": "Murren, Szwajcaria",
+        "image": "photography/water.jpg",
+        "alt": "Szklanka wody z cytryna trzymana na tle szwajcarskich gor."
+    }
+]
