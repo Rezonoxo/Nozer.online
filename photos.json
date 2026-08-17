@@ -1,10 +1,24 @@
 [
     {
-        "id": 5,
-        "title": "Podróż pociągiem",
-        "location": "Podkarpacie, Polska",
-        "image": "photography/podr-poci-giem-20260816-203711.jpg",
-        "alt": "Podróż pociągiem"
+        "id": 8,
+        "title": "Ścieżka w Koronach Drzew",
+        "location": "Ciężkowice, Polska",
+        "image": "photography/cie-ka-w-koronach-drzew-20260817-105254.jpg",
+        "alt": "Ścieżka w Koronach Drzew"
+    },
+    {
+        "id": 7,
+        "title": "Łazienki Królewskie",
+        "location": "Warszawa, Polska",
+        "image": "photography/azienki-kr-lewskie-20260817-104150.jpg",
+        "alt": "Łazienki Królewskie"
+    },
+    {
+        "id": 6,
+        "title": "Zamojskie Kamienice",
+        "location": "Zamość, Polska",
+        "image": "photography/zamojskie-kamienice-20260817-104130.jpg",
+        "alt": "Zamojskie Kamienice"
     },
     {
         "id": 1,

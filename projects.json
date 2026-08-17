@@ -3,7 +3,7 @@
         "id": 1,
         "title": "Poko - Aplikacja dla budzetu i finansow",
         "description": "Poko pomaga sledzic dochody, dzielic wydatki na kategorie, zarzadzac dlugami i realizowac cele oszczednosciowe bez zakladania konta. Aplikacja laczy praktyczne narzedzia budzetowe z przejrzystymi wykresami, elementami osiagniec i pomoca AI.",
-        "banner": "poko.png",
+        "banner": "projects/banners/poko.png",
         "url": "https://rezonoxo.github.io/Poko/",
         "status": "Operacyjny"
     },
@@ -11,7 +11,7 @@
         "id": 2,
         "title": "Radio Non Stop Pop FM",
         "description": "Fanowska strona radiowa inspirowana stacja Non Stop Pop FM z Grand Theft Auto V pozwala poczuc sie jak podczas transmisji na zywo i sprawdzac aktualnie odtwarzany utwor lub przejsc do konkretnego.",
-        "banner": "nsf.png",
+        "banner": "projects/banners/nsf.png",
         "url": "https://rezonoxo.github.io/non-stop-fm/",
         "status": "Operacyjny"
     }
