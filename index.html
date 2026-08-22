@@ -217,17 +217,6 @@
                         <iframe src="widget.html" title="Discord full profile" loading="lazy"></iframe>
                     </div>
                 </div>
-
-                <div class="card lastfm-card">
-                    <div class="lastfm-badge"><i class="fab fa-lastfm"></i> Last.fm</div>
-                    <div class="music-cover-wrapper">
-                        <img src="" id="track-cover" class="music-cover" alt="Album Cover" onerror="this.style.display='none'">
-                    </div>
-                    <div class="music-info">
-                        <h4 id="track-title">Ładowanie utworu...</h4>
-                        <p id="track-artist">Łączenie z API</p>
-                    </div>
-                </div>
             </div>
 
             <div class="card github-box">
@@ -467,8 +456,6 @@
         // ============================================
         const CONFIG = {
             DISCORD_ID: "690653953238499369",
-            LASTFM_USER: "Nozercode",
-            LASTFM_API_KEY: "a3c1383c7bfe82bf015f78d6ae03c837",
             PROFILE_LINKS: {
                 github: "https://github.com/rezonoxo",
                 discord: "https://discord.com/users/690653953238499369"
@@ -855,40 +842,6 @@
             if (window.location.hash === '#catalog-photos') openCatalog('photos');
         }
 
-        // LastFM
-        function fetchLastFM() {
-            const trackCover = document.getElementById('track-cover');
-            const trackTitle = document.getElementById('track-title');
-            const trackArtist = document.getElementById('track-artist');
-
-            const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${CONFIG.LASTFM_USER}&api_key=${CONFIG.LASTFM_API_KEY}&format=json&limit=1`;
-            fetch(url)
-                .then(res => res.json())
-                .then(data => {
-                    if (!data.recenttracks || !data.recenttracks.track.length) return;
-                    const latestTrack = data.recenttracks.track[0];
-                    if (trackTitle) trackTitle.innerText = latestTrack.name;
-                    if (trackArtist) trackArtist.innerText = latestTrack.artist['#text'];
-                    const images = latestTrack.image;
-                    if (images && images.length > 0 && trackCover) {
-                        const imgUrl = images[images.length - 1]['#text'];
-                        if (imgUrl) {
-                            trackCover.src = imgUrl;
-                            trackCover.style.display = 'block';
-                        }
-                    }
-                    const badge = document.querySelector('.lastfm-badge');
-                    if (badge) {
-                        if (latestTrack['@attr'] && latestTrack['@attr'].nowplaying === "true") {
-                            badge.innerHTML = `<i class="fab fa-lastfm fa-spin"></i> Teraz odtwarzane`;
-                        } else {
-                            badge.innerHTML = `<i class="fab fa-lastfm"></i> Ostatnio odtwarzane`;
-                        }
-                    }
-                })
-                .catch(() => {});
-        }
-
         // Photo Modal
         function initPhotoModal(root = document) {
             root.querySelectorAll('.photo-item').forEach(item => {
@@ -989,7 +942,6 @@
             fetchWeatherData();
             fetchGithubStats();
             fetchLanyard();
-            fetchLastFM();
             renderGitGrid();
             initPhotoModal();
             initDiscordOverlayToggle();
@@ -1007,7 +959,6 @@
             setInterval(updateNaturalTimeAndWeather, 60000);
             setInterval(fetchWeatherData, 600000);
             setInterval(fetchLanyard, 15000);
-            setInterval(fetchLastFM, 20000);
         }
 
         // Wiek tooltip
