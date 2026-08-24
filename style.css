@@ -772,7 +772,8 @@
             cursor: pointer; 
             display: flex; 
             align-items: center; 
-            gap: 12px; 
+            gap: 12px;
+            grid-column: 1 / -1;
         }
         
         .discord-avatar-wrapper--lg { 
