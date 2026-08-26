@@ -1,5 +1,19 @@
 [
     {
+        "id": 10,
+        "title": "Kwiaty restauracji Łyżka W Miodzie",
+        "location": "Tarnów, Polska",
+        "image": "photography/kwiaty-restauracji-y-ka-w-miodzie-20260826-102202.jpeg",
+        "alt": "Kwiaty restauracji Łyżka W Miodzie"
+    },
+    {
+        "id": 9,
+        "title": "Restauracja Łyżka W Miodzie",
+        "location": "Tarnów, Polska",
+        "image": "photography/restauracja-y-ka-w-miodzie-20260826-102137.jpeg",
+        "alt": "Restauracja Łyżka W Miodzie"
+    },
+    {
         "id": 8,
         "title": "Ścieżka w Koronach Drzew",
         "location": "Ciężkowice, Polska",
