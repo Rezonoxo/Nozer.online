@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Podróży i Szczytów | Nozer.online</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="icon.png">
+
+    <style>
+        :root {
+            --bg-color: #09090b;
+            --surface-card: #18181b;
+            --text-main: #f4f4f5;
+            --text-muted: #a1a1aa;
+            --border: rgba(255, 255, 255, 0.06);
+            --accent: #10b981;
+            --accent-bg: rgba(16, 185, 129, 0.08);
+            --pill-bg: rgba(255, 255, 255, 0.03);
+            --glow: rgba(139, 92, 246, 0.12);
+            --nav-bg: rgba(24, 24, 27, 0.6);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #fafafa;
+            --surface-card: #ffffff;
+            --text-main: #09090b;
+            --text-muted: #71717a;
+            --border: rgba(0, 0, 0, 0.06);
+            --pill-bg: rgba(0, 0, 0, 0.02);
+            --glow: rgba(139, 92, 246, 0.04);
+            --nav-bg: rgba(255, 255, 255, 0.6);
+        }
+
+        html { max-width: 100%; overflow-x: clip; }
+        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            width: 100%; max-width: 100%;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        body::before {
+            content: ''; position: fixed; inset: 0;
+            background-image: radial-gradient(var(--border) 1px, transparent 1px);
+            background-size: 24px 24px; pointer-events: none; z-index: -2; opacity: 0.6;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* --- NAVBAR --- */
+        .nav-wrapper {
+            position: fixed; top: 0; left: 0; right: 0; width: auto; max-width: 100%; z-index: 1000; padding: 1.25rem 0;
+            display: flex; flex-direction: column; align-items: center; pointer-events: none;
+        }
+        .site-nav {
+            background: var(--nav-bg); border: 1px solid var(--border); border-radius: 99px;
+            padding: 0.4rem 1.2rem; display: flex; justify-content: space-between; align-items: center;
+            width: min(calc(100% - 3rem), 900px); margin: 0 auto;
+            backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%);
+            pointer-events: auto; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease; position: relative; min-width: 0; max-width: calc(100% - 1rem);
+        }
+        [data-theme="light"] .site-nav { box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05); }
+        .site-nav .logo { font-weight: 700; letter-spacing: -0.5px; font-size: 0.95rem; color: var(--text-main); text-decoration: none; display: flex; align-items: center; gap: 8px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .site-nav .logo i { color: var(--text-muted); font-size: 0.8rem; }
+        .nav-right { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; }
+        .theme-toggle {
+            background: var(--pill-bg); border: 1px solid var(--border); color: var(--text-main);
+            cursor: pointer; font-size: 0.85rem; width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex: 0 0 32px;
+        }
+        .theme-toggle:hover { transform: rotate(15deg); background: var(--border); }
+
+        /* --- PAGE HEADER --- */
+        .map-hero { padding: 8.5rem 0 2rem 0; text-align: center; position: relative; }
+        .map-hero::after {
+            content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 500px; height: 300px; background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+            pointer-events: none; z-index: -1;
+        }
+        .map-hero h1 { font-size: 2.6rem; font-weight: 800; letter-spacing: -0.04em; margin-bottom: 0.6rem; }
+        .map-hero p { color: var(--text-muted); max-width: 480px; margin: 0 auto; font-size: 0.95rem; }
+
+        /* --- CONTROLS & BUTTONS --- */
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+        .back-link:hover { color: var(--text-main); }
+
+        .map-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.2rem;
+        }
+
+        .btn-fullscreen {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--pill-bg);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-fullscreen:hover {
+            background: var(--border);
+            transform: translateY(-1px);
+        }
+
+        /* --- MAP CONTAINER --- */
+        .map-wrapper {
+            position: relative;
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            height: 70vh;
+            min-height: 450px;
+            margin-top: 1rem;
+            transition: border-radius 0.3s ease;
+        }
+
+        .map-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* --- FULLSCREEN STYLES --- */
+        .map-wrapper.is-fullscreen {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            border-radius: 0;
+            border: none;
+        }
+
+        .exit-fullscreen-btn {
+            display: none;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 2001;
+            background: rgba(9, 9, 11, 0.85);
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+
+        .map-wrapper.is-fullscreen .exit-fullscreen-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .exit-fullscreen-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- FOOTER --- */
+        .site-footer { border-top: 1px solid var(--border); margin-top: 5rem; padding: 2rem 0; text-align: center; font-size: 0.8rem; color: var(--text-muted); }
+
+        @media (max-width: 760px) {
+            .map-hero { padding: 7rem 0 1.5rem 0; }
+            .map-hero h1 { font-size: 2.1rem; }
+            .map-wrapper { height: 60vh; }
+        }
+
+        @media (max-width: 520px) {
+            .site-nav { width: calc(100% - 2rem); padding: 0.45rem 0.8rem; }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+
+    <div class="nav-wrapper">
+        <nav class="site-nav">
+            <a href="index.html" class="logo"><i class="fas fa-arrow-left"></i> nozer.online</a>
+            <div class="nav-right">
+                <button class="theme-toggle" id="theme-toggle-btn" aria-label="Przełącz motyw"><i class="fas fa-moon"></i></button>
+            </div>
+        </nav>  
+    </div>
+
+    <header class="map-hero">
+        <div class="container">
+            <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Wróć na stronę główną</a>
+            <h1 style="margin-top: 1.25rem;">Moje podróże i szczyty</h1>
+            <p>Interaktywna mapa przedstawiająca miejsca, które odwiedziłem oraz zdobyte przeze mnie szczyty.</p>
+            
+            <div class="map-controls">
+                <button class="btn-fullscreen" id="fullscreen-toggle-btn">
+                    <i class="fas fa-expand"></i> Pełny ekran
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <main class="map-wrapper" id="map-wrapper">
+            <button class="exit-fullscreen-btn" id="exit-fullscreen-btn">
+                <i class="fas fa-compress"></i> Zamknij pełny ekran
+            </button>
+            <iframe 
+                src="https://maphub.net/embed_h/XYp8AojkeSFtC7xf?panel=1" 
+                title="Mapa podróży i szczytów"
+                allowfullscreen>
+            </iframe>
+        </main>
+
+        <footer class="site-footer">
+            &copy; <span class="current-year"></span> nozer.online. Wszelkie prawa zastrzeżone.
+        </footer>
+    </div>
+
+    <script>
+        function updateYearLabels() {
+            document.querySelectorAll('.current-year').forEach(el => {
+                el.textContent = new Date().getFullYear();
+            });
+        }
+
+        function initTheme() {
+            const themeToggleBtn = document.getElementById('theme-toggle-btn');
+            function applyTheme(theme) {
+                document.body.setAttribute('data-theme', theme);
+                const icon = themeToggleBtn.querySelector('i');
+                icon.className = theme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+            }
+            const savedMode = localStorage.getItem('preferred_theme_mode') || 'system';
+            const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            applyTheme(savedMode === 'system' ? systemTheme : savedMode);
+            themeToggleBtn.addEventListener('click', () => {
+                const current = document.body.getAttribute('data-theme');
+                const next = current === 'dark' ? 'light' : 'dark';
+                localStorage.setItem('preferred_theme_mode', next);
+                applyTheme(next);
+            });
+            const savedAccent = localStorage.getItem('preferred_accent');
+            if (savedAccent) {
+                document.documentElement.style.setProperty('--accent', savedAccent);
+                document.documentElement.style.setProperty('--accent-bg', `${savedAccent}22`);
+            }
+        }
+
+        function initFullscreen() {
+            const mapWrapper = document.getElementById('map-wrapper');
+            const toggleBtn = document.getElementById('fullscreen-toggle-btn');
+            const exitBtn = document.getElementById('exit-fullscreen-btn');
+
+            function toggleFullscreen() {
+                if (!document.fullscreenElement && !mapWrapper.classList.contains('is-fullscreen')) {
+                    if (mapWrapper.requestFullscreen) {
+                        mapWrapper.requestFullscreen();
+                    } else {
+                        mapWrapper.classList.add('is-fullscreen');
+                    }
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else {
+                        mapWrapper.classList.remove('is-fullscreen');
+                    }
+                }
+            }
+
+            toggleBtn.addEventListener('click', toggleFullscreen);
+            exitBtn.addEventListener('click', () => {
+                if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                } else {
+                    mapWrapper.classList.remove('is-fullscreen');
+                }
+            });
+
+            document.addEventListener('fullscreenchange', () => {
+                if (document.fullscreenElement) {
+                    mapWrapper.classList.add('is-fullscreen');
+                } else {
+                    mapWrapper.classList.remove('is-fullscreen');
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && mapWrapper.classList.contains('is-fullscreen')) {
+                    mapWrapper.classList.remove('is-fullscreen');
+                }
+            });
+        }
+
+        updateYearLabels();
+        initTheme();
+        initFullscreen();
+    </script>
+</body>
+</html>
