@@ -54,7 +54,9 @@
         </script>
 </head>
 <body data-theme="dark">
-
+<script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="smooth-scroll.js"></script>
+  <link rel="stylesheet" href="smooth-scroll.css">
     <!-- Navbar -->
     <div class="nav-wrapper">
         <nav class="site-nav">
@@ -252,7 +254,7 @@
                 <div class="github-card-head">
                     <div class="github-card-title">
                         <h4>GitHub</h4>
-                        <span>rezonoxo / działalność publiczna</span>
+                        <span>rezonoxo / Open Source</span>
                     </div>
                     <a href="#" id="action-github" class="card-action-link" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> GitHub</a>
                 </div>
@@ -688,7 +690,7 @@
                     const description = weatherCodeMap[current.weathercode] || 'Nieznane';
                     const localDate = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Warsaw' }));
                     const localHour = localDate.getHours();
-                    const awake = localHour >= 8 && localHour <= 22;
+                    const awake = localHour >= 7 && localHour <= 22;
                     if (naturalTimeString) naturalTimeString.textContent = `Aktualnie jest ${localDate.toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' })} — prawdopodobnie jestem ${awake ? 'na nogach' : 'w łóżku'}.`;
                     if (naturalWeatherString) naturalWeatherString.textContent = `Stalowa Wola: ${Math.round(current.temperature)}°C · ${description}`;
                     if (weatherIcon) weatherIcon.className = awake ? 'fas fa-sun' : 'fas fa-moon';
