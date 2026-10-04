@@ -395,7 +395,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     </div>
                     <div class="field-group">
                         <label>Status</label>
-                        <input type="text" name="status" value="Operacyjny" required>
+                        <input type="text" name="status" value="Wstrzymany" required>
                     </div>
                     <div class="field-group">
                         <label>Banner projektu</label>
@@ -510,7 +510,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         title = fields.get("title", "")
         description = fields.get("description", "")
         url = fields.get("url", "")
-        status = fields.get("status", "Operacyjny")
+        status = fields.get("status", "Wstrzymany")
         if not title or not description or not url:
             raise ValueError("Uzupelnij nazwe, opis i link projektu.")
         if "banner" not in files:
