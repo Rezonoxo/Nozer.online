@@ -274,15 +274,15 @@
                     </div>
                 </div>
                 <div class="project-card">
-                    <img src="projects/banners/nsf.png" class="project-banner" alt="Banner radia Non Stop Pop FM" loading="lazy">
+                    <img src="\projects\banners\kosierbin-aplikacja-do-udost-pniania-kodu-i-wiadomo-ci-20261010-212720.png" class="project-banner" alt="Banner aplikacji Kosierbin" loading="lazy">
                     <div class="project-content">
                         <div class="project-title-row">
-                            <h4>Radio Non Stop Pop FM</h4>
+                            <h4>Kosierbin - Aplikacja do udostępniania kodu i wiadomości</h4>
                         </div>
-                        <p class="project-desc">To fanowska strona radiowa inspirowana stacją Non Stop Pop FM z Grand Theft Auto V pozwala poczuć się jakby słuchając transmisję na żywo i sprawdzać aktualnie odtwarzany utwór lub przejść do konkretnego.</p>
+                        <p class="project-desc">Strona na której możesz prosto wysłać kod znajomemu lub zabezpieczyć wiadomość hasłem. Dostępny jest również anonimowy chat Realtime. Stworzony na potrzeby szkolne.</p>
                         <div class="project-footer">
-                            <a href="https://rezonoxo.github.io/non-stop-fm/" class="project-action" target="_blank" rel="noopener noreferrer">Pokaż projekt</a>
-                            <div class="sys-status">Wstrzymany</div>
+                            <a href="https://kosierbin.vercel.app/" class="project-action" target="_blank" rel="noopener noreferrer">Pokaż projekt</a>
+                            <div class="sys-status">Aktualny</div>
                         </div>
                     </div>
                 </div>
@@ -737,38 +737,23 @@
 
         const PHOTO_SOURCE_REPO = 'https://raw.githubusercontent.com/Rezonoxo/wiktorkonopka_/main';
         const EXTERNAL_GALLERY_URL = 'https://rezonoxo.github.io/wiktorkonopka_/';
-        const EXTERNAL_FEATURED_PHOTOS = [
-            { image: 'photos/1000052989.jpeg', alt: 'Zdjęcie' },
-            { image: 'photos/23a473190068309-67eea059ab391.jpg', alt: 'Zdjęcie' },
-            { image: 'photos/dsc-0061-edited.jpg', alt: 'Zdjęcie' },
-            { image: 'photos/dsc-0118-edited.jpg', alt: 'Zdjęcie' },
-            { image: 'photos/dsc-0214.jpg', alt: 'Zdjęcie' },
-            { image: 'photos/dsc-0221.jpg', alt: 'Zdjęcie' },
-            { image: 'photos/dsc-0237.jpg', alt: 'Zdjęcie' },
-            { image: 'photos/dsc-0241.jpg', alt: 'Zdjęcie' },
-            { image: 'photos/dsc-0242.jpg', alt: 'Zdjęcie' },
-            { image: 'photos/dsc-0267.jpg', alt: 'Zdjęcie' },
-            { image: 'photos/dsc-0289.jpg', alt: 'Zdjęcie' },
-            { image: 'photos/dsc-0291.jpg', alt: 'Zdjęcie' },
-            { image: 'photos/franek.jpg', alt: 'Zdjęcie' },
-            { image: 'photos/franio.jpg', alt: 'Zdjęcie' },
-            { image: 'photos/park.jpg', alt: 'Zdjęcie' }
-        ];
+        const EXTERNAL_GALLERY_MANIFEST_URL = `${EXTERNAL_GALLERY_URL}dist/gallery/gallery.json`;
 
-        function pickRandomPhotos(count = 6) {
-            const pool = [...EXTERNAL_FEATURED_PHOTOS];
-            for (let i = pool.length - 1; i > 0; i -= 1) {
+        function pickRandomPhotos(count = 6, pool = []) {
+            const shuffled = [...pool];
+            for (let i = shuffled.length - 1; i > 0; i -= 1) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [pool[i], pool[j]] = [pool[j], pool[i]];
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
             }
-            return pool.slice(0, Math.min(count, pool.length));
+            return shuffled.slice(0, Math.min(count, shuffled.length));
         }
 
         function resolvePhotoSource(src) {
             if (!src) return '';
             if (/^https?:\/\//i.test(src)) return src;
-            const cleaned = src.replace(/^\.?\//, '').replace(/^photography\//, 'photos/');
-            return `${PHOTO_SOURCE_REPO}/${cleaned}`;
+            const cleaned = src.replace(/^\.?\/?/, '').replace(/^\/+/, '');
+            if (!cleaned) return '';
+            return new URL(cleaned, EXTERNAL_GALLERY_URL).toString();
         }
 
         function projectCardTemplate(project) {
@@ -811,10 +796,10 @@
         }
 
         function photoItemTemplate(photo) {
-            const src = resolvePhotoSource(photo.image);
+            const mainSrc = photo.image || PHOTO_PLACEHOLDER;
             return `
                 <div class="photo-item" tabindex="0" role="button" aria-label="Otwórz zdjęcie" data-title="" data-location="">
-                    <img src="${PHOTO_PLACEHOLDER}" data-src="${escapeHTML(src)}" alt="${escapeHTML(photo.alt || 'Zdjęcie')}" loading="lazy" decoding="async" fetchpriority="low">
+                    <img src="${PHOTO_PLACEHOLDER}" data-src="${escapeHTML(mainSrc)}" alt="${escapeHTML(photo.alt || 'Zdjęcie')}" loading="lazy" decoding="async" fetchpriority="low">
                     <div class="photo-overlay"><i class="fas fa-expand"></i></div>
                 </div>
             `;
@@ -823,7 +808,22 @@
         async function loadPortfolioCatalogs() {
             try {
                 allProjects = [];
-                allPhotos = pickRandomPhotos(6).map(photo => ({ ...photo, image: resolvePhotoSource(photo.image) }));
+
+                const response = await fetch(EXTERNAL_GALLERY_MANIFEST_URL, { cache: 'no-store' });
+                if (!response.ok) {
+                    throw new Error(`Gallery request failed: ${response.status}`);
+                }
+
+                const manifest = await response.json();
+                const photoPool = Array.isArray(manifest?.images) ? manifest.images : [];
+
+                allPhotos = pickRandomPhotos(Math.min(6, photoPool.length || 0), photoPool)
+                    .map(photo => ({
+                        image: resolvePhotoSource(photo.original || photo.sources?.[0]?.src || ''),
+                        alt: (photo.name || 'Zdjęcie').replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ')
+                    }))
+                    .filter(photo => photo.image);
+
                 renderFeaturedCatalogItems();
             } catch (error) {
                 allProjects = [];
@@ -834,6 +834,13 @@
         function setupLazyPhotoObserver(root = document) {
             if (!root || !('IntersectionObserver' in window)) {
                 root.querySelectorAll('img[data-src]').forEach(img => {
+                    if (img.dataset.fallbackSrc && img.src === PHOTO_PLACEHOLDER) {
+                        img.addEventListener('error', () => {
+                            if (img.dataset.fallbackSrc && img.src !== img.dataset.fallbackSrc) {
+                                img.src = img.dataset.fallbackSrc;
+                            }
+                        }, { once: true });
+                    }
                     img.src = img.dataset.src;
                     delete img.dataset.src;
                 });
@@ -846,6 +853,13 @@
                     const img = entry.target;
                     const src = img.dataset.src;
                     if (src) {
+                        if (img.dataset.fallbackSrc) {
+                            img.addEventListener('error', () => {
+                                if (img.dataset.fallbackSrc && img.src !== img.dataset.fallbackSrc) {
+                                    img.src = img.dataset.fallbackSrc;
+                                }
+                            }, { once: true });
+                        }
                         img.src = src;
                         delete img.dataset.src;
                     }

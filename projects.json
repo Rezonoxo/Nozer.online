@@ -1,5 +1,29 @@
 [
     {
+        "id": 5,
+        "title": "Kosierbin - Aplikacja do udostępniania kodu i wiadomości",
+        "description": "Strona na której możesz prosto wysłać kod znajomemu lub zabezpieczyć wiadomość hasłem. Dostępny jest również anonimowy chat Realtime. Stworzony na potrzeby szkolne.",
+        "banner": "projects/banners/kosierbin-aplikacja-do-udost-pniania-kodu-i-wiadomo-ci-20261010-212756.png",
+        "url": "https://kosierbin.vercel.app/",
+        "status": "Aktualny"
+    },
+    {
+        "id": 4,
+        "title": "Kosierbin - Aplikacja do udostępniania kodu i wiadomości",
+        "description": "Strona na której możesz prosto wysłać kod znajomemu lub zabezpieczyć wiadomość hasłem. Dostępny jest również anonimowy chat Realtime. Stworzony na potrzeby szkolne.",
+        "banner": "projects/banners/kosierbin-aplikacja-do-udost-pniania-kodu-i-wiadomo-ci-20261010-212720.png",
+        "url": "https://kosierbin.vercel.app/",
+        "status": "Aktualny"
+    },
+    {
+        "id": 3,
+        "title": "Kosierbin - Aplikacja do udostępniania kodu i wiadomości",
+        "description": "Strona na której możesz prosto wysłać kod znajomemu lub zabezpieczyć wiadomość hasłem. Dostępny jest również anonimowy chat Realtime. Stworzony na potrzeby szkolne.",
+        "banner": "projects/banners/kosierbin-aplikacja-do-udost-pniania-kodu-i-wiadomo-ci-20261010-212714.png",
+        "url": "https://kosierbin.vercel.app/",
+        "status": "Aktualny"
+    },
+    {
         "id": 1,
         "title": "Poko - Aplikacja dla budzetu i finansow",
         "description": "Poko pomaga sledzic dochody, dzielic wydatki na kategorie, zarzadzac dlugami i realizowac cele oszczednosciowe bez zakladania konta. Aplikacja laczy praktyczne narzedzia budzetowe z przejrzystymi wykresami, elementami osiagniec i pomoca AI.",
