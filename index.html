@@ -24,6 +24,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="icon.png">
         <link rel="stylesheet" href="style.css">
+    <style>
+        .avatar-container .deco-sticker {
+            display: grid;
+            place-items: center;
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, .18);
+            border-radius: 13px;
+            background: linear-gradient(145deg, rgba(42, 44, 58, .92), rgba(24, 26, 34, .82));
+            color: #c9b8ff;
+            font-size: 15px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .24), 0 0 18px rgba(146, 115, 255, .12);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .avatar-container .deco-2 {
+            color: #a9d8ff;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .24), 0 0 18px rgba(95, 175, 255, .12);
+        }
+    </style>
         <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -81,8 +101,8 @@
     <header class="hero-fullscreen">
         <div class="avatar-container">
             <img src="pp.png" alt="Nozer Avatar" class="main-avatar">
-            <span class="deco-sticker deco-1">✨</span>
-            <span class="deco-sticker deco-2">🎨</span>
+            <span class="deco-sticker deco-1" aria-hidden="true"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+            <span class="deco-sticker deco-2" aria-hidden="true"><i class="fa-solid fa-pen-nib"></i></span>
         </div>
         <div class="hero-subtitle">Cześć, jestem:</div>
         <div class="typewriter-wrapper">
@@ -156,9 +176,9 @@
                         <ul class="dream-list">
                             <li class="plan"><i class="far fa-circle"></i> Zdanie egzaminów zawodowych i zdobycie tytułu technika informatyka</li>
                             <li class="plan"><i class="far fa-circle"></i> Zdanie egzaminu maturalnego</li>
-                            <li class="plan"><i class="far fa-circle"></i> Wydanie rodzinnej książki</li>
+                            <li class="plan"><i class="far fa-circle"></i> Opracowanie historii rodziny</li>
                             <li class="plan"><i class="far fa-circle"></i> Stworzenie portfolio fotograficznego</li>
-                            <li class="plan"><i class="far fa-circle"></i> Nauczenie się pływać</li>
+                            <li class="plan"><i class="far fa-circle"></i> Nauka pływania</li>
                         </ul>
                     </div>
                     <a href="mapa.html" class="map-link" aria-label="Otwórz interaktywną mapę">
@@ -266,7 +286,7 @@
                         <div class="project-title-row">
                             <h4>Poko - Aplikacja dla budżetu i finansów</h4>
                         </div>
-                        <p class="project-desc">Poko pomaga śledzić dochody, dzielić wydatki na kategorie, zarządzać długami i realizować cele oszczędnościowe — bez zakładania konta. Aplikacja łączy praktyczne narzędzia budżetowe z przejrzystymi wykresami, elementami osiągnięć i pomocą AI.</p>
+                        <p class="project-desc">Poko pomaga śledzić dochody, dzielić wydatki na kategorie, zarządzać długami i realizować cele oszczędnościowe - bez zakładania konta. Aplikacja łączy praktyczne narzędzia budżetowe z przejrzystymi wykresami, elementami osiągnięć i pomocą AI.</p>
                         <div class="project-footer">
                             <a href="https://rezonoxo.github.io/Poko/" class="project-action" target="_blank" rel="noopener noreferrer">Pokaż projekt</a>
                             <div class="sys-status">Wstrzymany</div>
@@ -577,7 +597,7 @@
 
                     const richAct = data.activities.find(a => a.type !== 4);
                     if (dashActivity) {
-                        dashActivity.innerText = richAct ? `${richAct.name} — ${richAct.details || 'Aktywny'}` : (data.discord_status === 'offline' ? 'Śpię / Offline' : 'Brak aktywnego programu');
+                        dashActivity.innerText = richAct ? `${richAct.name} - ${richAct.details || 'Aktywny'}` : (data.discord_status === 'offline' ? 'Śpię / Offline' : 'Brak aktywnego programu');
                     }
                 })
                 .catch(() => {});
@@ -671,7 +691,7 @@
                     const localDate = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Warsaw' }));
                     const localHour = localDate.getHours();
                     const awake = localHour >= 7 && localHour <= 22;
-                    if (naturalTimeString) naturalTimeString.textContent = `Aktualnie jest ${localDate.toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' })} — prawdopodobnie jestem ${awake ? 'na nogach' : 'w łóżku'}.`;
+                    if (naturalTimeString) naturalTimeString.textContent = `Aktualnie jest ${localDate.toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' })} - prawdopodobnie jestem ${awake ? 'na nogach' : 'w łóżku'}.`;
                     if (naturalWeatherString) naturalWeatherString.textContent = `Stalowa Wola: ${Math.round(current.temperature)}°C · ${description}`;
                     if (weatherIcon) weatherIcon.className = awake ? 'fas fa-sun' : 'fas fa-moon';
                 })
@@ -685,7 +705,7 @@
             const localHour = localDate.getHours();
             const formatted = localDate.toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' });
             const awake = localHour >= 8 && localHour <= 22;
-            if (naturalTimeString) naturalTimeString.textContent = `Aktualny czas: ${formatted} — jestem ${awake ? 'na nogach' : 'w łóżku'}.`;
+            if (naturalTimeString) naturalTimeString.textContent = `Aktualny czas: ${formatted} - jestem ${awake ? 'na nogach' : 'w łóżku'}.`;
             if (naturalWeatherString) naturalWeatherString.textContent = `Stalowa Wola: ${formatted}`;
             if (weatherIcon) weatherIcon.className = awake ? 'fas fa-sun' : 'fas fa-moon';
         }
