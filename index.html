@@ -80,7 +80,7 @@
     <!-- Navbar -->
     <div class="nav-wrapper">
         <nav class="site-nav">
-            <a href="index.html" class="logo">nozer.online</a>
+            <a href="index.html" class="logo" aria-label="Nozer - strona główna">nozer<span>.online</span></a>
             <ul class="site-nav-links">
                 <li><a href="#about" aria-label="O mnie"><i class="fas fa-user"></i><span class="nav-link-text">o mnie</span></a></li>
                 <li><a href="#connect" aria-label="Sieci społeczne"><i class="fas fa-share-alt"></i><span class="nav-link-text">kontakt</span></a></li>
@@ -109,7 +109,10 @@
             <h1><span id="hero-name"></span></h1>
             <span class="typewriter-cursor"></span>
         </div>
-        <div class="hero-chip" id="hero-quote">>_ Tworzę cyfrowe doświadczenia, grafiki i materiały wizualne.</div>
+        <div class="hero-chip" id="hero-quote">
+            <i class="fas fa-quote-left hero-quote-icon" aria-hidden="true"></i>
+            <span id="hero-quote-text">Tworzę cyfrowe doświadczenia, grafiki i materiały wizualne.</span>
+        </div>
         <p class="hero-sub">
   Mam <span class="age-wrapper">18<span class="age-tooltip" id="exact-age">Wczytywanie...</span></span> lat i pochodzę z Polski. Tworzę treści, projektuję grafiki i uczę się tworzyć strony oraz aplikacje. Lubię jeździć rowerem, podróżować i chodzić po górach.
 </p>
@@ -487,12 +490,12 @@
             },
             GITHUB_USERNAME: "rezonoxo",
             HERO_QUOTES: [
-                ">_ Im dłużej czekasz na przyszłość, której pragniesz, tym mniej czasu będziesz mieć, by jej doświadczać.",
-                ">_ Musisz zmienić swoje życie, aby zmienić swoje życie.",
-                ">_ Planuj jak dorosły, ale wierz w to jak dziecko.",
-                ">_ Wczoraj jest historią, jutro niewiadomą, a dziś jest darem.",
-                ">_ Dla całego świata możesz być nikim, ale dla kogoś całym światem.",
-                ">_ W złe rzeczy łatwiej jest uwierzyć."
+                "Im dłużej czekasz na przyszłość, której pragniesz, tym mniej czasu będziesz mieć, by jej doświadczać.",
+                "Musisz zmienić swoje życie, aby zmienić swoje życie.",
+                "Planuj jak dorosły, ale wierz w to jak dziecko.",
+                "Wczoraj jest historią, jutro niewiadomą, a dziś jest darem.",
+                "Dla całego świata możesz być nikim, ale dla kogoś całym światem.",
+                "W złe rzeczy łatwiej jest uwierzyć."
             ],
             STORAGE_KEYS: {
                 theme: "preferred_theme_mode"
@@ -510,6 +513,7 @@
         const photoModalLocation = document.getElementById('photo-modal-location');
         const heroAvatar = document.querySelector('.main-avatar');
         const heroQuoteEl = document.getElementById('hero-quote');
+        const heroQuoteTextEl = document.getElementById('hero-quote-text');
         const profileGithub = document.getElementById('action-github');
         const profileDiscord = document.getElementById('action-discord');
         const naturalTimeString = document.getElementById('natural-time-string');
@@ -612,7 +616,10 @@
         // Hero quote
         function setHeroQuote() {
             const quote = CONFIG.HERO_QUOTES[Math.floor(Math.random() * CONFIG.HERO_QUOTES.length)];
-            if (heroQuoteEl) heroQuoteEl.textContent = quote;
+            if (heroQuoteTextEl) {
+                heroQuoteTextEl.textContent = quote;
+                heroQuoteEl?.setAttribute('aria-label', `Cytat: ${quote}`);
+            }
         }
 
         // Email
@@ -1113,10 +1120,51 @@
             });
         }
 
+        function initNavbarActiveState() {
+            const links = Array.from(document.querySelectorAll('.site-nav-links a'));
+            if (!links.length) return;
+
+            const setActive = (id) => {
+                links.forEach((link) => {
+                    const active = Boolean(id) && link.getAttribute('href') === `#${id}`;
+                    link.classList.toggle('active', active);
+                    if (active) link.setAttribute('aria-current', 'page');
+                    else link.removeAttribute('aria-current');
+                });
+            };
+
+            links.forEach((link) => {
+                link.addEventListener('click', () => {
+                    setActive(link.getAttribute('href').slice(1));
+                });
+            });
+
+            const sections = links
+                .map((link) => document.querySelector(link.getAttribute('href')))
+                .filter(Boolean);
+
+            if (!('IntersectionObserver' in window)) return;
+
+            const observer = new IntersectionObserver((entries) => {
+                const visible = entries
+                    .filter((entry) => entry.isIntersecting)
+                    .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+                if (visible.length) setActive(visible[0].target.id);
+                else if (window.scrollY < 180) setActive(null);
+            }, {
+                rootMargin: '-18% 0px -58% 0px',
+                threshold: [0.05, 0.15, 0.3]
+            });
+
+            sections.forEach((section) => observer.observe(section));
+        }
+
         function init() {
             updateYearLabels();
             typewriter.init();
             initThemeToggle();
+            initNavbarActiveState();
             populateProfileLinks();
             setHeroQuote();
             updateNaturalTimeAndWeather();

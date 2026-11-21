@@ -179,7 +179,24 @@
             .book-modal-cover { width: 100%; }
             .book-modal-cover img { min-height: 220px; max-height: 42vh; }
             .book-modal-details { padding: 1.4rem; }
-            .site-nav { width: calc(100% - 2rem); padding: 0.45rem 0.8rem; }
+            .nav-wrapper { padding: 0.5rem 0; }
+            .site-nav {
+                width: calc(100% - 1rem);
+                min-height: 52px;
+                padding: 0.38rem;
+                border-radius: 16px;
+                background: linear-gradient(180deg, rgba(255,255,255,.055), transparent 55%), var(--nav-bg);
+                box-shadow: 0 12px 32px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.08);
+            }
+            .site-nav .logo {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                gap: 0;
+                font-size: 0.96rem;
+            }
+            .site-nav .logo i { display: none; }
+            .theme-toggle { width: 34px; height: 34px; border-radius: 11px; }
         }
     </style>
 </head>
